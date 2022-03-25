@@ -25,17 +25,12 @@ def store_resources(folder_name, resource, identifier):
     file.close()
 
 
-def fetch(resource, kc, realm, store_fn):
-    name = resource[0]
-
-    print('--> fetching: ', name)
-    elements = kc.build(name, realm).all()
-    return store_fn(elements)
-
-
 class FetchFactory:
     def __init__(self):
-        self.strategies = {'authentication': CustomAuthenticationFetch}
+        self.strategies = {
+            'authentication': CustomAuthenticationFetch,
+            'clients': ClientFetch,
+        }
 
     def create(self, resource, kc):
         if resource[0] in self.strategies:
@@ -58,6 +53,31 @@ class GenericFetch:
         store_api.add_child(name)
 
         store_api.store(kc_objects, identifier)
+
+
+class ClientFetch(GenericFetch):
+    def delegate(self, resource, realm, store_api):
+        name = resource[0]
+        identifier = resource[1]
+
+        clients_api = self.kc.build(name, realm)
+
+        print('** Client fetching: ', name)
+        kc_objects = clients_api.all()
+
+        store_api.add_child(name)
+
+        for kc_object in kc_objects:
+            store_api.add_child(kc_object[identifier])  # auth/authentication_name
+            store_api.store_one(kc_object, identifier)
+
+            client_roles_query = {'key': 'clientId', 'value': kc_object['clientId']}
+            executors = clients_api.roles(client_roles_query).all()
+            store_api.add_child('roles')  # auth/authentication_name/executions
+            store_api.store_one_with_alias('roles', executors, 'clientId')
+
+            store_api.remove_last_child()  # auth/auth_name/*executions*
+            store_api.remove_last_child()  # auth/*authentication_name*
 
 
 class CustomAuthenticationFetch(GenericFetch):
