@@ -37,6 +37,8 @@ class GenericFetch:
         self.id = resource_id
         self.realm = realm
 
+        self.black_list = open('blacklist').read().split('\n')
+
     def fetch(self, store_api):
         name = self.resource_name
         identifier = self.id
@@ -44,8 +46,13 @@ class GenericFetch:
 
         print('--> fetching: ', name)
 
-        kc_objects = self.kc.build(name, realm).all()
+        kc = self.kc.build(name, realm)
+        kc_objects = self.all(kc)
         store_api.store(kc_objects, identifier)
+
+    def all(self, kc):
+        return filter(lambda fn: not fn[self.id] in self.black_list, kc.all())
+
 
 class ClientFetch(GenericFetch):
     def fetch(self, store_api):
@@ -56,7 +63,7 @@ class ClientFetch(GenericFetch):
         clients_api = self.kc.build(name, realm)
 
         print('** Client fetching: ', name)
-        kc_objects = clients_api.all()
+        kc_objects = self.all(clients_api)
 
         counter = 0
         for kc_object in kc_objects:
@@ -85,7 +92,8 @@ class CustomAuthenticationFetch(GenericFetch):
         authentication_api = self.kc.build(name, realm)
 
         print('** Authentication fetching: ', name)
-        kc_objects = authentication_api.all()
+
+        kc_objects = self.all(authentication_api)
 
         counter = 0
         for kc_object in kc_objects:
@@ -174,7 +182,7 @@ def run():
 
         store.add_child(current_realm)
         store.store_one(realm, 'realm')
-        
+
         for resource in resources:
             fetch_keycloak_objects = FetchFactory().create(resource, kc, current_realm)
             store.add_child(resource[0])
