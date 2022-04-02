@@ -1,6 +1,7 @@
 import json
 import os
 from kcapi import Keycloak, OpenID
+import shutil
 
 
 def login(endpoint, user, password, read_token_from_file=False):
@@ -12,19 +13,6 @@ def login(endpoint, user, password, read_token_from_file=False):
     return Keycloak(token, endpoint)
 
 
-def make_folder(name):
-    if not os.path.isdir(name):
-        os.makedirs(name)
-
-
-def store_resources(folder_name, resource, identifier):
-    make_folder(folder_name)
-
-    file = open(folder_name + '/' + resource[identifier] + '.json', 'w')
-    json.dump(resource, file, indent=4, sort_keys=True)
-    file.close()
-
-
 class FetchFactory:
     def __init__(self):
         self.strategies = {
@@ -32,82 +20,99 @@ class FetchFactory:
             'clients': ClientFetch,
         }
 
-    def create(self, resource, kc):
-        if resource[0] in self.strategies:
-            return self.strategies[resource[0]](kc)
+    def create(self, resource, kc, realm):
+        resource_name = resource[0]
+        resource_id = resource[1]
 
-        return GenericFetch(kc)
+        if resource_name in self.strategies:
+            return self.strategies[resource_name](kc, resource_name, resource_id, realm)
+
+        return GenericFetch(kc, resource_name, resource_id, realm)
 
 
 class GenericFetch:
-    def __init__(self, kc):
+    def __init__(self, kc, resource_name, resource_id="", realm=""):
         self.kc = kc
+        self.resource_name = resource_name
+        self.id = resource_id
+        self.realm = realm
 
-    def delegate(self, resource, realm, store_api):
-        name = resource[0]
-        identifier = resource[1]
+    def fetch(self, store_api):
+        name = self.resource_name
+        identifier = self.id
+        realm = self.realm
 
         print('--> fetching: ', name)
 
         kc_objects = self.kc.build(name, realm).all()
-        store_api.add_child(name)
-
         store_api.store(kc_objects, identifier)
 
-
 class ClientFetch(GenericFetch):
-    def delegate(self, resource, realm, store_api):
-        name = resource[0]
-        identifier = resource[1]
+    def fetch(self, store_api):
+        name = self.resource_name
+        identifier = self.id
+        realm = self.realm
 
         clients_api = self.kc.build(name, realm)
 
         print('** Client fetching: ', name)
         kc_objects = clients_api.all()
 
-        store_api.add_child(name)
-
+        counter = 0
         for kc_object in kc_objects:
-            store_api.add_child(kc_object[identifier])  # auth/authentication_name
+            store_api.add_child('client-' + str(counter))  # auth/authentication_name
             store_api.store_one(kc_object, identifier)
 
             client_roles_query = {'key': 'clientId', 'value': kc_object['clientId']}
             executors = clients_api.roles(client_roles_query).all()
             store_api.add_child('roles')  # auth/authentication_name/executions
-            store_api.store_one_with_alias('roles', executors, 'clientId')
+            store_api.store_one_with_alias('roles', executors)
 
-            store_api.remove_last_child()  # auth/auth_name/*executions*
-            store_api.remove_last_child()  # auth/*authentication_name*
+            store_api.remove_last_child()  # clients/<clients>/*executions*
+            store_api.remove_last_child()  # clients/*clients*
+            counter += 1
 
 
 class CustomAuthenticationFetch(GenericFetch):
-    def delegate(self, resource, realm, store_api):
-        name = resource[0]
-        identifier = resource[1]
+    def normalize(self, identifier=""):
+        return identifier.lower().replace('//', '_').replace(' ', '_')
+
+    def fetch(self, store_api):
+        name = self.resource_name
+        identifier = self.id
+        realm = self.realm
 
         authentication_api = self.kc.build(name, realm)
 
         print('** Authentication fetching: ', name)
         kc_objects = authentication_api.all()
 
-        store_api.add_child(name)
-
+        counter = 0
         for kc_object in kc_objects:
-            store_api.add_child(kc_object[identifier])  # auth/authentication_name
+            store_api.add_child(self.normalize(kc_object[identifier]))  # auth/authentication_name
             store_api.store_one(kc_object, identifier)
 
             executors = authentication_api.executions(kc_object).all()
             store_api.add_child('executors')  # auth/authentication_name/executions
-            store_api.store_one_with_alias('executors', executors, 'displayName')
+            store_api.store_one_with_alias('executors', executors)
 
             store_api.remove_last_child()  # auth/auth_name/*executions*
             store_api.remove_last_child()  # auth/*authentication_name*
+            counter += 1
+
+
+def normalize(identifier=""):
+    identifier = identifier.lower().replace('/', '_').replace(' ', '_')
+    return identifier.replace('=', '_').replace(',', '_')
+
+
+def make_folder(name):
+    if not os.path.isdir(name):
+        os.makedirs(name)
 
 
 class Store:
-    def __init__(self, realm, resource, path=''):
-        self.realm = realm
-        self.resource = resource
+    def __init__(self, path=''):
         self.path = path.split('/')
 
     def add_child(self, child_name):
@@ -117,30 +122,31 @@ class Store:
         self.path.pop()
         return self
 
-    def store_one_with_alias(self, alias, data, identifier):
-        path = './' + '/'.join(self.path)
+    def __get_relative_path(self):
+        return './' + '/'.join(self.path)
+
+    def store_one_with_alias(self, alias, data):
+        path = self.__get_relative_path()
         make_folder(path)
 
-        file = open(path + '/' + alias + '.json', 'w')
+        file = open(path + '/' + normalize(alias) + '.json', 'w')
         json.dump(data, file, indent=4, sort_keys=True)
         file.close()
 
     def store_one(self, data, identifier):
-        store_resources('./' + '/'.join(self.path), data, identifier)
+        self.store_one_with_alias(data[identifier], data)
 
     def store(self, data, identifier):
         for entry in data:
-            store_resources('./' + '/'.join(self.path), entry, identifier)
-
-    def run(self, dfetch):
-        dfetch.delegate(self.resource, self.realm, self)
+            self.store_one_with_alias(entry[identifier], entry)
 
 
 def run():
+    shutil.rmtree('keycloak')
     make_folder('keycloak')
 
     # Credentials
-    server = 'https://sso1-cvaldezr-stage.apps.sandbox-m2.ll9k.p1.openshiftapps.com/'
+    server = 'https://sso-cvaldezr-stage.apps.sandbox.x8i5.p1.openshiftapps.com/'
     user = 'admin'
     password = 'admin'
 
@@ -160,14 +166,20 @@ def run():
 
     for realm in realms.all():
         current_realm = realm['realm']
-        realm_folder = 'keycloak/' + realm['realm']
-        store_resources(realm_folder, realm, 'realm')
+
+        store = Store(path='keycloak')
+
+
         print('publishing: ', realm['id'])
 
+        store.add_child(current_realm)
+        store.store_one(realm, 'realm')
+        
         for resource in resources:
-            fetch_keycloak_objects = FetchFactory().create(resource, kc)
-            store = Store(current_realm, resource, path='keycloak/' + realm['realm'])
-            store.run(fetch_keycloak_objects)
+            fetch_keycloak_objects = FetchFactory().create(resource, kc, current_realm)
+            store.add_child(resource[0])
+            fetch_keycloak_objects.fetch(store)
+            store.remove_last_child()
 
 
 if __name__ == '__main__':
