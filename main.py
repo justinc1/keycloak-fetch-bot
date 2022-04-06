@@ -4,6 +4,23 @@ from kcapi import Keycloak, OpenID
 import shutil
 
 
+def remove_ids(kc_object={}):
+    if isinstance(kc_object, list):
+        for index in range(len(kc_object)):
+            kc_object[index] = remove_ids(kc_object[index])
+        return kc_object
+
+    for key in list(kc_object):
+        if key == 'id' or key == 'flowId':
+            del kc_object[key]
+            continue
+
+        if isinstance(kc_object[key], dict):
+            remove_ids(kc_object[key])
+            continue
+
+    return kc_object
+
 def login(endpoint, user, password, read_token_from_file=False):
     token = None
     if not read_token_from_file:
@@ -138,6 +155,7 @@ class Store:
         make_folder(path)
 
         file = open(path + '/' + normalize(alias) + '.json', 'w')
+        data = remove_ids(data)
         json.dump(data, file, indent=4, sort_keys=True)
         file.close()
 
