@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import json
 import os
 from kcapi import Keycloak, OpenID
@@ -20,6 +22,7 @@ def remove_ids(kc_object={}):
             continue
 
     return kc_object
+
 
 def login(endpoint, user, password, read_token_from_file=False):
     token = None
@@ -136,6 +139,11 @@ def make_folder(name):
         os.makedirs(name)
 
 
+def remove_folder(name):
+    if os.path.isdir(name):
+        shutil.rmtree(name)
+
+
 class Store:
     def __init__(self, path=''):
         self.path = path.split('/')
@@ -168,13 +176,13 @@ class Store:
 
 
 def run():
-    shutil.rmtree('keycloak')
+    remove_folder('keycloak')
     make_folder('keycloak')
 
     # Credentials
-    server = 'https://sso-cvaldezr-stage.apps.sandbox.x8i5.p1.openshiftapps.com/'
-    user = 'admin'
-    password = 'admin'
+    server = os.environ.get('SSO_API_URL', 'https://sso-cvaldezr-stage.apps.sandbox.x8i5.p1.openshiftapps.com/')
+    user = os.environ.get('SSO_API_USERNAME', 'admin')
+    password = os.environ.get('SSO_API_PASSWORD', 'admin')
 
     kc = login(server, user, password)
     realms = kc.admin()
@@ -194,7 +202,6 @@ def run():
         current_realm = realm['realm']
 
         store = Store(path='keycloak')
-
 
         print('publishing: ', realm['id'])
 
