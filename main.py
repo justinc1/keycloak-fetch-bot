@@ -201,7 +201,7 @@ def run():
     for realm in realms.all():
         current_realm = realm['realm']
 
-        store = Store(path='keycloak')
+        store = Store(path='output/keycloak')
 
         print('publishing: ', realm['id'])
 
