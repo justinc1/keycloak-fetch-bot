@@ -27,7 +27,7 @@ def remove_ids(kc_object={}):
 def login(endpoint, user, password, read_token_from_file=False):
     token = None
     if not read_token_from_file:
-        token = OpenID.createAdminClient(user, password).getToken(endpoint)
+        token = OpenID.createAdminClient(user, password, endpoint).getToken()
     else:
         token = open('./token').read()
     return Keycloak(token, endpoint)
