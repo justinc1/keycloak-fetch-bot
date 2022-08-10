@@ -215,5 +215,9 @@ def run():
             store.remove_last_child()
 
 
+def main_cli():
+    run()
+
+
 if __name__ == '__main__':
     run()

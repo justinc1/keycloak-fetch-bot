@@ -1,0 +1,38 @@
+[project]
+name = "keycloak-fetch-bot"
+version = "0.0.1"
+authors = [
+    {name = "Cesar Valdez"}
+]
+description = "Export data from KeyCloak server"
+keywords = [
+    "KeyCloak"
+]
+requires-python = ">=3.8"
+
+dependencies = [
+    "kcapi>=1.0.24"
+]
+
+[project.urls]
+repository = "https://github.com/cesarvr/keycloak-fetch-bot"
+
+[project.scripts]
+kcfetcher = "kcfetcher.main:main_cli"
+
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel"
+]   # PEP 508 specifications.
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = []
+
+[tool.black]
+line-length = 160
+target_version = ['py38']
+
+#[tool.pytest.ini_options]
+#minversion = "2.0"
