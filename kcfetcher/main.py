@@ -4,6 +4,7 @@ import json
 import os
 from kcapi import Keycloak, OpenID
 import shutil
+from importlib.resources import files
 
 
 def remove_ids(kc_object={}):
@@ -57,7 +58,9 @@ class GenericFetch:
         self.id = resource_id
         self.realm = realm
 
-        self.black_list = open('blacklist').read().split('\n')
+        # https://setuptools.pypa.io/en/stable/userguide/datafiles.html#accessing-data-files-at-runtime
+        blacklist_path = files('kcfetcher.data').joinpath('kcfetcher_blacklist')
+        self.black_list = open(blacklist_path).read().split('\n')
 
     def fetch(self, store_api):
         name = self.resource_name
@@ -175,9 +178,9 @@ class Store:
             self.store_one_with_alias(entry[identifier], entry)
 
 
-def run():
-    remove_folder('keycloak')
-    make_folder('keycloak')
+def run(output_dir="keycloak"):
+    remove_folder(output_dir)
+    make_folder(output_dir)
 
     # Credentials
     server = os.environ.get('SSO_API_URL', 'https://sso-cvaldezr-stage.apps.sandbox.x8i5.p1.openshiftapps.com/')
@@ -201,7 +204,7 @@ def run():
     for realm in realms.all():
         current_realm = realm['realm']
 
-        store = Store(path='output/keycloak')
+        store = Store(path=output_dir)
 
         print('publishing: ', realm['id'])
 

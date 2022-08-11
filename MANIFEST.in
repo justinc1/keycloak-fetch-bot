@@ -1,2 +1,2 @@
-include blacklist
+include kcfetcher/data/kcfetcher_blacklist
 recursive-include kcfetcher *.py
