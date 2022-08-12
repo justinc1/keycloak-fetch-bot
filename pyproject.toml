@@ -11,7 +11,8 @@ keywords = [
 requires-python = ">=3.8"
 
 dependencies = [
-    "kcapi>=1.0.24"
+    "kcapi>=1.0.24",
+    "importlib_resources",
 ]
 
 [project.urls]

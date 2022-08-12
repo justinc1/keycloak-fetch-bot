@@ -2,7 +2,9 @@
 
 import json
 import os
-from importlib.resources import files
+# https://setuptools.pypa.io/en/stable/userguide/datafiles.html#accessing-data-files-at-runtime
+# from importlib.resources import files  # py3.10 only
+from importlib_resources import files
 
 from kcfetcher.utils import remove_folder, make_folder, remove_ids, normalize, login
 
@@ -31,7 +33,6 @@ class GenericFetch:
         self.id = resource_id
         self.realm = realm
 
-        # https://setuptools.pypa.io/en/stable/userguide/datafiles.html#accessing-data-files-at-runtime
         blacklist_path = files('kcfetcher.data').joinpath('kcfetcher_blacklist')
         self.black_list = open(blacklist_path).read().split('\n')
 
