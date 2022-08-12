@@ -1,6 +1,5 @@
 import json
 import os
-from copy import copy
 
 from kcfetcher.utils import remove_folder
 from kcfetcher.main import run
@@ -8,27 +7,10 @@ from kcfetcher.main import run
 
 # Does main produce expected result.
 # A new subdir is created for master realm, and it must contain some json files etc.
-class TestMain:
-    _env_file = "env.env"
-    _os_environ_before = {}
+from tests.integration.test_ping import BaseTestClass
 
-    @classmethod
-    def setup_class(cls):
-        env_lines = open("env.env").readlines()
-        env_lines = [el for el in env_lines if el.strip()]
-        cls._os_environ_before = copy(os.environ)
-        for line in env_lines:
-            kk, vv = line.strip().split('=', 1)
-            os.environ[kk] = vv
 
-    @classmethod
-    def teardown_class(cls):
-        env_lines = open("env.env").readlines()
-        env_lines = [el for el in env_lines if el.strip()]
-        for line in env_lines:
-            kk, vv = line.strip().split('=', 1)
-            os.environ[kk] = cls._os_environ_before[kk]
-
+class TestMain(BaseTestClass):
     @staticmethod
     def test_main():
         output_dir = './output/ci/outd/'
