@@ -2,15 +2,19 @@
 # from importlib.resources import files  # py3.10 only
 from importlib_resources import files
 
+
+def get_blacklist():
+    blacklist_path = files('kcfetcher.data').joinpath('kcfetcher_blacklist')
+    return open(blacklist_path).read().split('\n')
+
+
 class GenericFetch:
     def __init__(self, kc, resource_name, resource_id="", realm=""):
         self.kc = kc
         self.resource_name = resource_name
         self.id = resource_id
         self.realm = realm
-
-        blacklist_path = files('kcfetcher.data').joinpath('kcfetcher_blacklist')
-        self.black_list = open(blacklist_path).read().split('\n')
+        self.black_list = get_blacklist()
 
     def fetch(self, store_api):
         name = self.resource_name
