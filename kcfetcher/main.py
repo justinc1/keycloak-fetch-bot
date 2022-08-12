@@ -7,7 +7,7 @@ from kcfetcher.store import Store
 from kcfetcher.utils import remove_folder, make_folder, login
 
 
-def run(output_dir="keycloak"):
+def run(output_dir):
     remove_folder(output_dir)
     make_folder(output_dir)
 
@@ -48,7 +48,8 @@ def run(output_dir="keycloak"):
 
 
 def main_cli():
-    run()
+    output_dir = "output/keycloak"
+    run(output_dir)
 
 
 if __name__ == '__main__':
