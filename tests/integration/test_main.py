@@ -1,6 +1,7 @@
 import json
 import os
-from kcfetcher.main import remove_folder, make_folder, run
+from kcfetcher.utils import remove_folder
+from kcfetcher.main import run
 
 
 # Does main produce expected result.
