@@ -1,0 +1,3 @@
+include kcfetcher/data/kcfetcher_blacklist
+recursive-include kcfetcher *.py
+exclude *.sample
