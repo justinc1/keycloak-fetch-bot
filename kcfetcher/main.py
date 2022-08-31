@@ -1,10 +1,21 @@
 #!/usr/bin/env python
 
 import os
+import sys
+from kcapi import OpenID, Token
 
 from kcfetcher.fetch import FetchFactory
 from kcfetcher.store import Store
 from kcfetcher.utils import remove_folder, make_folder, login
+
+
+def main_token_save_to_file():
+    server = os.environ.get('SSO_API_URL', 'https://sso-cvaldezr-stage.apps.sandbox.x8i5.p1.openshiftapps.com/')
+    user = os.environ.get('SSO_API_USERNAME', 'admin')
+    password = os.environ.get('SSO_API_PASSWORD', 'admin')
+    token_filename = os.environ['SSO_TOKEN_FILENAME']
+    token = OpenID.createAdminClient(user, password, server).getToken()
+    token.save_to_file(open(token_filename, "w"))
 
 
 def run(output_dir):
@@ -13,10 +24,16 @@ def run(output_dir):
 
     # Credentials
     server = os.environ.get('SSO_API_URL', 'https://sso-cvaldezr-stage.apps.sandbox.x8i5.p1.openshiftapps.com/')
-    user = os.environ.get('SSO_API_USERNAME', 'admin')
-    password = os.environ.get('SSO_API_PASSWORD', 'admin')
+    token_filename = os.environ.get('SSO_TOKEN_FILENAME')
+    if token_filename:
+        token = Token(file=open(token_filename, "r"))
+        token = token.refresh()
+    else:
+        user = os.environ.get('SSO_API_USERNAME', 'admin')
+        password = os.environ.get('SSO_API_PASSWORD', 'admin')
+        token = OpenID.createAdminClient(user, password, server).getToken()
 
-    kc = login(server, user, password)
+    kc = login(server, token)
     realms = kc.admin()
 
     #  ['keycloak_resource', 'unique identifier']
@@ -53,4 +70,5 @@ def main_cli():
 
 
 if __name__ == '__main__':
-    run()
+    sys.stderr.write("Error: invoke dedicated binaries (`kcfetcher` or `kcfetcher_save_token`) instead of this file.\n")
+    sys.exit(1)

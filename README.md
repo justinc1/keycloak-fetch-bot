@@ -14,13 +14,17 @@ pip install .
 # SETUPTOOLS_ENABLE_FEATURES="legacy-editable" pip install -e .
 ```
 
-Run code
+To run the code you would need a Keycloak instance, you can run one locally or
+in the [cloud](https://developers.redhat.com/developer-sandbox/get-started).
 
 ```bash
 source .venv/bin/activate
 export SSO_API_URL='https://sso-cvaldezr-stage.apps.sandbox.x8i5.p1.openshiftapps.com/'
 export SSO_API_USERNAME=admin
 export SSO_API_PASSWORD=admin
+export SSO_TOKEN_FILENAME=test-token.json
+
+kcfetcher_save_token
 kcfetcher
 ```
 
