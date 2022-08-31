@@ -20,6 +20,7 @@ repository = "https://github.com/cesarvr/keycloak-fetch-bot"
 
 [project.scripts]
 kcfetcher = "kcfetcher.main:main_cli"
+kcfetcher_save_token = "kcfetcher.main:main_token_save_to_file"
 
 [build-system]
 requires = [
