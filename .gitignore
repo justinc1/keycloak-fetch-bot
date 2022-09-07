@@ -1,6 +1,7 @@
 output/
 env.sh
 env.env
+test-refresh-token.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
