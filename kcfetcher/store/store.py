@@ -1,10 +1,11 @@
 import json
+import os
 
 from kcfetcher.utils import make_folder, remove_ids, normalize
 
 class Store:
     def __init__(self, path=''):
-        self.path = path.split('/')
+        self.path = os.path.normpath(path).split(os.sep)
 
     def add_child(self, child_name):
         self.path.append(child_name.replace(' ', '_').lower())

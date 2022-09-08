@@ -9,16 +9,13 @@ class TestStore:
         [
             ("aa/bb", ["aa", "bb"]),
             (".", ["."]),
-            # Commented out - it doesn't work as expected.
-            # ("", ["."]),
-            # ("./", ["."]),
-            # ("./", ["."]),
-            # ("./aa", ["aa"]),
-            # ("./aa/bb", ["aa", "bb"]),
-            # ("aa/bb/", ["aa", "bb"]),
+            ("", ["."]),
+            ("./", ["."]),
+            ("./aa", ["aa"]),
+            ("./aa/bb", ["aa", "bb"]),
+            ("aa/bb/", ["aa", "bb"]),
             ("/aa/bb", ["", "aa", "bb"]),  # abs path not supported
-            # ("/aa/bb/", ["", "aa", "bb"]),
-            # ("", []),
+            ("/aa/bb/", ["", "aa", "bb"]),
         ]
     )
     def test_init(self, path, expected_path):
