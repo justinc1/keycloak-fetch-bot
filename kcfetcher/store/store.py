@@ -18,6 +18,7 @@ class Store:
         return './' + '/'.join(self.path)
 
     def store_one_with_alias(self, alias, data):
+        # Question - why not allowing save to abs path?
         path = self.__get_relative_path()
         make_folder(path)
 
