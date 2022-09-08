@@ -12,7 +12,6 @@ class Store:
 
     def remove_last_child(self):
         self.path.pop()
-        return self
 
     def __get_relative_path(self):
         return './' + '/'.join(self.path)
