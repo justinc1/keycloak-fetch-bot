@@ -26,6 +26,9 @@ kcfetcher
 
 ## Development
 
+For integration tests you need to put credentials into `env.env` file in the top-level directory.
+Use `env.env.sample` as template.
+
 Run tests.
 
 ```bash
