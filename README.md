@@ -50,3 +50,9 @@ pip install --upgrade build twine
 python3 -m build
 # twine upload --repository testpypi dist/*
 ```
+
+## Setup Keycloak server for testing
+
+```shell
+docker run -it -p 8080:80 -p 8433:443 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin quay.io/keycloak/keycloak:15.0.2 -b 0.0.0.0
+```
