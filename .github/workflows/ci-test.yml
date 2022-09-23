@@ -12,6 +12,12 @@ jobs:
       # install dependencies mentioned in pyproject.toml
       - run: pip install .
       - run: pytest tests/unit
+    env:
+      KEYCLOAK_API_CA_BUNDLE:
+      # pyvcr created cassette with this particular URL
+      SSO_API_URL: https://172.17.0.2:8443/
+      SSO_API_USERNAME: admin
+      SSO_API_PASSWORD: admin
   integration-tests:
     runs-on: ubuntu-22.04
     container: python:3.10
