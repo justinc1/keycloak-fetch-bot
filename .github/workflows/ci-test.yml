@@ -1,0 +1,51 @@
+name: CI tests
+on:
+  - push
+jobs:
+  unit-tests:
+    runs-on: ubuntu-22.04
+    container: python:3.10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - run: pip install -r requirements-dev.txt
+      # install dependencies mentioned in pyproject.toml
+      - run: pip install .
+      - run: pytest tests/unit
+    env:
+      KEYCLOAK_API_CA_BUNDLE:
+      # pyvcr created cassette with this particular URL
+      SSO_API_URL: https://172.17.0.2:8443/
+      SSO_API_USERNAME: admin
+      SSO_API_PASSWORD: admin
+  integration-tests:
+    runs-on: ubuntu-22.04
+    container: python:3.10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - run: pip install -r requirements-dev.txt
+      # install dependencies mentioned in pyproject.toml
+      - run: pip install .
+      # TEMP - KC API with no TLS check
+      - run: pip install git+https://github.com/justinc1/keycloak-api.git@265b0e8795f07739769b58c4a5522857e0e78d4e#egg=kcapi
+      - run: |
+          cat >env.env <<EOF
+          KEYCLOAK_API_CA_BUNDLE=
+          SSO_API_URL=https://keycloak:8443/
+          SSO_API_USERNAME=admin
+          SSO_API_PASSWORD=admin
+          EOF
+      - run: pytest tests/integration
+    env:
+      KEYCLOAK_API_CA_BUNDLE:
+      SSO_API_URL: https://keycloak:8443/
+      SSO_API_USERNAME: admin
+      SSO_API_PASSWORD: admin
+    services:
+      keycloak:
+        image: quay.io/keycloak/keycloak:15.0.2
+        env:
+          KEYCLOAK_USER: admin
+          KEYCLOAK_PASSWORD: admin
+        # options: -b 0.0.0.0
