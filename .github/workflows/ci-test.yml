@@ -9,6 +9,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - run: pip install -r requirements-dev.txt
+      # install dependencies mentioned in pyproject.toml
+      - run: pip install .
       - run: pytest tests/unit
   integration-tests:
     runs-on: ubuntu-22.04
