@@ -3,6 +3,9 @@ from kcfetcher.fetch import GenericFetch
 
 class ClientFetch(GenericFetch):
     def fetch(self, store_api):
+        assert "clients" == self.resource_name
+        assert "clientId" == self.id
+
         name = self.resource_name
         identifier = self.id
         realm = self.realm
