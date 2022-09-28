@@ -5,23 +5,27 @@ from kcapi import OpenID, Keycloak
 
 
 def remove_ids(kc_object={}):
-    if isinstance(kc_object, list):
-        for index in range(len(kc_object)):
-            kc_object[index] = remove_ids(kc_object[index])
+    # simple scalar values are safe to return
+    if isinstance(kc_object, (str, bool, int, float)):
         return kc_object
 
+    # each list element needs to be cleaned recursively
+    if isinstance(kc_object, list):
+        kc_object_cleaned = list()
+        for obj in kc_object:
+            kc_object_cleaned.append(remove_ids(obj))
+        return kc_object_cleaned
+
+    # each dict element needs to be cleaned recursively
     assert isinstance(kc_object, dict)
-    for key in kc_object:
-        if key == 'id' or key == 'flowId':
-            del kc_object[key]
+    kc_object_cleaned = dict()
+    for key in list(kc_object):
+        if key in ['id', 'flowId']:
+            # drop it
             continue
-
-        if isinstance(kc_object[key], dict):
-            # RuntimeError: dictionary changed size during iteration
-            kc_object[key] = remove_ids(kc_object[key])
-            continue
-
-    return kc_object
+        # keep (the cleaned version of) it
+        kc_object_cleaned[key] = remove_ids(kc_object[key])
+    return kc_object_cleaned
 
 
 def login(endpoint, user, password, read_token_from_file=False):
