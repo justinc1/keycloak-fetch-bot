@@ -66,8 +66,8 @@ class Test_remove_ids:
             ),
             # and something with flowId
             (
-                    {"k1": "v1", "flowID": "fid-v", "subd": {"k3": "v3"}, "subl": [{"subl1-k": "subl1-v"}, {"subl2-k": "subl2-v", "flowId": "fid-v"}]},
-                    {"k1": "v1", "subd": {"k3": "v3"}, "subl": [{"subl1-k": "subl1-v"}, {"subl2-k": "subl2-v"}]},
+                {"k1": "v1", "flowId": "fid-v1", "subd": {"k3": "v3"}, "subl": [{"subl1-k": "subl1-v"}, {"subl2-k": "subl2-v", "flowId": "fid-v2"}]},
+                {"k1": "v1", "subd": {"k3": "v3"}, "subl": [{"subl1-k": "subl1-v"}, {"subl2-k": "subl2-v"}]},
             ),
         ]
     )
