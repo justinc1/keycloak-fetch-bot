@@ -17,7 +17,8 @@ def remove_ids(kc_object={}):
             continue
 
         if isinstance(kc_object[key], dict):
-            remove_ids(kc_object[key])
+            # RuntimeError: dictionary changed size during iteration
+            kc_object[key] = remove_ids(kc_object[key])
             continue
 
     return kc_object
