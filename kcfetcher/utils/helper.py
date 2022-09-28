@@ -15,14 +15,7 @@ def remove_ids(kc_object={}):
 
     # each dict element needs to be cleaned recursively
     assert isinstance(kc_object, dict)
-    kc_object_cleaned = dict()
-    for key in list(kc_object):
-        if key in ['id', 'flowId']:
-            # drop it
-            continue
-        # keep (the cleaned version of) it
-        kc_object_cleaned[key] = remove_ids(kc_object[key])
-    return kc_object_cleaned
+    return {key: remove_ids(kc_object[key]) for key in kc_object if key not in ['id', 'flowId']}
 
 
 def login(endpoint, user, password, read_token_from_file=False):
