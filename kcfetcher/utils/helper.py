@@ -10,7 +10,8 @@ def remove_ids(kc_object={}):
             kc_object[index] = remove_ids(kc_object[index])
         return kc_object
 
-    for key in list(kc_object):
+    assert isinstance(kc_object, dict)
+    for key in kc_object:
         if key == 'id' or key == 'flowId':
             del kc_object[key]
             continue
