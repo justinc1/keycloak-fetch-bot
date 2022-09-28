@@ -11,10 +11,7 @@ def remove_ids(kc_object={}):
 
     # each list element needs to be cleaned recursively
     if isinstance(kc_object, list):
-        kc_object_cleaned = list()
-        for obj in kc_object:
-            kc_object_cleaned.append(remove_ids(obj))
-        return kc_object_cleaned
+        return [remove_ids(obj) for obj in kc_object]
 
     # each dict element needs to be cleaned recursively
     assert isinstance(kc_object, dict)
