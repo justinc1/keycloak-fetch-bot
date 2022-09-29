@@ -19,13 +19,16 @@ class GenericFetch:
     def fetch(self, store_api):
         name = self.resource_name
         identifier = self.id
-        realm = self.realm
 
         print('--> fetching: ', name)
 
-        kc = self.kc.build(name, realm)
-        kc_objects = self.all(kc)
+        kc_objects = self._get_data()
         store_api.store(kc_objects, identifier)
+
+    def _get_data(self):
+        kc = self.kc.build(self.resource_name, self.realm)
+        kc_objects = self.all(kc)
+        return kc_objects
 
     def all(self, kc):
         return filter(lambda fn: not fn[self.id] in self.black_list, kc.all())
