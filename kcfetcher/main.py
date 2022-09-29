@@ -15,6 +15,10 @@ def run(output_dir):
     server = os.environ.get('SSO_API_URL', 'https://sso-cvaldezr-stage.apps.sandbox.x8i5.p1.openshiftapps.com/')
     user = os.environ.get('SSO_API_USERNAME', 'admin')
     password = os.environ.get('SSO_API_PASSWORD', 'admin')
+    if os.environ.get("KEYCLOAK_API_CA_BUNDLE") == "":
+        # disable annoying warning
+        import requests
+        requests.packages.urllib3.disable_warnings()
 
     kc = login(server, user, password)
     realms = kc.admin()
