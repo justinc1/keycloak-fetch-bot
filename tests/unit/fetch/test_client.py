@@ -1,4 +1,5 @@
 from pytest import mark
+from pytest_unordered import unordered
 import json
 import os
 import shutil
@@ -69,7 +70,7 @@ class TestClientFetch_vcr:
 
         # check generated content
         assert os.listdir(datadir) == ["client-0"]
-        assert os.listdir(os.path.join(datadir, "client-0")) == ['master-realm.json', 'roles']
+        assert os.listdir(os.path.join(datadir, "client-0")) == unordered(['master-realm.json', 'roles'])
         assert os.listdir(os.path.join(datadir, "client-0/roles")) == ['roles.json']
         #
         data = json.load(open(os.path.join(datadir, "client-0/master-realm.json")))

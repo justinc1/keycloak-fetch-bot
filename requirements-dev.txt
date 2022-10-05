@@ -5,3 +5,4 @@ build
 twine
 pytest-vcr
 pytest-mock
+pytest-unordered
