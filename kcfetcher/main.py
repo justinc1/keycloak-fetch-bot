@@ -32,6 +32,7 @@ def run(output_dir):
         ['authentication', 'alias'],
         ['groups', 'name'],
         ['client-scopes', 'name'],
+        ['users', 'username'],
     ]
 
     for realm in realms.all():
