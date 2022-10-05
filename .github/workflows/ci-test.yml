@@ -27,8 +27,8 @@ jobs:
       - run: pip install -r requirements-dev.txt
       # install dependencies mentioned in pyproject.toml
       - run: pip install .
-      # TEMP - KC API with no TLS check
-      - run: pip install git+https://github.com/justinc1/keycloak-api.git@265b0e8795f07739769b58c4a5522857e0e78d4e#egg=kcapi
+      # TEMP - KC API with fixed "import KcSession"
+      - run: pip install git+https://github.com/cesarvr/keycloak-api.git@d7117c6cdddc4c1497b2cde39d0de3576ad468cc#egg=kcapi
       - run: |
           cat >env.env <<EOF
           KEYCLOAK_API_CA_BUNDLE=
