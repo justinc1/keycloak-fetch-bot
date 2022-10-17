@@ -48,6 +48,7 @@ def main():
     # }
     user_name = "ci0-user"
     group_name = "ci0-group"
+    client_scope_name = "ci0-client-scope"
 
     realm_ids = [realm["id"] for realm in master_realm.all()]
     logger.debug(f"realm_ids={realm_ids}")
@@ -93,6 +94,7 @@ def main():
             "attributes": {group_name + "-key0": [group_name + "-value0"]},
 
         }).isOk()
+        # Assign realm role to group
         group_roles_mapping = group.realmRoles({'key': 'name', 'value': group_name})
         group_roles_mapping.add([role_names_plain[0]])
 
@@ -107,6 +109,20 @@ def main():
             "groups": [group_name],
         }).isOk()
         # TODO assign roles
+
+    client_scopes = kc.build('client-scopes', realm_name)
+    if not client_scopes.findFirst({'key': 'name', 'value': client_scope_name}):
+        cs_creation_state = client_scopes.create({
+            "name": client_scope_name,
+            "description": "ci0 client scope",
+            "protocol": "openid-connect",
+            "attributes": {
+                "consent.screen.text": "consent-text-ci0-scope",
+                "display.on.consent.screen": "true",
+                "include.in.token.scope": "true"
+            }
+        }).isOk()
+        # TODO assign mappers, scope mappings
 
 
 if __name__ == "__main__":
