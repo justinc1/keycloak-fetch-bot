@@ -1,4 +1,4 @@
-from kcfetcher.fetch import CustomAuthenticationFetch, ClientFetch, GenericFetch
+from kcfetcher.fetch import CustomAuthenticationFetch, ClientFetch, GenericFetch, UserFetch
 
 
 class FetchFactory:
@@ -6,6 +6,7 @@ class FetchFactory:
         self.strategies = {
             'authentication': CustomAuthenticationFetch,
             'clients': ClientFetch,
+            'users': UserFetch,
         }
 
     def create(self, resource, kc, realm):

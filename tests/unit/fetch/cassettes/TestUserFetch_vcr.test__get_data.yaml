@@ -1,0 +1,227 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://172.17.0.2:8443/auth/realms/master/.well-known/openid-configuration
+  response:
+    body:
+      string: '{"issuer":"https://172.17.0.2:8443/auth/realms/master","authorization_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/auth","token_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token","introspection_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token/introspect","userinfo_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/userinfo","end_session_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/logout","jwks_uri":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/certs","check_session_iframe":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/login-status-iframe.html","grant_types_supported":["authorization_code","implicit","refresh_token","password","client_credentials","urn:ietf:params:oauth:grant-type:device_code","urn:openid:params:grant-type:ciba"],"response_types_supported":["code","none","id_token","token","id_token
+        token","code id_token","code token","code id_token token"],"subject_types_supported":["public","pairwise"],"id_token_signing_alg_values_supported":["PS384","ES384","RS384","HS256","HS512","ES256","RS256","HS384","ES512","PS256","PS512","RS512"],"id_token_encryption_alg_values_supported":["RSA-OAEP","RSA-OAEP-256","RSA1_5"],"id_token_encryption_enc_values_supported":["A256GCM","A192GCM","A128GCM","A128CBC-HS256","A192CBC-HS384","A256CBC-HS512"],"userinfo_signing_alg_values_supported":["PS384","ES384","RS384","HS256","HS512","ES256","RS256","HS384","ES512","PS256","PS512","RS512","none"],"request_object_signing_alg_values_supported":["PS384","ES384","RS384","HS256","HS512","ES256","RS256","HS384","ES512","PS256","PS512","RS512","none"],"request_object_encryption_alg_values_supported":["RSA-OAEP","RSA-OAEP-256","RSA1_5"],"request_object_encryption_enc_values_supported":["A256GCM","A192GCM","A128GCM","A128CBC-HS256","A192CBC-HS384","A256CBC-HS512"],"response_modes_supported":["query","fragment","form_post","query.jwt","fragment.jwt","form_post.jwt","jwt"],"registration_endpoint":"https://172.17.0.2:8443/auth/realms/master/clients-registrations/openid-connect","token_endpoint_auth_methods_supported":["private_key_jwt","client_secret_basic","client_secret_post","tls_client_auth","client_secret_jwt"],"token_endpoint_auth_signing_alg_values_supported":["PS384","ES384","RS384","HS256","HS512","ES256","RS256","HS384","ES512","PS256","PS512","RS512"],"introspection_endpoint_auth_methods_supported":["private_key_jwt","client_secret_basic","client_secret_post","tls_client_auth","client_secret_jwt"],"introspection_endpoint_auth_signing_alg_values_supported":["PS384","ES384","RS384","HS256","HS512","ES256","RS256","HS384","ES512","PS256","PS512","RS512"],"authorization_signing_alg_values_supported":["PS384","ES384","RS384","HS256","HS512","ES256","RS256","HS384","ES512","PS256","PS512","RS512"],"authorization_encryption_alg_values_supported":["RSA-OAEP","RSA-OAEP-256","RSA1_5"],"authorization_encryption_enc_values_supported":["A256GCM","A192GCM","A128GCM","A128CBC-HS256","A192CBC-HS384","A256CBC-HS512"],"claims_supported":["aud","sub","iss","auth_time","name","given_name","family_name","preferred_username","email","acr"],"claim_types_supported":["normal"],"claims_parameter_supported":true,"scopes_supported":["openid","address","offline_access","profile","phone","web-origins","microprofile-jwt","roles","email"],"request_parameter_supported":true,"request_uri_parameter_supported":true,"require_request_uri_registration":true,"code_challenge_methods_supported":["plain","S256"],"tls_client_certificate_bound_access_tokens":true,"revocation_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/revoke","revocation_endpoint_auth_methods_supported":["private_key_jwt","client_secret_basic","client_secret_post","tls_client_auth","client_secret_jwt"],"revocation_endpoint_auth_signing_alg_values_supported":["PS384","ES384","RS384","HS256","HS512","ES256","RS256","HS384","ES512","PS256","PS512","RS512"],"backchannel_logout_supported":true,"backchannel_logout_session_supported":true,"device_authorization_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/auth/device","backchannel_token_delivery_modes_supported":["poll","ping"],"backchannel_authentication_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/ext/ciba/auth","backchannel_authentication_request_signing_alg_values_supported":["PS384","ES384","RS384","ES256","RS256","ES512","PS256","PS512","RS512"],"require_pushed_authorization_requests":false,"pushed_authorization_request_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/ext/par/request","mtls_endpoint_aliases":{"token_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token","revocation_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/revoke","introspection_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token/introspect","device_authorization_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/auth/device","registration_endpoint":"https://172.17.0.2:8443/auth/realms/master/clients-registrations/openid-connect","userinfo_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/userinfo","pushed_authorization_request_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/ext/par/request","backchannel_authentication_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/ext/ciba/auth"}}'
+    headers:
+      Cache-Control:
+      - no-cache, must-revalidate, no-transform, no-store
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '5646'
+      Content-Type:
+      - application/json
+      Date:
+      - Sun, 09 Oct 2022 20:13:44 GMT
+      Referrer-Policy:
+      - no-referrer
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: client_id=admin-cli&grant_type=password&realm=master&username=admin&password=admin
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '82'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      User-Agent:
+      - python-requests/2.28.1
+    method: POST
+    uri: https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token
+  response:
+    body:
+      string: '{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJsQWFlLUxrX0JaSzh5R2xwTl9ySC0wZVBrWGRDai1zdUhZNF9hZmc2ZFRBIn0.eyJleHAiOjE2NjUzNDY0ODQsImlhdCI6MTY2NTM0NjQyNCwianRpIjoiMjg5YTY2NzEtYjI0MC00ZDZhLWE1ZWEtNTU5N2FiOWZkNWFjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiZjlkZDUzN2MtZTc2Zi00NDg2LTljZjYtMTFmNTE1YTE2Y2Y5IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImYzYWY4MWJkLTQ5MTUtNGY5YS04MTk5LWNjMmU5NmMyZGY0MiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiJmM2FmODFiZC00OTE1LTRmOWEtODE5OS1jYzJlOTZjMmRmNDIiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.PwLGdZuXZYnqvAq8KidRvrNYjsAgGCmSvtOjKILPOypCNtd_xN0ZTxZD8dUDYCFmX7mKam5cJc0IHYQcjHeVeeBKTaTiSlo1NZlovjxyOmBfa6JW16FoYabalX1LAmBuBlJGiQcI2nvaZa9_vNkdQw7F4d8yGyAm9pEh-NhDZOz_oUki5rLUEOg2ec4OJZDmryBxztgdbjQ87nwVgWe0kuOLn9pFRif3jIHwdHtbeMAN894HXPmZht013t86RZE9CMOX9AGLTblkWy156ZsQVZ9KgLIMmithqQ6SgUzcwryzGUbbDqDy0DzCv6UtLCbIfbR41NPZAxoMgnI7Ol_Emw","expires_in":60,"refresh_expires_in":1800,"refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI5OTVkMjJlZC0zZGQ5LTQzYmEtOWFiZS00MmYzNDlkOTJmOWMifQ.eyJleHAiOjE2NjUzNDgyMjQsImlhdCI6MTY2NTM0NjQyNCwianRpIjoiOTFkM2ZkZTYtYWQxYS00Njk4LWI5ZTYtYjRhMmZmNDQzMTZiIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiZjlkZDUzN2MtZTc2Zi00NDg2LTljZjYtMTFmNTE1YTE2Y2Y5IiwidHlwIjoiUmVmcmVzaCIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiJmM2FmODFiZC00OTE1LTRmOWEtODE5OS1jYzJlOTZjMmRmNDIiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiJmM2FmODFiZC00OTE1LTRmOWEtODE5OS1jYzJlOTZjMmRmNDIifQ.onPh1LpXbjAIObe64ct0V3UOZyfEveaCMXyH4HXRB8I","token_type":"Bearer","not-before-policy":0,"session_state":"f3af81bd-4915-4f9a-8199-cc2e96c2df42","scope":"profile
+        email"}'
+    headers:
+      Cache-Control:
+      - no-store
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1846'
+      Content-Type:
+      - application/json
+      Date:
+      - Sun, 09 Oct 2022 20:13:44 GMT
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Set-Cookie:
+      - KEYCLOAK_LOCALE=; Version=1; Comment=Expiring cookie; Expires=Thu, 01-Jan-1970
+        00:00:10 GMT; Max-Age=0; Path=/auth/realms/master/; HttpOnly
+      - KC_RESTART=; Version=1; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Max-Age=0;
+        Path=/auth/realms/master/; HttpOnly
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJsQWFlLUxrX0JaSzh5R2xwTl9ySC0wZVBrWGRDai1zdUhZNF9hZmc2ZFRBIn0.eyJleHAiOjE2NjUzNDY0ODQsImlhdCI6MTY2NTM0NjQyNCwianRpIjoiMjg5YTY2NzEtYjI0MC00ZDZhLWE1ZWEtNTU5N2FiOWZkNWFjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiZjlkZDUzN2MtZTc2Zi00NDg2LTljZjYtMTFmNTE1YTE2Y2Y5IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImYzYWY4MWJkLTQ5MTUtNGY5YS04MTk5LWNjMmU5NmMyZGY0MiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiJmM2FmODFiZC00OTE1LTRmOWEtODE5OS1jYzJlOTZjMmRmNDIiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.PwLGdZuXZYnqvAq8KidRvrNYjsAgGCmSvtOjKILPOypCNtd_xN0ZTxZD8dUDYCFmX7mKam5cJc0IHYQcjHeVeeBKTaTiSlo1NZlovjxyOmBfa6JW16FoYabalX1LAmBuBlJGiQcI2nvaZa9_vNkdQw7F4d8yGyAm9pEh-NhDZOz_oUki5rLUEOg2ec4OJZDmryBxztgdbjQ87nwVgWe0kuOLn9pFRif3jIHwdHtbeMAN894HXPmZht013t86RZE9CMOX9AGLTblkWy156ZsQVZ9KgLIMmithqQ6SgUzcwryzGUbbDqDy0DzCv6UtLCbIfbR41NPZAxoMgnI7Ol_Emw
+      Connection:
+      - keep-alive
+      Content-type:
+      - application/json
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://172.17.0.2:8443/auth/admin/realms/ci0-realm/users
+  response:
+    body:
+      string: '[{"id":"2850f946-6b84-497a-bd39-42a2a115eea9","createdTimestamp":1665343389854,"username":"ci0-user","enabled":true,"totp":false,"emailVerified":false,"firstName":"ci0-user-first","lastName":"ci0-user-last","attributes":{"ci0-user-key0":["ci0-user-value0"]},"disableableCredentialTypes":[],"requiredActions":[],"notBefore":0,"access":{"manageGroupMembership":true,"view":true,"mapRoles":true,"impersonate":true,"manage":true}}]'
+    headers:
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '427'
+      Content-Type:
+      - application/json
+      Date:
+      - Sun, 09 Oct 2022 20:13:44 GMT
+      Referrer-Policy:
+      - no-referrer
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJsQWFlLUxrX0JaSzh5R2xwTl9ySC0wZVBrWGRDai1zdUhZNF9hZmc2ZFRBIn0.eyJleHAiOjE2NjUzNDY0ODQsImlhdCI6MTY2NTM0NjQyNCwianRpIjoiMjg5YTY2NzEtYjI0MC00ZDZhLWE1ZWEtNTU5N2FiOWZkNWFjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiZjlkZDUzN2MtZTc2Zi00NDg2LTljZjYtMTFmNTE1YTE2Y2Y5IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImYzYWY4MWJkLTQ5MTUtNGY5YS04MTk5LWNjMmU5NmMyZGY0MiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiJmM2FmODFiZC00OTE1LTRmOWEtODE5OS1jYzJlOTZjMmRmNDIiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.PwLGdZuXZYnqvAq8KidRvrNYjsAgGCmSvtOjKILPOypCNtd_xN0ZTxZD8dUDYCFmX7mKam5cJc0IHYQcjHeVeeBKTaTiSlo1NZlovjxyOmBfa6JW16FoYabalX1LAmBuBlJGiQcI2nvaZa9_vNkdQw7F4d8yGyAm9pEh-NhDZOz_oUki5rLUEOg2ec4OJZDmryBxztgdbjQ87nwVgWe0kuOLn9pFRif3jIHwdHtbeMAN894HXPmZht013t86RZE9CMOX9AGLTblkWy156ZsQVZ9KgLIMmithqQ6SgUzcwryzGUbbDqDy0DzCv6UtLCbIfbR41NPZAxoMgnI7Ol_Emw
+      Connection:
+      - keep-alive
+      Content-type:
+      - application/json
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://172.17.0.2:8443/auth/admin/realms/ci0-realm/users
+  response:
+    body:
+      string: '[{"id":"2850f946-6b84-497a-bd39-42a2a115eea9","createdTimestamp":1665343389854,"username":"ci0-user","enabled":true,"totp":false,"emailVerified":false,"firstName":"ci0-user-first","lastName":"ci0-user-last","attributes":{"ci0-user-key0":["ci0-user-value0"]},"disableableCredentialTypes":[],"requiredActions":[],"notBefore":0,"access":{"manageGroupMembership":true,"view":true,"mapRoles":true,"impersonate":true,"manage":true}}]'
+    headers:
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '427'
+      Content-Type:
+      - application/json
+      Date:
+      - Sun, 09 Oct 2022 20:13:44 GMT
+      Referrer-Policy:
+      - no-referrer
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJsQWFlLUxrX0JaSzh5R2xwTl9ySC0wZVBrWGRDai1zdUhZNF9hZmc2ZFRBIn0.eyJleHAiOjE2NjUzNDY0ODQsImlhdCI6MTY2NTM0NjQyNCwianRpIjoiMjg5YTY2NzEtYjI0MC00ZDZhLWE1ZWEtNTU5N2FiOWZkNWFjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiZjlkZDUzN2MtZTc2Zi00NDg2LTljZjYtMTFmNTE1YTE2Y2Y5IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImYzYWY4MWJkLTQ5MTUtNGY5YS04MTk5LWNjMmU5NmMyZGY0MiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiJmM2FmODFiZC00OTE1LTRmOWEtODE5OS1jYzJlOTZjMmRmNDIiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.PwLGdZuXZYnqvAq8KidRvrNYjsAgGCmSvtOjKILPOypCNtd_xN0ZTxZD8dUDYCFmX7mKam5cJc0IHYQcjHeVeeBKTaTiSlo1NZlovjxyOmBfa6JW16FoYabalX1LAmBuBlJGiQcI2nvaZa9_vNkdQw7F4d8yGyAm9pEh-NhDZOz_oUki5rLUEOg2ec4OJZDmryBxztgdbjQ87nwVgWe0kuOLn9pFRif3jIHwdHtbeMAN894HXPmZht013t86RZE9CMOX9AGLTblkWy156ZsQVZ9KgLIMmithqQ6SgUzcwryzGUbbDqDy0DzCv6UtLCbIfbR41NPZAxoMgnI7Ol_Emw
+      Connection:
+      - keep-alive
+      Content-type:
+      - application/json
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://172.17.0.2:8443/auth/admin/realms/ci0-realm/users/2850f946-6b84-497a-bd39-42a2a115eea9/groups
+  response:
+    body:
+      string: '[{"id":"6639bc91-f8db-4188-a898-8fff79dcf5b2","name":"ci0-group","path":"/ci0-group"}]'
+    headers:
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '86'
+      Content-Type:
+      - application/json
+      Date:
+      - Sun, 09 Oct 2022 20:13:45 GMT
+      Referrer-Policy:
+      - no-referrer
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1
