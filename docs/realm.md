@@ -78,6 +78,8 @@ Installation
 ```
 
 ## client_scopes
+check if they are really needed - used by customer.
+
 ```
 # top tabs
 Client Scopes
@@ -107,11 +109,7 @@ Scope
 Realm Roles
   - DONE just list of all roles
 Default Roles
-  - which roles are default for this realm or for particular client
-  - "Realm Default Roles"
-    - CHECK
-  - "Client Default Roles"
-    - CHECK
+  - DONE, is just a GUI trick
 ```
 
 ```
@@ -161,7 +159,7 @@ CIBA Policy
 ```
 # top tabs
 Groups
-  - DONE, list of groups
+  - WIP, list of groups
 Default Groups
   - CHECK, are they used?
 ```
@@ -173,25 +171,31 @@ Settings
 Attributes
   - DONE
 Role Mappings
+  - CHECK, are group-role mappings used?
   - Realm Roles
-    - CHECK
+    - TODO
   - Client Roles
-    - CHECK
+    - TODO - try to avoid, use "Realm Roles" - client roles are sort of old-way, deprecated.
 Members
   - ignore, just readonly/status
 ```
+
+QUESTION, exported group.json has '"subGroups": []'. Where in GUI is this?
 
 ## users
 ```
 # top tabs, for one user
 Details
-  - "Required User Actions" - one from Authentication
+  - DONE
+  - "Required User Actions" - those come from Authentication
 Attributes
+  - DONE
 Credentials
-  - passwordstate needed
+  - QUESTION is passwordstate needed - is there a password for each human user?
+    Likely not - user does password reset.
   - more than one credential possible
 Role Mappings
-  - CHECK, I hope roles are assigned to groups, not to user.
+  - CHECK, can we ignore this? - I hope roles are assigned to groups, not to user.
 Groups
   - DONE
 Consents
@@ -200,3 +204,7 @@ Sessions
   - ignore
 ```
 
+## extra
+
+preprocessor - auth flow - some jar files
+ - things just crash without that jar file
