@@ -127,6 +127,27 @@ def main():
         role = roles.findFirst({'key': 'name', 'value': "ci0-role-0"})
         client_scope_scope_mappings_realm = kc.build(f"client-scopes/{client_scope_id}/scope-mappings/realm", realm_name)
         client_scope_scope_mappings_realm.create([role])
+        # Assign mapper to client scope
+        client_scope_protocol_mapper_many = kc.build(f"client-scopes/{client_scope_id}/protocol-mappers/add-models", realm_name)
+        # assign one pre-defined mapper
+        client_scope_protocol_mapper_many.create([
+            {
+                "name": "birthdate",
+                "protocol": "openid-connect",
+                "protocolMapper": "oidc-usermodel-attribute-mapper",
+                "consentRequired": False,
+                "config": {
+                    "userinfo.token.claim": "true",
+                    "user.attribute": "birthdate",
+                    "id.token.claim": "true",
+                    "access.token.claim": "true",
+                    "claim.name": "birthdate",
+                    "jsonType.label": "String",
+                }
+            }
+        ])
+        # TODO - create a new mapper
+        # client_scope_protocol_mapper_single = kc.build(f"client-scopes/{client_scope_id}/protocol-mappers/models", realm_name)
 
 
 if __name__ == "__main__":
