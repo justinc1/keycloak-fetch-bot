@@ -94,13 +94,13 @@ Default Client Scopes
 Settings
   - CHECK, just simple attributes
 Mappers
-  - CHECK, is list, each element - just simple attributes
+  - DONE is exported, is list, each element - just simple attributes
 Scope
   - this is scope-mappings
   - "realm roles"
-    - CHECK
+    - TODO - use GET /{realm}/client-scopes/{id}/scope-mappings/realm
   - "client roles"
-    - CHECK
+    - ignore
 ```
 
 ## roles
@@ -116,7 +116,8 @@ Default Roles
 # A single role
 # top tabs
   - DONE
-  - CHECK flat vs composite roles
+  - TODO flat vs composite roles
+    - composite roles, export included roles
 ```
 
 ## identity_providers
