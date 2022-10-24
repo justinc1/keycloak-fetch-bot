@@ -122,7 +122,11 @@ def main():
                 "include.in.token.scope": "true"
             }
         }).isOk()
-        # TODO assign mappers, scope mappings
+        # Assign scope mapping to client scope
+        client_scope_id = client_scopes.findFirst({'key': 'name', 'value': client_scope_name})["id"]
+        role = roles.findFirst({'key': 'name', 'value': "ci0-role-0"})
+        client_scope_scope_mappings_realm = kc.build(f"client-scopes/{client_scope_id}/scope-mappings/realm", realm_name)
+        client_scope_scope_mappings_realm.create([role])
 
 
 if __name__ == "__main__":
