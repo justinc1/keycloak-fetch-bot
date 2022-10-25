@@ -1,4 +1,3 @@
-kcapi>=1.0.24
 tox
 pytest
 build
