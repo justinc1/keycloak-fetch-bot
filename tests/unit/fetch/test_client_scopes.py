@@ -3,7 +3,7 @@ from pytest_unordered import unordered
 import json
 import os
 import shutil
-from kcfetcher.fetch import ClientFetch, GenericFetch
+from kcfetcher.fetch import ClientScopeFetch
 from kcfetcher.store import Store
 from kcfetcher.utils import remove_folder, make_folder, login
 
@@ -23,7 +23,7 @@ class TestClientScopeFetch:
         realm_name = "ci0-realm"
         resource_name = "client-scopes"
         resource_identifier = "name"
-        obj = GenericFetch(kc, resource_name, resource_identifier, realm_name)
+        obj = ClientScopeFetch(kc, resource_name, resource_identifier, realm_name)
 
         obj.fetch(store_api)
 
