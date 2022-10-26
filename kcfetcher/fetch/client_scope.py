@@ -27,7 +27,23 @@ class ClientScopeFetch(GenericFetch):
             }
             client_scope.update(scope_mappings)
 
-        return kc_objects
+            # get client roles
+            # GET /{realm}/client-scopes/{id}/scope-mappings/clients/{client}
+            kc_clients = self.kc.build("clients", self.realm)
+            clients = kc_clients.all()
+            all_clients_roles_names = {}
+            for client in clients:
+                client_id = client["id"]
+                client_scope_scope_mappings_clients = self.kc.build(f"client-scopes/{client_scope_id}/scope-mappings/clients/{client_id}", self.realm)
+                roles = client_scope_scope_mappings_clients.all()
+                client_roles_names = [role["name"] for role in roles]
+                print(f"client={client['clientId']} client_roles_names={client_roles_names}")
+                if client_roles_names:
+                    all_clients_roles_names.update({client['clientId']: client_roles_names})
+            # clientScopeMappings stores mapping to client roles
+            client_scope_mappings = {
+                "clientScopeMappings": all_clients_roles_names,
+            }
+            client_scope.update(client_scope_mappings)
 
-    # def all(self, kc):
-    #     return list(filter(lambda fn: not fn[self.id] in self.black_list, kc.all()))
+        return kc_objects

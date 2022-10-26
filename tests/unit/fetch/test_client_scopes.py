@@ -33,6 +33,7 @@ class TestClientScopeFetch:
         data = json.load(open(os.path.join(datadir, "ci0-client-scope.json")))
         assert list(data.keys()) == [
             'attributes',
+            'clientScopeMappings',
             'description',
             'name',
             'protocol',
@@ -62,9 +63,14 @@ class TestClientScopeFetch:
         assert data["protocolMappers"][0]["config"]["user.attribute"] == "birthdate"
         assert data["protocolMappers"][0]["config"]["claim.name"] == "birthdate"
 
-        # check scope_mappings
+        # check scope_mappings - realm roles
         assert list(data["scopeMappings"].keys()) == [
             'roles',
             ]
-        #  realm roles
         assert list(data["scopeMappings"]["roles"]) == ["ci0-role-0"]
+
+        # check scope_mappings - client roles
+        assert list(data["clientScopeMappings"].keys()) == [
+            'account',
+            ]
+        assert list(data["clientScopeMappings"]["account"]) == ["view-profile"]
