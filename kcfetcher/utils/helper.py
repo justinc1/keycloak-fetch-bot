@@ -29,7 +29,7 @@ def login(endpoint, user, password, read_token_from_file=False):
 
 def normalize(identifier=""):
     identifier = identifier.lower()
-    bad_chars = '/ =,:'
+    bad_chars = '/ =,:*'
     for bad_char in bad_chars:
         identifier = identifier.replace(bad_char, '_')
     return identifier
