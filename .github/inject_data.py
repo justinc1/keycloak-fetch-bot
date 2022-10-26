@@ -122,11 +122,25 @@ def main():
                 "include.in.token.scope": "true"
             }
         }).isOk()
-        # Assign scope mapping to client scope
         client_scope_id = client_scopes.findFirst({'key': 'name', 'value': client_scope_name})["id"]
+
+        # Assign scope mapping to client scope - set realm role
         role = roles.findFirst({'key': 'name', 'value': "ci0-role-0"})
         client_scope_scope_mappings_realm = kc.build(f"client-scopes/{client_scope_id}/scope-mappings/realm", realm_name)
         client_scope_scope_mappings_realm.create([role])
+
+        # Assign scope mapping to client scope - set client role
+        # Just assign some existing client role, view-profile role from client account.
+        client_clientId = 'account'
+        role_name = "view-profile"
+        kc_clients = kc.build(f"clients", realm_name)
+        client = kc_clients.findFirst({'key': 'clientId', 'value': client_clientId})
+        print(f"client={client}")
+        kc_client_roles = kc.build(f"clients/{client['id']}/roles", realm_name)
+        role = kc_client_roles.findFirst({'key': 'name', 'value': role_name})
+        client_scope_scope_mappings_client = kc.build(f"client-scopes/{client_scope_id}/scope-mappings/clients/{client['id']}", realm_name)
+        client_scope_scope_mappings_client.create([role])
+
         # Assign mapper to client scope
         client_scope_protocol_mapper_many = kc.build(f"client-scopes/{client_scope_id}/protocol-mappers/add-models", realm_name)
         # assign one pre-defined mapper
