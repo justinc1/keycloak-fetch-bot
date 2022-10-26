@@ -1,4 +1,4 @@
-from kcfetcher.fetch import CustomAuthenticationFetch, ClientFetch, GenericFetch, UserFetch
+from kcfetcher.fetch import CustomAuthenticationFetch, ClientFetch, GenericFetch, UserFetch, ClientScopeFetch
 
 
 class FetchFactory:
@@ -6,6 +6,7 @@ class FetchFactory:
         self.strategies = {
             'authentication': CustomAuthenticationFetch,
             'clients': ClientFetch,
+            'client-scopes': ClientScopeFetch,
             'users': UserFetch,
         }
 
