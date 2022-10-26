@@ -19,12 +19,12 @@ class ClientScopeFetch(GenericFetch):
             client_scope_scope_mappings_realm = self.kc.build(f"client-scopes/{client_scope_id}/scope-mappings/realm", self.realm)
             roles = client_scope_scope_mappings_realm.all()
             realm_roles_names = [role["name"] for role in roles]
+            # scopeMappings stores mapping to realm roles
             scope_mappings = {
                 "scopeMappings": {
-                    "realm": realm_roles_names
+                    "roles": realm_roles_names
                 }
             }
-
             client_scope.update(scope_mappings)
 
         return kc_objects

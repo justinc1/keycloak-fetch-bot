@@ -26,7 +26,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 26 Oct 2022 11:27:30 GMT
+      - Wed, 26 Oct 2022 15:36:17 GMT
       Referrer-Policy:
       - no-referrer
       Strict-Transport-Security:
@@ -59,7 +59,7 @@ interactions:
     uri: https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token
   response:
     body:
-      string: '{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJYZVJaYlBYLTVIRWJGOVNhU1Jxd3dGLU5VczNtdmh6NHR2bWdrTlBHaElVIn0.eyJleHAiOjE2NjY3ODM3MTAsImlhdCI6MTY2Njc4MzY1MCwianRpIjoiMWQzMjFmOWItNTM4My00OWU4LTllYjAtYWVmZmZhYmVlYzU0IiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiNTNkMjE2YmYtYWI0My00MTg0LWFiY2EtMzA0Nzg0ZTVmMmZiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImJhYmNlYjFhLWU1ODItNGM1OS04NjFjLWU4N2IwNTFhODVhNyIsImFjciI6IjEiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJzaWQiOiJiYWJjZWIxYS1lNTgyLTRjNTktODYxYy1lODdiMDUxYTg1YTciLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.Zc0AWq6ABBjncVXSUN5FW9TxNbKcma5hE7z9DU8rEnwTNY6nry4MC9t4XGef1JOva0umbAVz77J3XIkbOMRqJFqy76N1OoRSlkOTqekTRxrVS069lm_z6h-tzusAcwftHk0fon9vJwxfD8A-_9VtsfI35u__CyTUVZX-Xj0LM3Y72ErmmYhk-4CfPlkyR5bLWMUlvVGEeDjIn3AbEUtozzVkR3GpLXja_-_KjUTqXFG3evnidJU9h2xBngWS_jBU4EQPAezfTIsp6nmsgIHPG9ROdJNrWejX_v83dMrFoVDSLn5icr86aOhcMrIMzhtlpTIBDaAXLBpTvyO1DFIhNw","expires_in":60,"refresh_expires_in":1800,"refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI5MjZiOWQxYy0wM2QxLTRkMDUtYmRlOC04ZmM0NWE3NDBhOTIifQ.eyJleHAiOjE2NjY3ODU0NTAsImlhdCI6MTY2Njc4MzY1MCwianRpIjoiZjQ2ZTE4NmMtMzQ3NC00NzNjLTkwN2ItMDc4Y2E2ZWQzZjQ0IiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiNTNkMjE2YmYtYWI0My00MTg0LWFiY2EtMzA0Nzg0ZTVmMmZiIiwidHlwIjoiUmVmcmVzaCIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiJiYWJjZWIxYS1lNTgyLTRjNTktODYxYy1lODdiMDUxYTg1YTciLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJzaWQiOiJiYWJjZWIxYS1lNTgyLTRjNTktODYxYy1lODdiMDUxYTg1YTcifQ.ct-TQd9s54C-RKHb1Qlyv9uPEk9l514g900M3mY3PU8","token_type":"Bearer","not-before-policy":0,"session_state":"babceb1a-e582-4c59-861c-e87b051a85a7","scope":"email
+      string: '{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJYZVJaYlBYLTVIRWJGOVNhU1Jxd3dGLU5VczNtdmh6NHR2bWdrTlBHaElVIn0.eyJleHAiOjE2NjY3OTg2MzgsImlhdCI6MTY2Njc5ODU3OCwianRpIjoiOTZiYjMyNTktMjk5Zi00ZmM3LWE1ZmQtNzdmYjA2ZjBkZDJhIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiNTNkMjE2YmYtYWI0My00MTg0LWFiY2EtMzA0Nzg0ZTVmMmZiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjM0YjA5ZDU5LWE4ZGMtNDY4OS04NmI0LWVhZTU5MDVlNjZmZSIsImFjciI6IjEiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJzaWQiOiIzNGIwOWQ1OS1hOGRjLTQ2ODktODZiNC1lYWU1OTA1ZTY2ZmUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.cJRzmPtB42iF32bNIEBLk_kSqag4KdxMDvqyBqvgH6aBM44_3AAsWs1NzTkZIFyc1Cjq4F7FSkq84mxy1eHEMImWtR7eywNQ0cN_ytJwLzYI-lwUKoc1lXUl_ypk--PVLem_kPhd1f5zmWJd6jOUYC108ct4yItzaT_7i8FnAE-ZynZQnh0onfqElBajM-MoBL3KIL5axa6GJyRti62uuD8s_fjEu0PZbrTBG2NCLBzbgJHR9G8JqIX21MMUDigpA-VIbwvlYnOHZhOdfB7Qswh-pZKR68u95Vn4aCnkHPM5phPxsuXVw3wGxJ2H6MX2boaAF3kQ0wQm-fzOkDsIHQ","expires_in":60,"refresh_expires_in":1800,"refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI5MjZiOWQxYy0wM2QxLTRkMDUtYmRlOC04ZmM0NWE3NDBhOTIifQ.eyJleHAiOjE2NjY4MDAzNzgsImlhdCI6MTY2Njc5ODU3OCwianRpIjoiZTRmZWE5NWYtOWU4YS00NjhmLWJmZGMtNjAxYmM4MjZhYTBjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiNTNkMjE2YmYtYWI0My00MTg0LWFiY2EtMzA0Nzg0ZTVmMmZiIiwidHlwIjoiUmVmcmVzaCIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiIzNGIwOWQ1OS1hOGRjLTQ2ODktODZiNC1lYWU1OTA1ZTY2ZmUiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJzaWQiOiIzNGIwOWQ1OS1hOGRjLTQ2ODktODZiNC1lYWU1OTA1ZTY2ZmUifQ.8hbKfFH9mMSoqmZoc8FWNF4Gxr-Ocq-uTz3APsaXrKI","token_type":"Bearer","not-before-policy":0,"session_state":"34b09d59-a8dc-4689-86b4-eae5905e66fe","scope":"email
         profile"}'
     headers:
       Cache-Control:
@@ -71,7 +71,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 26 Oct 2022 11:27:30 GMT
+      - Wed, 26 Oct 2022 15:36:18 GMT
       Pragma:
       - no-cache
       Referrer-Policy:
@@ -100,7 +100,7 @@ interactions:
       Accept-Encoding:
       - gzip, deflate
       Authorization:
-      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJYZVJaYlBYLTVIRWJGOVNhU1Jxd3dGLU5VczNtdmh6NHR2bWdrTlBHaElVIn0.eyJleHAiOjE2NjY3ODM3MTAsImlhdCI6MTY2Njc4MzY1MCwianRpIjoiMWQzMjFmOWItNTM4My00OWU4LTllYjAtYWVmZmZhYmVlYzU0IiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiNTNkMjE2YmYtYWI0My00MTg0LWFiY2EtMzA0Nzg0ZTVmMmZiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImJhYmNlYjFhLWU1ODItNGM1OS04NjFjLWU4N2IwNTFhODVhNyIsImFjciI6IjEiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJzaWQiOiJiYWJjZWIxYS1lNTgyLTRjNTktODYxYy1lODdiMDUxYTg1YTciLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.Zc0AWq6ABBjncVXSUN5FW9TxNbKcma5hE7z9DU8rEnwTNY6nry4MC9t4XGef1JOva0umbAVz77J3XIkbOMRqJFqy76N1OoRSlkOTqekTRxrVS069lm_z6h-tzusAcwftHk0fon9vJwxfD8A-_9VtsfI35u__CyTUVZX-Xj0LM3Y72ErmmYhk-4CfPlkyR5bLWMUlvVGEeDjIn3AbEUtozzVkR3GpLXja_-_KjUTqXFG3evnidJU9h2xBngWS_jBU4EQPAezfTIsp6nmsgIHPG9ROdJNrWejX_v83dMrFoVDSLn5icr86aOhcMrIMzhtlpTIBDaAXLBpTvyO1DFIhNw
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJYZVJaYlBYLTVIRWJGOVNhU1Jxd3dGLU5VczNtdmh6NHR2bWdrTlBHaElVIn0.eyJleHAiOjE2NjY3OTg2MzgsImlhdCI6MTY2Njc5ODU3OCwianRpIjoiOTZiYjMyNTktMjk5Zi00ZmM3LWE1ZmQtNzdmYjA2ZjBkZDJhIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiNTNkMjE2YmYtYWI0My00MTg0LWFiY2EtMzA0Nzg0ZTVmMmZiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjM0YjA5ZDU5LWE4ZGMtNDY4OS04NmI0LWVhZTU5MDVlNjZmZSIsImFjciI6IjEiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJzaWQiOiIzNGIwOWQ1OS1hOGRjLTQ2ODktODZiNC1lYWU1OTA1ZTY2ZmUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.cJRzmPtB42iF32bNIEBLk_kSqag4KdxMDvqyBqvgH6aBM44_3AAsWs1NzTkZIFyc1Cjq4F7FSkq84mxy1eHEMImWtR7eywNQ0cN_ytJwLzYI-lwUKoc1lXUl_ypk--PVLem_kPhd1f5zmWJd6jOUYC108ct4yItzaT_7i8FnAE-ZynZQnh0onfqElBajM-MoBL3KIL5axa6GJyRti62uuD8s_fjEu0PZbrTBG2NCLBzbgJHR9G8JqIX21MMUDigpA-VIbwvlYnOHZhOdfB7Qswh-pZKR68u95Vn4aCnkHPM5phPxsuXVw3wGxJ2H6MX2boaAF3kQ0wQm-fzOkDsIHQ
       Connection:
       - keep-alive
       Content-type:
@@ -131,10 +131,10 @@ interactions:
         name","protocol":"openid-connect","protocolMapper":"oidc-full-name-mapper","consentRequired":false,"config":{"id.token.claim":"true","access.token.claim":"true","userinfo.token.claim":"true"}},{"id":"53c68c54-3c66-4e92-b89b-76f84b2b663a","name":"given
         name","protocol":"openid-connect","protocolMapper":"oidc-usermodel-property-mapper","consentRequired":false,"config":{"userinfo.token.claim":"true","user.attribute":"firstName","id.token.claim":"true","access.token.claim":"true","claim.name":"given_name","jsonType.label":"String"}}]},{"id":"1617cc58-5655-4153-b7d1-428e28bf1a5e","name":"address","description":"OpenID
         Connect built-in scope: address","protocol":"openid-connect","attributes":{"include.in.token.scope":"true","display.on.consent.screen":"true","consent.screen.text":"${addressScopeConsentText}"},"protocolMappers":[{"id":"f17c3b53-129c-4611-9e2e-fc527ed5f826","name":"address","protocol":"openid-connect","protocolMapper":"oidc-address-mapper","consentRequired":false,"config":{"user.attribute.formatted":"formatted","user.attribute.country":"country","user.attribute.postal_code":"postal_code","userinfo.token.claim":"true","user.attribute.street":"street","id.token.claim":"true","user.attribute.region":"region","access.token.claim":"true","user.attribute.locality":"locality"}}]},{"id":"3ce7fd52-0663-4e5f-9511-9517711cb3ff","name":"microprofile-jwt","description":"Microprofile
-        - JWT built-in scope","protocol":"openid-connect","attributes":{"include.in.token.scope":"true","display.on.consent.screen":"false"},"protocolMappers":[{"id":"7b081f9c-b069-4630-bb31-1338d8ad5526","name":"upn","protocol":"openid-connect","protocolMapper":"oidc-usermodel-property-mapper","consentRequired":false,"config":{"userinfo.token.claim":"true","user.attribute":"username","id.token.claim":"true","access.token.claim":"true","claim.name":"upn","jsonType.label":"String"}},{"id":"4eaeec1f-5a22-4be6-b25b-5214ad84b84a","name":"groups","protocol":"openid-connect","protocolMapper":"oidc-usermodel-realm-role-mapper","consentRequired":false,"config":{"multivalued":"true","user.attribute":"foo","id.token.claim":"true","access.token.claim":"true","claim.name":"groups","jsonType.label":"String"}}]},{"id":"b0ebf885-4dac-4bf8-8807-12228eb062f7","name":"ci0-client-scope","description":"ci0
-        client scope","protocol":"openid-connect","attributes":{"include.in.token.scope":"true","display.on.consent.screen":"true","consent.screen.text":"consent-text-ci0-scope"},"protocolMappers":[{"id":"d3f86980-b172-46ea-a095-79f5c2918984","name":"birthdate","protocol":"openid-connect","protocolMapper":"oidc-usermodel-attribute-mapper","consentRequired":false,"config":{"userinfo.token.claim":"true","user.attribute":"birthdate","id.token.claim":"true","access.token.claim":"true","claim.name":"birthdate","jsonType.label":"String"}}]},{"id":"2e221012-bec4-485b-b65d-cf710bb81264","name":"role_list","description":"SAML
+        - JWT built-in scope","protocol":"openid-connect","attributes":{"include.in.token.scope":"true","display.on.consent.screen":"false"},"protocolMappers":[{"id":"7b081f9c-b069-4630-bb31-1338d8ad5526","name":"upn","protocol":"openid-connect","protocolMapper":"oidc-usermodel-property-mapper","consentRequired":false,"config":{"userinfo.token.claim":"true","user.attribute":"username","id.token.claim":"true","access.token.claim":"true","claim.name":"upn","jsonType.label":"String"}},{"id":"4eaeec1f-5a22-4be6-b25b-5214ad84b84a","name":"groups","protocol":"openid-connect","protocolMapper":"oidc-usermodel-realm-role-mapper","consentRequired":false,"config":{"multivalued":"true","user.attribute":"foo","id.token.claim":"true","access.token.claim":"true","claim.name":"groups","jsonType.label":"String"}}]},{"id":"2e221012-bec4-485b-b65d-cf710bb81264","name":"role_list","description":"SAML
         role list","protocol":"saml","attributes":{"consent.screen.text":"${samlRoleListScopeConsentText}","display.on.consent.screen":"true"},"protocolMappers":[{"id":"1069c3d1-d1fb-4834-9778-3dd1ca0f3af8","name":"role
-        list","protocol":"saml","protocolMapper":"saml-role-list-mapper","consentRequired":false,"config":{"single":"false","attribute.nameformat":"Basic","attribute.name":"Role"}}]}]'
+        list","protocol":"saml","protocolMapper":"saml-role-list-mapper","consentRequired":false,"config":{"single":"false","attribute.nameformat":"Basic","attribute.name":"Role"}}]},{"id":"be075eeb-017b-406e-b08f-96f8bf45eb4c","name":"ci0-client-scope","description":"ci0
+        client scope","protocol":"openid-connect","attributes":{"include.in.token.scope":"true","display.on.consent.screen":"true","consent.screen.text":"consent-text-ci0-scope"},"protocolMappers":[{"id":"a2bcc132-5a8e-46b8-9f93-541dd6371dda","name":"birthdate","protocol":"openid-connect","protocolMapper":"oidc-usermodel-attribute-mapper","consentRequired":false,"config":{"userinfo.token.claim":"true","user.attribute":"birthdate","id.token.claim":"true","access.token.claim":"true","claim.name":"birthdate","jsonType.label":"String"}}]}]'
     headers:
       Cache-Control:
       - no-cache
@@ -145,7 +145,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 26 Oct 2022 11:27:30 GMT
+      - Wed, 26 Oct 2022 15:36:18 GMT
       Referrer-Policy:
       - no-referrer
       Strict-Transport-Security:
@@ -167,7 +167,7 @@ interactions:
       Accept-Encoding:
       - gzip, deflate
       Authorization:
-      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJYZVJaYlBYLTVIRWJGOVNhU1Jxd3dGLU5VczNtdmh6NHR2bWdrTlBHaElVIn0.eyJleHAiOjE2NjY3ODM3MTAsImlhdCI6MTY2Njc4MzY1MCwianRpIjoiMWQzMjFmOWItNTM4My00OWU4LTllYjAtYWVmZmZhYmVlYzU0IiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiNTNkMjE2YmYtYWI0My00MTg0LWFiY2EtMzA0Nzg0ZTVmMmZiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImJhYmNlYjFhLWU1ODItNGM1OS04NjFjLWU4N2IwNTFhODVhNyIsImFjciI6IjEiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJzaWQiOiJiYWJjZWIxYS1lNTgyLTRjNTktODYxYy1lODdiMDUxYTg1YTciLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.Zc0AWq6ABBjncVXSUN5FW9TxNbKcma5hE7z9DU8rEnwTNY6nry4MC9t4XGef1JOva0umbAVz77J3XIkbOMRqJFqy76N1OoRSlkOTqekTRxrVS069lm_z6h-tzusAcwftHk0fon9vJwxfD8A-_9VtsfI35u__CyTUVZX-Xj0LM3Y72ErmmYhk-4CfPlkyR5bLWMUlvVGEeDjIn3AbEUtozzVkR3GpLXja_-_KjUTqXFG3evnidJU9h2xBngWS_jBU4EQPAezfTIsp6nmsgIHPG9ROdJNrWejX_v83dMrFoVDSLn5icr86aOhcMrIMzhtlpTIBDaAXLBpTvyO1DFIhNw
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJYZVJaYlBYLTVIRWJGOVNhU1Jxd3dGLU5VczNtdmh6NHR2bWdrTlBHaElVIn0.eyJleHAiOjE2NjY3OTg2MzgsImlhdCI6MTY2Njc5ODU3OCwianRpIjoiOTZiYjMyNTktMjk5Zi00ZmM3LWE1ZmQtNzdmYjA2ZjBkZDJhIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiNTNkMjE2YmYtYWI0My00MTg0LWFiY2EtMzA0Nzg0ZTVmMmZiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjM0YjA5ZDU5LWE4ZGMtNDY4OS04NmI0LWVhZTU5MDVlNjZmZSIsImFjciI6IjEiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJzaWQiOiIzNGIwOWQ1OS1hOGRjLTQ2ODktODZiNC1lYWU1OTA1ZTY2ZmUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.cJRzmPtB42iF32bNIEBLk_kSqag4KdxMDvqyBqvgH6aBM44_3AAsWs1NzTkZIFyc1Cjq4F7FSkq84mxy1eHEMImWtR7eywNQ0cN_ytJwLzYI-lwUKoc1lXUl_ypk--PVLem_kPhd1f5zmWJd6jOUYC108ct4yItzaT_7i8FnAE-ZynZQnh0onfqElBajM-MoBL3KIL5axa6GJyRti62uuD8s_fjEu0PZbrTBG2NCLBzbgJHR9G8JqIX21MMUDigpA-VIbwvlYnOHZhOdfB7Qswh-pZKR68u95Vn4aCnkHPM5phPxsuXVw3wGxJ2H6MX2boaAF3kQ0wQm-fzOkDsIHQ
       Connection:
       - keep-alive
       Content-type:
@@ -175,7 +175,7 @@ interactions:
       User-Agent:
       - python-requests/2.28.1
     method: GET
-    uri: https://172.17.0.2:8443/auth/admin/realms/ci0-realm/client-scopes/b0ebf885-4dac-4bf8-8807-12228eb062f7/scope-mappings/realm
+    uri: https://172.17.0.2:8443/auth/admin/realms/ci0-realm/client-scopes/be075eeb-017b-406e-b08f-96f8bf45eb4c/scope-mappings/realm
   response:
     body:
       string: '[{"id":"6d6d8814-6d22-4ec1-a814-31b35e1ed874","name":"ci0-role-0","description":"ci0-role-0-desc","composite":false,"clientRole":false,"containerId":"ci0-realm"}]'
@@ -189,7 +189,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 26 Oct 2022 11:27:30 GMT
+      - Wed, 26 Oct 2022 15:36:18 GMT
       Referrer-Policy:
       - no-referrer
       Strict-Transport-Security:

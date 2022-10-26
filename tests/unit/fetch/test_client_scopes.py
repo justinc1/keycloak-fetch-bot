@@ -64,7 +64,7 @@ class TestClientScopeFetch:
 
         # check scope_mappings
         assert list(data["scopeMappings"].keys()) == [
-            'realm',
+            'roles',
             ]
         #  realm roles
-        assert list(data["scopeMappings"]["realm"]) == ["ci0-role-0"]
+        assert list(data["scopeMappings"]["roles"]) == ["ci0-role-0"]
