@@ -37,6 +37,7 @@ class TestClientScopeFetch:
             'name',
             'protocol',
             'protocolMappers',
+            'scopeMappings',
         ]
         assert data["name"] == "ci0-client-scope"
 
@@ -60,3 +61,10 @@ class TestClientScopeFetch:
         ]
         assert data["protocolMappers"][0]["config"]["user.attribute"] == "birthdate"
         assert data["protocolMappers"][0]["config"]["claim.name"] == "birthdate"
+
+        # check scope_mappings
+        assert list(data["scopeMappings"].keys()) == [
+            'realm',
+            ]
+        #  realm roles
+        assert list(data["scopeMappings"]["realm"]) == ["ci0-role-0"]
