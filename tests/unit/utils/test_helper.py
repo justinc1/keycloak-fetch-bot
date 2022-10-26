@@ -83,6 +83,7 @@ class Test_normalize:
             ("myident", "myident"),
             ("aa/bb cc=dd,ee", "aa_bb_cc_dd_ee"),
             ("aa/bb cc=dd,ee---aa/bb cc=dd,ee", "aa_bb_cc_dd_ee---aa_bb_cc_dd_ee"),
+            ("http://an.url/can.be/a.name-etc", "http___an.url_can.be_a.name-etc")
         ]
     )
     def test_normalize(self, identifier_in, expected_identifier):
