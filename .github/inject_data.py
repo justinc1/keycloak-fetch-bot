@@ -48,6 +48,7 @@ def main():
     # }
     user_name = "ci0-user"
     group_name = "ci0-group"
+    client_scope_name = "ci0-client-scope"
 
     realm_ids = [realm["id"] for realm in master_realm.all()]
     logger.debug(f"realm_ids={realm_ids}")
@@ -93,6 +94,7 @@ def main():
             "attributes": {group_name + "-key0": [group_name + "-value0"]},
 
         }).isOk()
+        # Assign realm role to group
         group_roles_mapping = group.realmRoles({'key': 'name', 'value': group_name})
         group_roles_mapping.add([role_names_plain[0]])
 
@@ -107,6 +109,45 @@ def main():
             "groups": [group_name],
         }).isOk()
         # TODO assign roles
+
+    client_scopes = kc.build('client-scopes', realm_name)
+    if not client_scopes.findFirst({'key': 'name', 'value': client_scope_name}):
+        cs_creation_state = client_scopes.create({
+            "name": client_scope_name,
+            "description": "ci0 client scope",
+            "protocol": "openid-connect",
+            "attributes": {
+                "consent.screen.text": "consent-text-ci0-scope",
+                "display.on.consent.screen": "true",
+                "include.in.token.scope": "true"
+            }
+        }).isOk()
+        # Assign scope mapping to client scope
+        client_scope_id = client_scopes.findFirst({'key': 'name', 'value': client_scope_name})["id"]
+        role = roles.findFirst({'key': 'name', 'value': "ci0-role-0"})
+        client_scope_scope_mappings_realm = kc.build(f"client-scopes/{client_scope_id}/scope-mappings/realm", realm_name)
+        client_scope_scope_mappings_realm.create([role])
+        # Assign mapper to client scope
+        client_scope_protocol_mapper_many = kc.build(f"client-scopes/{client_scope_id}/protocol-mappers/add-models", realm_name)
+        # assign one pre-defined mapper
+        client_scope_protocol_mapper_many.create([
+            {
+                "name": "birthdate",
+                "protocol": "openid-connect",
+                "protocolMapper": "oidc-usermodel-attribute-mapper",
+                "consentRequired": False,
+                "config": {
+                    "userinfo.token.claim": "true",
+                    "user.attribute": "birthdate",
+                    "id.token.claim": "true",
+                    "access.token.claim": "true",
+                    "claim.name": "birthdate",
+                    "jsonType.label": "String",
+                }
+            }
+        ])
+        # TODO - create a new mapper
+        # client_scope_protocol_mapper_single = kc.build(f"client-scopes/{client_scope_id}/protocol-mappers/models", realm_name)
 
 
 if __name__ == "__main__":
