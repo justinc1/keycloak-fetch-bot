@@ -163,6 +163,21 @@ def main():
         # TODO - create a new mapper
         # client_scope_protocol_mapper_single = kc.build(f"client-scopes/{client_scope_id}/protocol-mappers/models", realm_name)
 
+    # TODO add identity-provider
+    idp_alias = "ci0-ipd-saml"
+    idp_display_name = "CI0 User Fedaration - LDAP"
+    # Redirect URI - https://172.17.0.2:8443/auth/realms/ci0-realm/broker/saml/endpoint
+    # Service Provider Entity ID - https://172.17.0.2:8443/auth/realms/ci0-realm
+    # Single Sign-On Service URL - https://172.17.0.3:443/ - should be some other container
+
+    # TODO add user-federation
+    uf_name = "ci0-uf-ldap"
+    uf_display_name = "CI0 User Federation - LDAP"
+    # connection url - ldaps://172.17.0.4:636
+    # users dn - ou=users,dc=example,dc=com
+
+    # add mapper to user-federation
+
 
 if __name__ == "__main__":
     main()

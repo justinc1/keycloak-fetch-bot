@@ -28,6 +28,7 @@ def run(output_dir):
         ['clients', 'clientId'],
         ['roles', 'name'],
         ['identity-provider', 'alias'],
+        ['user-federations', 'name'],
         ['components', 'name'],
         ['authentication', 'alias'],
         ['groups', 'name'],
