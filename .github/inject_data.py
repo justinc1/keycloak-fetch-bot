@@ -172,11 +172,102 @@ def main():
 
     # TODO add user-federation
     uf_name = "ci0-uf-ldap"
-    uf_display_name = "CI0 User Federation - LDAP"
     # connection url - ldaps://172.17.0.4:636
     # users dn - ou=users,dc=example,dc=com
-
-    # add mapper to user-federation
+    components_api = kc.build(f"components", realm_name)
+    if not components_api.findFirst({'key': 'name', 'value': uf_name}):
+        components_api.create(
+            {
+                "config": {
+                    "allowKerberosAuthentication": [
+                        "false"
+                    ],
+                    "authType": [
+                        "simple"
+                    ],
+                    "batchSizeForSync": [
+                        "1000"
+                    ],
+                    "bindCredential": [
+                        "ldap-bind-pass"
+                    ],
+                    "bindDn": [
+                        "admin"
+                    ],
+                    "cachePolicy": [
+                        "DEFAULT"
+                    ],
+                    "changedSyncPeriod": [
+                        "-1"
+                    ],
+                    "connectionPooling": [
+                        "true"
+                    ],
+                    "connectionUrl": [
+                        "ldaps://172.17.0.4:636"
+                    ],
+                    "debug": [
+                        "false"
+                    ],
+                    "enabled": [
+                        "true"
+                    ],
+                    "fullSyncPeriod": [
+                        "-1"
+                    ],
+                    "importEnabled": [
+                        "true"
+                    ],
+                    "pagination": [
+                        "true"
+                    ],
+                    "priority": [
+                        "0"
+                    ],
+                    "rdnLDAPAttribute": [
+                        "uid"
+                    ],
+                    "searchScope": [
+                        "1"
+                    ],
+                    "syncRegistrations": [
+                        "false"
+                    ],
+                    "trustEmail": [
+                        "false"
+                    ],
+                    "useKerberosForPasswordAuthentication": [
+                        "false"
+                    ],
+                    "useTruststoreSpi": [
+                        "ldapsOnly"
+                    ],
+                    "userObjectClasses": [
+                        "inetOrgPerson, organizationalPerson"
+                    ],
+                    "usernameLDAPAttribute": [
+                        "uid"
+                    ],
+                    "usersDn": [
+                        "uid"
+                    ],
+                    "uuidLDAPAttribute": [
+                        "nsuniqueid"
+                    ],
+                    "validatePasswordPolicy": [
+                        "false"
+                    ],
+                    "vendor": [
+                        "rhds"
+                    ]
+                },
+                "name": uf_name,
+                # "parentId": "deleteme-6",
+                "providerId": "ldap",
+                "providerType": "org.keycloak.storage.UserStorageProvider"
+            }
+        )
+        # TODO add additional mapper to user-federation
 
 
 if __name__ == "__main__":
