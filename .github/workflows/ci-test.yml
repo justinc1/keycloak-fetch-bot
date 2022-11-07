@@ -47,3 +47,17 @@ jobs:
           KEYCLOAK_USER: admin
           KEYCLOAK_PASSWORD: admin
         # options: -b 0.0.0.0
+
+  # check the package is at least importable
+  check-import:
+    runs-on: ubuntu-22.04
+    container: python:3.10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      # install dependencies mentioned in pyproject.toml
+      - run: pip install .
+      # from source directory
+      - run: python -c 'import kcfetcher; from kcfetcher.store import Store; '
+      # from arbitrary directory
+      - run: cd /tmp; python -c 'import kcfetcher; from kcfetcher.store import Store; '
