@@ -358,9 +358,8 @@ def main():
     if not components_api.findFirst({'key': 'name', 'value': uf0_name}):
         components_api.create(uf0_payload)
         # TODO add additional mapper to user-federation
-    # if not components_api.findFirst({'key': 'name', 'value': uf0_name}):
-    #     components_api.create(uf0_payload)
-    #     # TODO add additional mapper to user-federation
+    if not components_api.findFirst({'key': 'name', 'value': uf1_name}):
+        components_api.create(uf1_payload)
 
 
 if __name__ == "__main__":
