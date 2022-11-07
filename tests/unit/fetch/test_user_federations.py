@@ -30,9 +30,11 @@ class TestUserFederationFetch:
         obj.fetch(store_api)
 
         # check generated content
-        assert os.listdir(datadir) == unordered(["ci0-uf0-ldap"])
+        assert os.listdir(datadir) == unordered(["ci0-uf0-ldap", "ci0-uf1-ldap"])
         assert os.listdir(os.path.join(datadir, "ci0-uf0-ldap")) == unordered(["ci0-uf0-ldap.json", "mappers"])
         assert os.listdir(os.path.join(datadir, "ci0-uf0-ldap/mappers")) == unordered(["mappers.json"])
+        assert os.listdir(os.path.join(datadir, "ci0-uf1-ldap")) == unordered(["ci0-uf1-ldap.json", "mappers"])
+        assert os.listdir(os.path.join(datadir, "ci0-uf1-ldap/mappers")) == unordered(["mappers.json"])
         #
         data = json.load(open(os.path.join(datadir, "ci0-uf0-ldap/ci0-uf0-ldap.json")))
         assert list(data.keys()) == [
