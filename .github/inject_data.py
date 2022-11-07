@@ -7,6 +7,8 @@ If it is not, remove incomplete objects before running this script.
 
 import logging
 import os
+from copy import copy
+
 from kcapi import OpenID, Keycloak
 
 logging.basicConfig(
@@ -171,103 +173,194 @@ def main():
     # Single Sign-On Service URL - https://172.17.0.3:443/ - should be some other container
 
     # TODO add user-federation
-    uf_name = "ci0-uf-ldap"
+    uf0_name = "ci0-uf0-ldap"
+    uf1_name = "ci0-uf1-ldap"
     # connection url - ldaps://172.17.0.4:636
     # users dn - ou=users,dc=example,dc=com
+    uf0_payload = {
+        "config": {
+            "allowKerberosAuthentication": [
+                "false"
+            ],
+            "authType": [
+                "simple"
+            ],
+            "batchSizeForSync": [
+                "1000"
+            ],
+            "bindCredential": [
+                "ldap-bind-pass"
+            ],
+            "bindDn": [
+                "admin"
+            ],
+            "cachePolicy": [
+                "DEFAULT"
+            ],
+            "changedSyncPeriod": [
+                "-1"
+            ],
+            "connectionPooling": [
+                "true"
+            ],
+            "connectionUrl": [
+                "ldaps://172.17.0.4:636"
+            ],
+            "debug": [
+                "false"
+            ],
+            "enabled": [
+                "true"
+            ],
+            "fullSyncPeriod": [
+                "-1"
+            ],
+            "importEnabled": [
+                "true"
+            ],
+            "pagination": [
+                "true"
+            ],
+            "priority": [
+                "0"
+            ],
+            "rdnLDAPAttribute": [
+                "uid"
+            ],
+            "searchScope": [
+                "1"
+            ],
+            "syncRegistrations": [
+                "false"
+            ],
+            "trustEmail": [
+                "false"
+            ],
+            "useKerberosForPasswordAuthentication": [
+                "false"
+            ],
+            "useTruststoreSpi": [
+                "ldapsOnly"
+            ],
+            "userObjectClasses": [
+                "inetOrgPerson, organizationalPerson"
+            ],
+            "usernameLDAPAttribute": [
+                "uid"
+            ],
+            "usersDn": [
+                "uid"
+            ],
+            "uuidLDAPAttribute": [
+                "nsuniqueid"
+            ],
+            "validatePasswordPolicy": [
+                "false"
+            ],
+            "vendor": [
+                "rhds"
+            ]
+        },
+        "name": uf0_name,
+        # "parentId": "deleteme-6",
+        "providerId": "ldap",
+        "providerType": "org.keycloak.storage.UserStorageProvider"
+    }
+    uf1_payload = {
+        "config": {
+            "allowKerberosAuthentication": [
+                "false"
+            ],
+            "authType": [
+                "simple"
+            ],
+            "batchSizeForSync": [
+                "1001"
+            ],
+            "bindCredential": [
+                "ldap-bind-pass"
+            ],
+            "bindDn": [
+                "admin1"
+            ],
+            "cachePolicy": [
+                "DEFAULT"
+            ],
+            "changedSyncPeriod": [
+                "-1"
+            ],
+            "connectionPooling": [
+                "true"
+            ],
+            "connectionUrl": [
+                "ldaps://172.17.0.5:636"
+            ],
+            "debug": [
+                "false"
+            ],
+            "enabled": [
+                "true"
+            ],
+            "fullSyncPeriod": [
+                "-1"
+            ],
+            "importEnabled": [
+                "true"
+            ],
+            "pagination": [
+                "true"
+            ],
+            "priority": [
+                "0"
+            ],
+            "rdnLDAPAttribute": [
+                "uid"
+            ],
+            "searchScope": [
+                "1"
+            ],
+            "syncRegistrations": [
+                "false"
+            ],
+            "trustEmail": [
+                "false"
+            ],
+            "useKerberosForPasswordAuthentication": [
+                "false"
+            ],
+            "useTruststoreSpi": [
+                "ldapsOnly"
+            ],
+            "userObjectClasses": [
+                "inetOrgPerson, organizationalPerson"
+            ],
+            "usernameLDAPAttribute": [
+                "uid"
+            ],
+            "usersDn": [
+                "uid"
+            ],
+            "uuidLDAPAttribute": [
+                "nsuniqueid"
+            ],
+            "validatePasswordPolicy": [
+                "false"
+            ],
+            "vendor": [
+                "rhds"
+            ]
+        },
+        "name": uf1_name,
+        "providerId": "ldap",
+        "providerType": "org.keycloak.storage.UserStorageProvider"
+    }
     components_api = kc.build(f"components", realm_name)
-    if not components_api.findFirst({'key': 'name', 'value': uf_name}):
-        components_api.create(
-            {
-                "config": {
-                    "allowKerberosAuthentication": [
-                        "false"
-                    ],
-                    "authType": [
-                        "simple"
-                    ],
-                    "batchSizeForSync": [
-                        "1000"
-                    ],
-                    "bindCredential": [
-                        "ldap-bind-pass"
-                    ],
-                    "bindDn": [
-                        "admin"
-                    ],
-                    "cachePolicy": [
-                        "DEFAULT"
-                    ],
-                    "changedSyncPeriod": [
-                        "-1"
-                    ],
-                    "connectionPooling": [
-                        "true"
-                    ],
-                    "connectionUrl": [
-                        "ldaps://172.17.0.4:636"
-                    ],
-                    "debug": [
-                        "false"
-                    ],
-                    "enabled": [
-                        "true"
-                    ],
-                    "fullSyncPeriod": [
-                        "-1"
-                    ],
-                    "importEnabled": [
-                        "true"
-                    ],
-                    "pagination": [
-                        "true"
-                    ],
-                    "priority": [
-                        "0"
-                    ],
-                    "rdnLDAPAttribute": [
-                        "uid"
-                    ],
-                    "searchScope": [
-                        "1"
-                    ],
-                    "syncRegistrations": [
-                        "false"
-                    ],
-                    "trustEmail": [
-                        "false"
-                    ],
-                    "useKerberosForPasswordAuthentication": [
-                        "false"
-                    ],
-                    "useTruststoreSpi": [
-                        "ldapsOnly"
-                    ],
-                    "userObjectClasses": [
-                        "inetOrgPerson, organizationalPerson"
-                    ],
-                    "usernameLDAPAttribute": [
-                        "uid"
-                    ],
-                    "usersDn": [
-                        "uid"
-                    ],
-                    "uuidLDAPAttribute": [
-                        "nsuniqueid"
-                    ],
-                    "validatePasswordPolicy": [
-                        "false"
-                    ],
-                    "vendor": [
-                        "rhds"
-                    ]
-                },
-                "name": uf_name,
-                # "parentId": "deleteme-6",
-                "providerId": "ldap",
-                "providerType": "org.keycloak.storage.UserStorageProvider"
-            }
-        )
+    if not components_api.findFirst({'key': 'name', 'value': uf0_name}):
+        components_api.create(uf0_payload)
         # TODO add additional mapper to user-federation
+    # if not components_api.findFirst({'key': 'name', 'value': uf0_name}):
+    #     components_api.create(uf0_payload)
+    #     # TODO add additional mapper to user-federation
 
 
 if __name__ == "__main__":

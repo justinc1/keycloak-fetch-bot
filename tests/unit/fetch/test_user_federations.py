@@ -1,3 +1,5 @@
+from operator import itemgetter
+
 from pytest import mark
 from pytest_unordered import unordered
 import json
@@ -28,11 +30,11 @@ class TestUserFederationFetch:
         obj.fetch(store_api)
 
         # check generated content
-        assert os.listdir(datadir) == unordered(["ci0-uf-ldap"])
-        assert os.listdir(os.path.join(datadir, "ci0-uf-ldap")) == unordered(["ci0-uf-ldap.json", "mappers"])
-        assert os.listdir(os.path.join(datadir, "ci0-uf-ldap/mappers")) == unordered(["mappers.json"])
+        assert os.listdir(datadir) == unordered(["ci0-uf0-ldap"])
+        assert os.listdir(os.path.join(datadir, "ci0-uf0-ldap")) == unordered(["ci0-uf0-ldap.json", "mappers"])
+        assert os.listdir(os.path.join(datadir, "ci0-uf0-ldap/mappers")) == unordered(["mappers.json"])
         #
-        data = json.load(open(os.path.join(datadir, "ci0-uf-ldap/ci0-uf-ldap.json")))
+        data = json.load(open(os.path.join(datadir, "ci0-uf0-ldap/ci0-uf0-ldap.json")))
         assert list(data.keys()) == [
             'config',
             'name',
@@ -69,11 +71,11 @@ class TestUserFederationFetch:
             'validatePasswordPolicy',
             'vendor',
         ]
-        assert data["name"] == "ci0-uf-ldap"
+        assert data["name"] == "ci0-uf0-ldap"
         assert data["config"]["connectionUrl"] == ["ldaps://172.17.0.4:636"]
 
         # check attribute mappers
-        data = json.load(open(os.path.join(datadir, "ci0-uf-ldap/mappers/mappers.json")))
+        data = json.load(open(os.path.join(datadir, "ci0-uf0-ldap/mappers/mappers.json")))
         assert len(data) == 6
         assert list(data[0].keys()) == [
             'config',
@@ -84,5 +86,7 @@ class TestUserFederationFetch:
         assert data[0]["providerId"] == "user-attribute-ldap-mapper"
         assert data[0]["providerType"] == "org.keycloak.storage.ldap.mappers.LDAPStorageMapper"
         assert len(data[0]["config"]) == 5
-        assert data[0]["config"]["ldap.attribute"] == ["mail"]
-        assert data[0]["config"]["user.model.attribute"] == ["email"]
+        # sort by name, to have predictable order
+        data_sorted = sorted(data, key=itemgetter("name"))
+        assert data_sorted[1]["config"]["ldap.attribute"] == ["mail"]
+        assert data_sorted[1]["config"]["user.model.attribute"] == ["email"]
