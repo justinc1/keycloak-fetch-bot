@@ -163,6 +163,112 @@ def main():
         # TODO - create a new mapper
         # client_scope_protocol_mapper_single = kc.build(f"client-scopes/{client_scope_id}/protocol-mappers/models", realm_name)
 
+    # TODO add identity-provider
+    idp_alias = "ci0-ipd-saml"
+    idp_display_name = "CI0 User Fedaration - LDAP"
+    # Redirect URI - https://172.17.0.2:8443/auth/realms/ci0-realm/broker/saml/endpoint
+    # Service Provider Entity ID - https://172.17.0.2:8443/auth/realms/ci0-realm
+    # Single Sign-On Service URL - https://172.17.0.3:443/ - should be some other container
+
+    # TODO add user-federation
+    uf_name = "ci0-uf-ldap"
+    # connection url - ldaps://172.17.0.4:636
+    # users dn - ou=users,dc=example,dc=com
+    components_api = kc.build(f"components", realm_name)
+    if not components_api.findFirst({'key': 'name', 'value': uf_name}):
+        components_api.create(
+            {
+                "config": {
+                    "allowKerberosAuthentication": [
+                        "false"
+                    ],
+                    "authType": [
+                        "simple"
+                    ],
+                    "batchSizeForSync": [
+                        "1000"
+                    ],
+                    "bindCredential": [
+                        "ldap-bind-pass"
+                    ],
+                    "bindDn": [
+                        "admin"
+                    ],
+                    "cachePolicy": [
+                        "DEFAULT"
+                    ],
+                    "changedSyncPeriod": [
+                        "-1"
+                    ],
+                    "connectionPooling": [
+                        "true"
+                    ],
+                    "connectionUrl": [
+                        "ldaps://172.17.0.4:636"
+                    ],
+                    "debug": [
+                        "false"
+                    ],
+                    "enabled": [
+                        "true"
+                    ],
+                    "fullSyncPeriod": [
+                        "-1"
+                    ],
+                    "importEnabled": [
+                        "true"
+                    ],
+                    "pagination": [
+                        "true"
+                    ],
+                    "priority": [
+                        "0"
+                    ],
+                    "rdnLDAPAttribute": [
+                        "uid"
+                    ],
+                    "searchScope": [
+                        "1"
+                    ],
+                    "syncRegistrations": [
+                        "false"
+                    ],
+                    "trustEmail": [
+                        "false"
+                    ],
+                    "useKerberosForPasswordAuthentication": [
+                        "false"
+                    ],
+                    "useTruststoreSpi": [
+                        "ldapsOnly"
+                    ],
+                    "userObjectClasses": [
+                        "inetOrgPerson, organizationalPerson"
+                    ],
+                    "usernameLDAPAttribute": [
+                        "uid"
+                    ],
+                    "usersDn": [
+                        "uid"
+                    ],
+                    "uuidLDAPAttribute": [
+                        "nsuniqueid"
+                    ],
+                    "validatePasswordPolicy": [
+                        "false"
+                    ],
+                    "vendor": [
+                        "rhds"
+                    ]
+                },
+                "name": uf_name,
+                # "parentId": "deleteme-6",
+                "providerId": "ldap",
+                "providerType": "org.keycloak.storage.UserStorageProvider"
+            }
+        )
+        # TODO add additional mapper to user-federation
+
 
 if __name__ == "__main__":
     main()
