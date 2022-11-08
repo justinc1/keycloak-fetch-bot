@@ -2,21 +2,22 @@ from pytest import mark
 import json
 import os
 import shutil
-from kcfetcher.fetch import FetchFactory, CustomAuthenticationFetch, ClientFetch, GenericFetch
+from kcfetcher.fetch import FetchFactory, CustomAuthenticationFetch, ClientFetch, ComponentFetch, GenericFetch
 
 
 class TestFactory:
     @mark.parametrize(
-        "resource_name, expected_fetch_class",
+        "resource_name, resource_id, expected_fetch_class",
         [
-            ("components", GenericFetch),
-            ("authentication", CustomAuthenticationFetch),
-            ("clients", ClientFetch),
-            ("random-mock-resource-name", GenericFetch),
+            ("roles", "name", GenericFetch),
+            ("components", "name", ComponentFetch),
+            ("authentication", "alias", CustomAuthenticationFetch),
+            ("clients", "clientId", ClientFetch),
+            ("random-mock-resource-name", "name", GenericFetch),
         ]
     )
-    def test_create(self, resource_name, expected_fetch_class):
-        resource = [resource_name, "mock-resource-id"]
+    def test_create(self, resource_name, resource_id, expected_fetch_class):
+        resource = [resource_name, resource_id]
         factory = FetchFactory()
         client = factory.create(resource, "mock-kc", "mock-realm")
         assert isinstance(client, expected_fetch_class)
