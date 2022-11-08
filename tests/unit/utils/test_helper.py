@@ -75,6 +75,28 @@ class Test_remove_ids:
         obj = remove_ids(kc_object)
         assert expected_obj == obj
 
+    @mark.parametrize(
+        "kc_object, expected_obj",
+        [
+            ({}, {}),
+            (
+                {"k1": "v1", "id": "id-v"},
+                {"k1": "v1"},
+            ),
+        ]
+    )
+    def test_returned_object_is_new(self, kc_object, expected_obj):
+        """
+        We often referr same object multipletimes.
+        Removing say "name" attribute needs to return a copy of object.
+        """
+        obj = remove_ids(kc_object)
+        assert expected_obj == obj
+        assert id(expected_obj) != id(obj)
+        # modify input, output must not change
+        obj.update({"new-key": "new-value"})
+        assert "new-key" not in expected_obj
+
 
 class Test_normalize:
     @mark.parametrize(

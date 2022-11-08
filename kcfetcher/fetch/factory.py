@@ -1,5 +1,5 @@
 from kcfetcher.fetch import CustomAuthenticationFetch, ClientFetch, GenericFetch, UserFetch, ClientScopeFetch,\
-    UserFederationFetch
+    UserFederationFetch, ComponentFetch
 
 
 class FetchFactory:
@@ -10,6 +10,7 @@ class FetchFactory:
             'client-scopes': ClientScopeFetch,
             'users': UserFetch,
             'user-federations': UserFederationFetch,
+            'components': ComponentFetch,
         }
 
     def create(self, resource, kc, realm):

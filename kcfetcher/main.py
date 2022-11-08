@@ -1,10 +1,18 @@
 #!/usr/bin/env python
 
+import logging
 import os
 
 from kcfetcher.fetch import FetchFactory
 from kcfetcher.store import Store
 from kcfetcher.utils import remove_folder, make_folder, login
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s.%(msecs)d %(levelname)-8s %(name)s [%(filename)s:%(lineno)d]: %(message)s",
+    datefmt='%Y-%m-%d %H:%M:%S',
+)
+logger = logging.getLogger(__name__)
 
 
 def run(output_dir):
