@@ -1,3 +1,4 @@
+from copy import copy
 from kcfetcher.fetch import GenericFetch
 from kcfetcher.utils import normalize
 
@@ -25,7 +26,7 @@ class UserFederationFetch(GenericFetch):
             # For each user federation, store also mappers
             user_federation_id = kc_object["id"]
             mappers = [
-                obj for obj in all_components if (
+                copy(obj) for obj in all_components if (
                         obj["providerType"] == "org.keycloak.storage.ldap.mappers.LDAPStorageMapper" and
                         obj["parentId"] == user_federation_id
                 )]
