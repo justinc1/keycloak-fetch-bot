@@ -60,7 +60,20 @@ def main():
             "enabled": "true",
             "id": realm_name,
             "realm": realm_name,
+            "displayName": realm_name + "-display-temp",
+            "displayNameHtml": f"<div class=\"kc-logo-text\"><span>{realm_name}</span></div>",
         })
+        # How to reproduce https://github.com/justinc1/keycloak-fetch-bot/issues/19
+        # Test 1:
+        # realm created with:
+        #   displayName=ci0-realm-display - code worked
+        # realm updated to:
+        #   displayName=ci0-realm-displayy - bug exposed
+        # realm updated to:
+        #   displayName=ci0-realm-display - code again works
+        # Looks like on every second update we get bug exposed.
+        # So we do an update.
+        state = master_realm.update(realm_name, {"displayName": realm_name + "-display"}).isOk()
 
     roles = kc.build('roles', realm_name)
     for role_name in role_names_plain:
