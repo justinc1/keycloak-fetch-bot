@@ -137,6 +137,11 @@ def main():
 
         }).isOk()
 
+    # TODO add simple role to client
+    # TODO add composite role to client
+    # TODO add builtin mapper to client
+    # TODO add custom mapper to client
+
     roles = kc.build('roles', realm_name)
     for role_name in role_names_plain:
         if not roles.findFirst({'key': 'name', 'value': role_name}):
