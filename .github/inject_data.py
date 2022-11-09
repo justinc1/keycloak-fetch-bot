@@ -37,6 +37,8 @@ def main():
 
     # what to add
     realm_name = "ci0-realm"
+    client0_client_id = "ci0-client-0"
+    client1_client_id = "ci0-client-1"
     role_names_plain = [
         "ci0-role-0",
         "ci0-role-1a",
@@ -74,6 +76,66 @@ def main():
         # Looks like on every second update we get bug exposed.
         # So we do an update.
         state = master_realm.update(realm_name, {"displayName": realm_name + "-display"}).isOk()
+
+    auth_flow_api = kc.build('authentication/flows', realm_name)
+    auth_flow_browser = auth_flow_api.findFirst({"key": "alias", "value": "browser"})
+    client_api = kc.build('clients', realm_name)
+    if not client_api.findFirst({'key': 'clientId', 'value': client0_client_id}):
+        client_api.create({
+            "clientId": client0_client_id,
+            "name": client0_client_id + "-name",
+            "description": client0_client_id + "-desc",
+            "redirectUris": [
+                f"https://{client0_client_id}.example.com/redirect-url"
+            ],
+            # I manually changed a few attributes, and all this was changed in dumped file.
+            # Changed attributes:
+            #   Backchannel Logout Revoke Offline Sessions
+            #   Access Token Signature Algorithm
+            #   Exclude Session State From Authentication Response
+            #   Access Token Lifespan
+            #   Browser Flow
+            "attributes": {
+                "access.token.lifespan": "600",
+                "access.token.signed.response.alg": "ES256",
+                "backchannel.logout.revoke.offline.tokens": "false",
+                "backchannel.logout.session.required": "false",
+                "client_credentials.use_refresh_token": "false",
+                "display.on.consent.screen": "false",
+                "exclude.session.state.from.auth.response": "true",
+                "id.token.as.detached.signature": "false",
+                "oauth2.device.authorization.grant.enabled": "false",
+                "oidc.ciba.grant.enabled": "false",
+                "require.pushed.authorization.requests": "false",
+                "saml.artifact.binding": "false",
+                "saml.assertion.signature": "false",
+                "saml.authnstatement": "false",
+                "saml.client.signature": "false",
+                "saml.encrypt": "false",
+                "saml.force.post.binding": "false",
+                "saml.multivalued.roles": "false",
+                "saml.onetimeuse.condition": "false",
+                "saml.server.signature": "false",
+                "saml.server.signature.keyinfo.ext": "false",
+                "saml_force_name_id_format": "false",
+                "tls.client.certificate.bound.access.tokens": "false",
+                "use.refresh.tokens": "true"
+            },
+            "authenticationFlowBindingOverrides": {
+                "browser": auth_flow_browser["id"]
+            },
+        }).isOk()
+    # create also one client with default settings
+    if not client_api.findFirst({'key': 'clientId', 'value': client1_client_id}):
+        client_api.create({
+            "clientId": client1_client_id,
+            "name": client1_client_id + "-name",
+            "description": client1_client_id + "-desc",
+            "redirectUris": [
+                f"https://{client1_client_id}.example.com/redirect-url"
+            ],
+
+        }).isOk()
 
     roles = kc.build('roles', realm_name)
     for role_name in role_names_plain:
