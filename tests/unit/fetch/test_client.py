@@ -7,7 +7,7 @@ from kcfetcher.store import Store
 from kcfetcher.utils import remove_folder, make_folder, login
 
 
-@mark.vcr()
+# @mark.vcr()
 class TestClientFetch_vcr:
     def test_fetch(self):
         datadir = "output/ci/outd"
@@ -18,7 +18,7 @@ class TestClientFetch_vcr:
         user = os.environ["SSO_API_USERNAME"]
         password = os.environ["SSO_API_PASSWORD"]
         kc = login(server, user, password)
-        realm_name = "master"
+        realm_name = "ci0-realm"
         resource_name = "clients"
         resource_identifier = "clientId"
 
@@ -27,11 +27,13 @@ class TestClientFetch_vcr:
         obj.fetch(store_api)
 
         # check generated content
-        assert os.listdir(datadir) == ["client-0"]
-        assert os.listdir(os.path.join(datadir, "client-0")) == unordered(['master-realm.json', 'roles'])
+        assert os.listdir(datadir) == unordered(["client-0", "client-1"])
+        assert os.listdir(os.path.join(datadir, "client-0")) == unordered(['ci0-client-0.json', 'roles'])
         assert os.listdir(os.path.join(datadir, "client-0/roles")) == ['roles.json']
+        assert os.listdir(os.path.join(datadir, "client-1")) == unordered(['ci0-client-1.json', 'roles'])
+        assert os.listdir(os.path.join(datadir, "client-1/roles")) == ['roles.json']
         #
-        data = json.load(open(os.path.join(datadir, "client-0/master-realm.json")))
+        data = json.load(open(os.path.join(datadir, "client-0/ci0-client-0.json")))
         assert list(data.keys()) == [
             'access',
             'alwaysDisplayInConsole',
@@ -42,6 +44,7 @@ class TestClientFetch_vcr:
             'clientId',
             'consentRequired',
             'defaultClientScopes',
+            'description',
             'directAccessGrantsEnabled',
             'enabled',
             'frontchannelLogout',
@@ -51,6 +54,7 @@ class TestClientFetch_vcr:
             'nodeReRegistrationTimeout',
             'notBefore',
             'optionalClientScopes',
+            'protocol',
             'publicClient',
             'redirectUris',
             'serviceAccountsEnabled',
@@ -58,13 +62,13 @@ class TestClientFetch_vcr:
             'surrogateAuthRequired',
             'webOrigins',
         ]
-        assert data["clientId"] == "master-realm"
-        assert data["name"] == "master Realm"
+        assert data["clientId"] == "ci0-client-0"
+        assert data["name"] == "ci0-client-0-name"
         assert os.listdir(os.path.join(datadir, "client-0/roles")) == ['roles.json']
         #
         data = json.load(open(os.path.join(datadir, "client-0/roles/roles.json")))
         assert isinstance(data, list)
-        assert len(data) == 18
+        assert len(data) == 18  # fails, need to add roles to inject_data.py
         role = data[0]
         assert list(role.keys()) == [
             'clientRole',
