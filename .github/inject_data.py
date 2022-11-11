@@ -39,6 +39,7 @@ def main():
     realm_name = "ci0-realm"
     client0_client_id = "ci0-client-0"
     client1_client_id = "ci0-client-1"
+    idp_alias = "ci0-idp-saml-0"
     role_names_plain = [
         "ci0-role-0",
         "ci0-role-1a",
@@ -136,6 +137,44 @@ def main():
             ],
 
         }).isOk()
+
+    # add SAML identity provider, with 2 mappers
+    idp_api = kc.build("identity-provider/instances", realm_name)
+    idp_mapper_api = kc.build(f"identity-provider/instances/{idp_alias}/mappers", realm_name)
+    if not idp_api.findFirst({'key': 'alias', 'value': idp_alias}):
+        idp_api.create({
+            "alias": idp_alias,
+            "displayName": idp_alias + "-displayName",
+            "providerId": "saml",
+            "config": {
+                "allowCreate": "true",
+                "authnContextClassRefs": "[\"aa\",\"bb\"]",
+                "authnContextComparisonType": "exact",
+                "authnContextDeclRefs": "[\"cc\",\"dd\"]",
+                "entityId": "https://172.17.0.2:8443/auth/realms/ci0-realm",
+                "nameIDPolicyFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+                "principalType": "SUBJECT",
+                "signatureAlgorithm": "RSA_SHA256",
+                "singleLogoutServiceUrl": "https://172.17.0.6:8443/logout",
+                "singleSignOnServiceUrl": "https://172.17.0.6:8443/signon",
+                "syncMode": "IMPORT",
+                "useJwksUrl": "true",
+                "wantAssertionsEncrypted": "true",
+                "xmlSigKeyInfoKeyNameTransformer": "KEY_ID"
+            },
+        }).isOk()
+        idp_mapper_api.create({
+            "config": {
+                "are.attribute.values.regex": "false",
+                "attributes": "[{\"key\":\"key0\",\"value\":\"value0\"}]",
+                "role": "ci0-role-0",
+                "syncMode": "INHERIT"
+            },
+            "identityProviderAlias": idp_alias,
+            "identityProviderMapper": "saml-advanced-role-idp-mapper",
+            "name": "idp-mapper-0b"
+        })
+    # TODO add IdP with providerId=openid, maybe also some pre-defined social one
 
     # TODO add simple role to client
     # TODO add composite role to client
