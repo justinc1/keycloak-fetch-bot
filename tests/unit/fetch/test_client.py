@@ -7,7 +7,7 @@ from kcfetcher.store import Store
 from kcfetcher.utils import remove_folder, make_folder, login
 
 
-# @mark.vcr()
+@mark.vcr()
 class TestClientFetch_vcr:
     def test_fetch(self):
         datadir = "output/ci/outd"
