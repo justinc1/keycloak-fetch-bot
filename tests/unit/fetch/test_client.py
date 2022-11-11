@@ -65,12 +65,14 @@ class TestClientFetch_vcr:
         assert data["clientId"] == "ci0-client-0"
         assert data["name"] == "ci0-client-0-name"
         assert os.listdir(os.path.join(datadir, "client-0/roles")) == ['roles.json']
-        #
+
+        # Check client role
         data = json.load(open(os.path.join(datadir, "client-0/roles/roles.json")))
         assert isinstance(data, list)
         assert len(data) == 1
         role = data[0]
         assert list(role.keys()) == [
+            'attributes',
             'clientRole',
             'composite',
             'containerId',
@@ -79,3 +81,6 @@ class TestClientFetch_vcr:
         ]
         assert role["name"] == "ci0-client0-role0"
         assert role["description"] == "ci0-client0-role0-desc"
+        assert role["clientRole"] is True
+        assert role["composite"] is False
+        assert role["attributes"] == {"ci0-client0-role0-key0": ["ci0-client0-role0-value0"]}
