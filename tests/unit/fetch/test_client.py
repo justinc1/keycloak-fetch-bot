@@ -68,7 +68,7 @@ class TestClientFetch_vcr:
         #
         data = json.load(open(os.path.join(datadir, "client-0/roles/roles.json")))
         assert isinstance(data, list)
-        assert len(data) == 18  # fails, need to add roles to inject_data.py
+        assert len(data) == 1
         role = data[0]
         assert list(role.keys()) == [
             'clientRole',
@@ -77,5 +77,5 @@ class TestClientFetch_vcr:
             'description',
             'name',
         ]
-        assert role["name"] == "view-authorization"
-        assert role["description"] == "${role_view-authorization}"
+        assert role["name"] == "ci0-client0-role0"
+        assert role["description"] == "ci0-client0-role0-desc"
