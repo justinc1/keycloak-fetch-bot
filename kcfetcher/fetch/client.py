@@ -21,9 +21,9 @@ class ClientFetch(GenericFetch):
             store_api.store_one(kc_object, identifier)
 
             client_roles_query = {'key': 'clientId', 'value': kc_object['clientId']}
-            executors = clients_api.roles(client_roles_query).all()
+            roles = clients_api.roles(client_roles_query).all()
             store_api.add_child('roles')  # auth/authentication_name/executions
-            store_api.store_one_with_alias('roles', executors)
+            store_api.store_one_with_alias('roles', roles)
 
             store_api.remove_last_child()  # clients/<clients>/*executions*
             store_api.remove_last_child()  # clients/*clients*
