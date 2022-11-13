@@ -39,7 +39,18 @@ def main():
     realm_name = "ci0-realm"
     client0_client_id = "ci0-client-0"
     client1_client_id = "ci0-client-1"
+    # one simple (non-composite) role
     client0_role0_name = "ci0-client0-role0"
+    # one composite role, it will contain two other simple roles
+    client0_role1_name = "ci0-client0-role1"
+    client0_role1a_name = "ci0-client0-role1a"
+    client0_role1b_name = "ci0-client0-role1b"
+    client0_role_names = [
+        client0_role0_name,
+        client0_role1_name,
+        client0_role1a_name,
+        client0_role1b_name,
+    ]
     idp_alias = "ci0-idp-saml-0"
     role_names_plain = [
         "ci0-role-0",
@@ -177,15 +188,16 @@ def main():
         })
     # TODO add IdP with providerId=openid, maybe also some pre-defined social one
 
-    # add simple role to client
+    # add client roles
     client0 = client_api.findFirst({'key': 'clientId', 'value': client0_client_id})
     client0_roles_api = kc.build(f"clients/{client0['id']}/roles", realm_name)
-    if not client0_roles_api.findFirst({'key': 'name', 'value': client0_role0_name}):
-        client0_roles_api.create({
-            "name": client0_role0_name,
-            "description": client0_role0_name + "-desc",
-            "attributes": {client0_role0_name + "-key0": [client0_role0_name + "-value0"]},
-        }).isOk()
+    for client0_role_name in client0_role_names:
+        if not client0_roles_api.findFirst({'key': 'name', 'value': client0_role_name}):
+            client0_roles_api.create({
+                "name": client0_role_name,
+                "description": client0_role_name + "-desc",
+                "attributes": {client0_role_name + "-key0": [client0_role_name + "-value0"]},
+            }).isOk()
     # TODO add composite role to client
     # TODO add builtin mapper to client
     # TODO add custom mapper to client
