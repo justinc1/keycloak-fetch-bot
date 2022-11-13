@@ -4,7 +4,7 @@ import json
 import os
 from kcfetcher.fetch import ClientFetch
 from kcfetcher.store import Store
-from kcfetcher.utils import remove_folder, make_folder, login
+from kcfetcher.utils import remove_folder, make_folder, login, find_in_list
 
 
 @mark.vcr()
@@ -69,8 +69,9 @@ class TestClientFetch_vcr:
         # Check client role
         data = json.load(open(os.path.join(datadir, "client-0/roles/roles.json")))
         assert isinstance(data, list)
-        assert len(data) == 1
-        role = data[0]
+        assert len(data) == 4
+
+        role = find_in_list(data, name="ci0-client0-role0")
         assert list(role.keys()) == [
             'attributes',
             'clientRole',
@@ -84,3 +85,32 @@ class TestClientFetch_vcr:
         assert role["clientRole"] is True
         assert role["composite"] is False
         assert role["attributes"] == {"ci0-client0-role0-key0": ["ci0-client0-role0-value0"]}
+
+        role = find_in_list(data, name="ci0-client0-role1")
+        assert list(role.keys()) == [
+            'attributes',
+            'clientRole',
+            'composite',
+            'composites',
+            'containerId',
+            'description',
+            'name',
+        ]
+        assert role["name"] == "ci0-client0-role1"
+        assert role["description"] == "ci0-client0-role1-desc"
+        assert role["clientRole"] is True
+        assert role["composite"] is True
+        assert role["attributes"] == {"ci0-client0-role1-key0": ["ci0-client0-role1-value0"]}
+        assert len(role["composites"]) == 2
+        #
+        assert list(role["composites"][0].keys()) == [
+            'clientRole',
+            # 'composite',
+            'containerName',
+            # 'description',
+            'name',
+        ]
+        # check only important attributes.
+        assert role["composites"][0]["clientRole"] is True
+        assert role["composites"][0]["containerName"] == "ci0-client-0"
+        assert role["composites"][0]["name"] == "ci0-client0-role1a"

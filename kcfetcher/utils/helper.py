@@ -4,6 +4,16 @@ import shutil
 from kcapi import OpenID, Keycloak
 
 
+def find_in_list(objects, **kwargs):
+    # objects - list of dict
+    # kwargs - key=value, used to find one object
+    key = list(kwargs.keys())[0]
+    value = kwargs[key]
+    for obj in objects:
+        if key in obj and obj[key] == value:
+            return obj
+
+
 def remove_ids(kc_object={}):
     # simple scalar values are safe to return
     if isinstance(kc_object, (str, bool, int, float)):
