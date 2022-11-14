@@ -198,14 +198,6 @@ def main():
                 "description": client0_role_name + "-desc",
                 "attributes": {client0_role_name + "-key0": [client0_role_name + "-value0"]},
             }).isOk()
-    # Make role a composite role
-    # NOTE - POST /{realm}/clients/{id}/roles/{role-name}/composites requires full RoleRepresentation (per docs).
-    # GET /{realm}/clients/{id}/roles returns briefRepresentation, and this seems to work too.
-    client0_role1a = client0_roles_api.findFirst({'key': 'name', 'value': client0_role1a_name})
-    client0_role1b = client0_roles_api.findFirst({'key': 'name', 'value': client0_role1b_name})
-    # Now make client0_role1 a composite
-    client0_role1_composite_api = kc.build(f"clients/{client0['id']}/roles/{client0_role1_name}/composites", realm_name)
-    client0_role1_composite_api.create([client0_role1a, client0_role1b])
 
     # TODO add builtin mapper to client
     # TODO add custom mapper to client
@@ -234,6 +226,16 @@ def main():
     #                 # role_names_composite[role_name]
     #             }
     #         }).isOk()
+
+    # Make a client role a composite role
+    # NOTE - POST /{realm}/clients/{id}/roles/{role-name}/composites requires full RoleRepresentation (per docs).
+    # GET /{realm}/clients/{id}/roles returns briefRepresentation, and this seems to work too.
+    client0_role1a = client0_roles_api.findFirst({'key': 'name', 'value': client0_role1a_name})
+    client0_role1b = client0_roles_api.findFirst({'key': 'name', 'value': client0_role1b_name})
+    # Now make client0_role1 a composite
+    client0_role1_composite_api = kc.build(f"clients/{client0['id']}/roles/{client0_role1_name}/composites", realm_name)
+    client0_role1_composite_api.create([client0_role1a, client0_role1b])
+
 
     group = kc.build('groups', realm_name)
     # {'key': 'username', 'value': 'batman'}
