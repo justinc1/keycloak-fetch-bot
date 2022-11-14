@@ -76,7 +76,9 @@ class TestClientFetch_vcr:
             'attributes',
             'clientRole',
             'composite',
-            'containerId',
+            # containerId UUID - clientId, it MUST be removed.
+            # The parent client clientId will be derived from roles.json filepath.
+            # 'containerId',
             'description',
             'name',
         ]
@@ -92,7 +94,7 @@ class TestClientFetch_vcr:
             'clientRole',
             'composite',
             'composites',
-            'containerId',
+            # 'containerId',
             'description',
             'name',
         ]

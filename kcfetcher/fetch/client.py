@@ -39,6 +39,10 @@ class ClientFetch(GenericFetch):
             client_id = kc_object['id']
             client_roles_api = self.kc.build(f"clients/{client_id}/roles", realm)
             for role in roles:
+                # the containerId needs to be removed, it is client clientID (UUID)
+                assert role["containerId"] == client_id
+                role.pop("containerId")
+
                 if not role["composite"]:
                     continue
                 composites = client_roles_api.get(f"{role['name']}/composites").verify().resp().json()
