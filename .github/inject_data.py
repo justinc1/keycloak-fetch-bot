@@ -52,6 +52,7 @@ def main():
         client0_role1a_name,
         client0_role1b_name,
     ]
+    client1_role0_name = "ci0-client1-role0"
     idp_alias = "ci0-idp-saml-0"
     ci0_role0_name = "ci0-role-0"
     ci0_role1a_name = "ci0-role-1a"
@@ -105,6 +106,7 @@ def main():
             "redirectUris": [
                 f"https://{client0_client_id}.example.com/redirect-url"
             ],
+            "fullScopeAllowed": False,
             # I manually changed a few attributes, and all this was changed in dumped file.
             # Changed attributes:
             #   Backchannel Logout Revoke Offline Sessions
@@ -142,6 +144,8 @@ def main():
                 "browser": auth_flow_browser["id"]
             },
         }).isOk()
+    client0 = client_api.findFirst({'key': 'clientId', 'value': client0_client_id})
+
     # create also one client with default settings
     if not client_api.findFirst({'key': 'clientId', 'value': client1_client_id}):
         client_api.create({
@@ -151,8 +155,8 @@ def main():
             "redirectUris": [
                 f"https://{client1_client_id}.example.com/redirect-url"
             ],
-
         }).isOk()
+    client1 = client_api.findFirst({'key': 'clientId', 'value': client1_client_id})
 
     # add SAML identity provider, with 2 mappers
     idp_api = kc.build("identity-provider/instances", realm_name)
@@ -193,7 +197,6 @@ def main():
     # TODO add IdP with providerId=openid, maybe also some pre-defined social one
 
     # add client roles
-    client0 = client_api.findFirst({'key': 'clientId', 'value': client0_client_id})
     client0_roles_api = kc.build(f"clients/{client0['id']}/roles", realm_name)
     for client0_role_name in client0_role_names:
         if not client0_roles_api.findFirst({'key': 'name', 'value': client0_role_name}):
@@ -202,6 +205,20 @@ def main():
                 "description": client0_role_name + "-desc",
                 "attributes": {client0_role_name + "-key0": [client0_role_name + "-value0"]},
             }).isOk()
+    client0_role0 = client0_roles_api.findFirst({'key': 'name', 'value': client0_role0_name})
+    client0_role1 = client0_roles_api.findFirst({'key': 'name', 'value': client0_role1_name})
+    client0_role1a = client0_roles_api.findFirst({'key': 'name', 'value': client0_role1a_name})
+    client0_role1b = client0_roles_api.findFirst({'key': 'name', 'value': client0_role1b_name})
+
+    # Add a client role to client1
+    client1_roles_api = kc.build(f"clients/{client1['id']}/roles", realm_name)
+    if not client1_roles_api.findFirst({'key': 'name', 'value': client1_role0_name}):
+        client1_roles_api.create({
+            "name": client1_role0_name,
+            "description": client1_role0_name + "-desc",
+            "attributes": {client1_role0_name + "-key0": [client1_role0_name + "-value0"]},
+        }).isOk()
+    client1_role0 = client1_roles_api.findFirst({'key': 'name', 'value': client1_role0_name})
 
     # TODO add builtin mapper to client
     # TODO add custom mapper to client
@@ -238,12 +255,19 @@ def main():
     # Make a client role a composite role
     # NOTE - POST /{realm}/clients/{id}/roles/{role-name}/composites requires full RoleRepresentation (per docs).
     # GET /{realm}/clients/{id}/roles returns briefRepresentation, and this seems to work too.
-    client0_role1a = client0_roles_api.findFirst({'key': 'name', 'value': client0_role1a_name})
-    client0_role1b = client0_roles_api.findFirst({'key': 'name', 'value': client0_role1b_name})
     # Now make client0_role1 a composite
     client0_role1_composite_api = kc.build(f"clients/{client0['id']}/roles/{client0_role1_name}/composites", realm_name)
     client0_role1_composite_api.create([ci0_role1a, client0_role1a, client0_role1b])
 
+    # ci0-client-0 has fullScopeAllowed=False, set additional realm and client roles under Scope Mappings.
+    # https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients/95f35572-457c-4358-8a87-4157cb471840/scope-mappings/realm
+    client0_scope_mappings_realm_api = kc.build(f"clients/{client0['id']}/scope-mappings/realm", realm_name)
+    client0_scope_mappings_realm_api.create([ci0_role0, ci0_role1b])
+
+    # Also assign some client roles to client Scope Mappings.
+    # The client roles must be from a different client.
+    client0_scope_mappings_client_api = kc.build(f"clients/{client0['id']}/scope-mappings/clients/{client1['id']}", realm_name)
+    client0_scope_mappings_client_api.create([client1_role0])
 
     group = kc.build('groups', realm_name)
     # {'key': 'username', 'value': 'batman'}
@@ -252,7 +276,6 @@ def main():
         g_creation_state = group.create({
             "name": group_name,
             "attributes": {group_name + "-key0": [group_name + "-value0"]},
-
         }).isOk()
         # Assign realm role to group
         group_roles_mapping = group.realmRoles({'key': 'name', 'value': group_name})
