@@ -60,12 +60,13 @@ class ClientFetch(GenericFetch):
                 composites_minimal = []
                 for composite in composites:
                     containerId = composite["containerId"]
+                    container_name = containerId
                     if composite["clientRole"]:
-                        containerId = find_in_list(kc_objects, id=containerId)["clientId"]
+                        container_name = find_in_list(kc_objects, id=containerId)["clientId"]
                     composite_minimal = dict(
                         name=composite["name"],
                         clientRole=composite["clientRole"],
-                        containerName=containerId,
+                        containerName=container_name,
                     )
                     composites_minimal.append(composite_minimal)
                 assert "composites" not in role
