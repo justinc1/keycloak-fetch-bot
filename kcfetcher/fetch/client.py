@@ -3,6 +3,28 @@ from kcapi.rest.crud import KeycloakCRUD
 from kcfetcher.fetch import GenericFetch
 from kcfetcher.utils import find_in_list
 
+def minimize_role_representation(full_role, clients):
+    """
+    This is used to get a minimal role representation.
+    It contains just enough data that sub-role of the composite role can be found.
+    Or that role referred by client scope mapping can be found.
+
+    For client roles we replace attribute containerId with containerName, value is set to client.clientId.
+    For realm roles, containerId already contains realm name, so attribute is just renamed.
+
+    Complete role representation is stored in realm /roles or client/roles/.
+    """
+    containerId = full_role["containerId"]
+    container_name = containerId
+    if full_role["clientRole"]:
+        container_name = find_in_list(clients, id=containerId)["clientId"]
+    return dict(
+        name=full_role["name"],
+        clientRole=full_role["clientRole"],
+        containerName=container_name,
+    )
+
+
 class ClientFetch(GenericFetch):
     def fetch(self, store_api):
         assert "clients" == self.resource_name
@@ -56,22 +78,8 @@ class ClientFetch(GenericFetch):
 
                 # Now add composites into role dict
                 # For client role, we need to replace containerId (UUID) with client.clientId (string)
-                # For realm role, containerId is realm name.
-                # Each composite in only a "pointer" to a role, remove irrelevant attributes.
-                composites_minimal = []
-                for composite in composites:
-                    containerId = composite["containerId"]
-                    container_name = containerId
-                    if composite["clientRole"]:
-                        container_name = find_in_list(kc_objects, id=containerId)["clientId"]
-                    composite_minimal = dict(
-                        name=composite["name"],
-                        clientRole=composite["clientRole"],
-                        containerName=container_name,
-                    )
-                    composites_minimal.append(composite_minimal)
                 assert "composites" not in role
-                role["composites"] = composites_minimal
+                role["composites"] = [minimize_role_representation(cc, kc_objects) for cc in composites]
 
             store_api.add_child('roles')  # clients/<client_ind>/roles
             store_api.store_one_with_alias('roles', roles)
