@@ -37,6 +37,10 @@ def main():
 
     # what to add
     realm_name = "ci0-realm"
+    client0_client_id = "ci0-client-0"
+    client1_client_id = "ci0-client-1"
+    client0_role0_name = "ci0-client0-role0"
+    idp_alias = "ci0-idp-saml-0"
     role_names_plain = [
         "ci0-role-0",
         "ci0-role-1a",
@@ -74,6 +78,117 @@ def main():
         # Looks like on every second update we get bug exposed.
         # So we do an update.
         state = master_realm.update(realm_name, {"displayName": realm_name + "-display"}).isOk()
+
+    auth_flow_api = kc.build('authentication/flows', realm_name)
+    auth_flow_browser = auth_flow_api.findFirst({"key": "alias", "value": "browser"})
+    client_api = kc.build('clients', realm_name)
+    if not client_api.findFirst({'key': 'clientId', 'value': client0_client_id}):
+        client_api.create({
+            "clientId": client0_client_id,
+            "name": client0_client_id + "-name",
+            "description": client0_client_id + "-desc",
+            "redirectUris": [
+                f"https://{client0_client_id}.example.com/redirect-url"
+            ],
+            # I manually changed a few attributes, and all this was changed in dumped file.
+            # Changed attributes:
+            #   Backchannel Logout Revoke Offline Sessions
+            #   Access Token Signature Algorithm
+            #   Exclude Session State From Authentication Response
+            #   Access Token Lifespan
+            #   Browser Flow
+            "attributes": {
+                "access.token.lifespan": "600",
+                "access.token.signed.response.alg": "ES256",
+                "backchannel.logout.revoke.offline.tokens": "false",
+                "backchannel.logout.session.required": "false",
+                "client_credentials.use_refresh_token": "false",
+                "display.on.consent.screen": "false",
+                "exclude.session.state.from.auth.response": "true",
+                "id.token.as.detached.signature": "false",
+                "oauth2.device.authorization.grant.enabled": "false",
+                "oidc.ciba.grant.enabled": "false",
+                "require.pushed.authorization.requests": "false",
+                "saml.artifact.binding": "false",
+                "saml.assertion.signature": "false",
+                "saml.authnstatement": "false",
+                "saml.client.signature": "false",
+                "saml.encrypt": "false",
+                "saml.force.post.binding": "false",
+                "saml.multivalued.roles": "false",
+                "saml.onetimeuse.condition": "false",
+                "saml.server.signature": "false",
+                "saml.server.signature.keyinfo.ext": "false",
+                "saml_force_name_id_format": "false",
+                "tls.client.certificate.bound.access.tokens": "false",
+                "use.refresh.tokens": "true"
+            },
+            "authenticationFlowBindingOverrides": {
+                "browser": auth_flow_browser["id"]
+            },
+        }).isOk()
+    # create also one client with default settings
+    if not client_api.findFirst({'key': 'clientId', 'value': client1_client_id}):
+        client_api.create({
+            "clientId": client1_client_id,
+            "name": client1_client_id + "-name",
+            "description": client1_client_id + "-desc",
+            "redirectUris": [
+                f"https://{client1_client_id}.example.com/redirect-url"
+            ],
+
+        }).isOk()
+
+    # add SAML identity provider, with 2 mappers
+    idp_api = kc.build("identity-provider/instances", realm_name)
+    idp_mapper_api = kc.build(f"identity-provider/instances/{idp_alias}/mappers", realm_name)
+    if not idp_api.findFirst({'key': 'alias', 'value': idp_alias}):
+        idp_api.create({
+            "alias": idp_alias,
+            "displayName": idp_alias + "-displayName",
+            "providerId": "saml",
+            "config": {
+                "allowCreate": "true",
+                "authnContextClassRefs": "[\"aa\",\"bb\"]",
+                "authnContextComparisonType": "exact",
+                "authnContextDeclRefs": "[\"cc\",\"dd\"]",
+                "entityId": "https://172.17.0.2:8443/auth/realms/ci0-realm",
+                "nameIDPolicyFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+                "principalType": "SUBJECT",
+                "signatureAlgorithm": "RSA_SHA256",
+                "singleLogoutServiceUrl": "https://172.17.0.6:8443/logout",
+                "singleSignOnServiceUrl": "https://172.17.0.6:8443/signon",
+                "syncMode": "IMPORT",
+                "useJwksUrl": "true",
+                "wantAssertionsEncrypted": "true",
+                "xmlSigKeyInfoKeyNameTransformer": "KEY_ID"
+            },
+        }).isOk()
+        idp_mapper_api.create({
+            "config": {
+                "are.attribute.values.regex": "false",
+                "attributes": "[{\"key\":\"key0\",\"value\":\"value0\"}]",
+                "role": "ci0-role-0",
+                "syncMode": "INHERIT"
+            },
+            "identityProviderAlias": idp_alias,
+            "identityProviderMapper": "saml-advanced-role-idp-mapper",
+            "name": "idp-mapper-0b"
+        })
+    # TODO add IdP with providerId=openid, maybe also some pre-defined social one
+
+    # add simple role to client
+    client0 = client_api.findFirst({'key': 'clientId', 'value': client0_client_id})
+    client0_roles_api = kc.build(f"clients/{client0['id']}/roles", realm_name)
+    if not client0_roles_api.findFirst({'key': 'name', 'value': client0_role0_name}):
+        client0_roles_api.create({
+            "name": client0_role0_name,
+            "description": client0_role0_name + "-desc",
+            "attributes": {client0_role0_name + "-key0": [client0_role0_name + "-value0"]},
+        }).isOk()
+    # TODO add composite role to client
+    # TODO add builtin mapper to client
+    # TODO add custom mapper to client
 
     roles = kc.build('roles', realm_name)
     for role_name in role_names_plain:

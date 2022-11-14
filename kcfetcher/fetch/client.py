@@ -17,14 +17,24 @@ class ClientFetch(GenericFetch):
 
         counter = 0
         for kc_object in kc_objects:
-            store_api.add_child('client-' + str(counter))  # auth/authentication_name
+            store_api.add_child('client-' + str(counter))  # clients/<client_ind>
             store_api.store_one(kc_object, identifier)
 
             client_roles_query = {'key': 'clientId', 'value': kc_object['clientId']}
-            executors = clients_api.roles(client_roles_query).all()
-            store_api.add_child('roles')  # auth/authentication_name/executions
-            store_api.store_one_with_alias('roles', executors)
+            # GET /{realm}/clients/{id}/roles - briefRepresentation=True is default
+            # We get full RoleRepresentation from
+            #   GET /{realm}/clients/{id}/roles/{role-name} or
+            #   GET /{realm}/roles-by-id/{role-id}
+            roles_brief = clients_api.roles(client_roles_query).all()
+            roles_by_id_api = self.kc.build("roles-by-id", realm)
+            roles = [
+                roles_by_id_api.get(role_brief['id']).verify().resp().json()
+                for role_brief in roles_brief
+            ]
 
-            store_api.remove_last_child()  # clients/<clients>/*executions*
-            store_api.remove_last_child()  # clients/*clients*
+            store_api.add_child('roles')  # clients/<client_ind>/roles
+            store_api.store_one_with_alias('roles', roles)
+
+            store_api.remove_last_child()  # clients/<client_ind>/roles
+            store_api.remove_last_child()  # clients/<client_ind>
             counter += 1
