@@ -14,11 +14,21 @@ pip install .
 # SETUPTOOLS_ENABLE_FEATURES="legacy-editable" pip install -e .
 ```
 
+If needed, load test data in test container:
+
+```shell
+source .venv/bin/activate
+export SSO_API_URL='https://172.17.0.2:8443/'
+export SSO_API_USERNAME=admin
+export SSO_API_PASSWORD=admin
+./.github/inject_data.py
+```
+
 Run code
 
 ```bash
 source .venv/bin/activate
-export SSO_API_URL='https://sso-cvaldezr-stage.apps.sandbox.x8i5.p1.openshiftapps.com/'
+export SSO_API_URL='https://172.17.0.2:8443/'
 export SSO_API_USERNAME=admin
 export SSO_API_PASSWORD=admin
 kcfetcher
