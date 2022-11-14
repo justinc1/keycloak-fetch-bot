@@ -92,12 +92,9 @@ class ClientFetch(GenericFetch):
             # TODO FIXME client_id_all should include client['id'] of blacklisted client too (all default clients are blacklisted) !!!!
             for cid in client_id_all:
                 client_scope_mappings_all += client_scope_mappings_api.get(f"clients/{cid}").verify().resp().json()
-            scope_mappings_all_minimal = []
-            # # Similar to client/realm roles, only a minimal representation is saved.
-            # for sc in client_scope_mappings_all:
-            #     # TODO
-            #     scope_mappings_all_minimal.append(sc)
-            store_api.store_one_with_alias('scope-mappings', client_scope_mappings_all)
+            # Similar to client/realm roles, only a minimal representation is saved.
+            client_scope_mappings_all_minimal = [minimize_role_representation(sc, kc_objects) for sc in client_scope_mappings_all]
+            store_api.store_one_with_alias('scope-mappings', client_scope_mappings_all_minimal)
 
             store_api.remove_last_child()  # clients/<client_ind>
             counter += 1

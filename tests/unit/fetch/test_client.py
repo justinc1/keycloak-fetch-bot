@@ -75,23 +75,21 @@ class TestClientFetch_vcr:
 
         assert list(data[0].keys()) == [
             'clientRole',
-            'composite',
-            'containerId',
-            'description',
+            'containerName',
             'name',
         ]
 
         assert data[0]["name"] == "ci0-client1-role0"
         assert data[0]["clientRole"] is True
-        # assert data[0]["containerName"] == ""
+        assert data[0]["containerName"] == "ci0-client-1"
 
         assert data[1]["name"] == "ci0-role-0"
         assert data[1]["clientRole"] is False
-        # assert data[1]["containerName"] == "ci0-realm"
+        assert data[1]["containerName"] == "ci0-realm"
 
         assert data[2]["name"] == "ci0-role-1b"
         assert data[2]["clientRole"] is False
-        # assert data[2]["containerName"] == "ci0-realm"
+        assert data[2]["containerName"] == "ci0-realm"
 
         # =======================================================================================
         # Check client role
