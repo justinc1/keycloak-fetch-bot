@@ -210,18 +210,18 @@ def main():
     # TODO add builtin mapper to client
     # TODO add custom mapper to client
 
-    roles = kc.build('roles', realm_name)
+    roles_api = kc.build('roles', realm_name)
     for role_name in role_names_plain:
-        if not roles.findFirst({'key': 'name', 'value': role_name}):
-            roles.create({
+        if not roles_api.findFirst({'key': 'name', 'value': role_name}):
+            roles_api.create({
                 "name": role_name,
                 "description": role_name + "-desc",
                 "attributes": {role_name + "-key0": [role_name + "-value0"]},
             }).isOk()
     # TODO create composite roles
     # for role_name in role_names_composite:
-    #     if not roles.findFirst({'key': 'name', 'value': role_name}):
-    #         roles.create({
+    #     if not roles_api.findFirst({'key': 'name', 'value': role_name}):
+    #         roles_api.create({
     #             "name": role_name,
     #             "description": role_name + "-desc",
     #             "attributes": {role_name + "-key0": [role_name + "-value0"]},
@@ -275,7 +275,7 @@ def main():
         client_scope_id = client_scopes.findFirst({'key': 'name', 'value': client_scope_name})["id"]
 
         # Assign scope mapping to client scope - set realm role
-        role = roles.findFirst({'key': 'name', 'value': "ci0-role-0"})
+        role = roles_api.findFirst({'key': 'name', 'value': "ci0-role-0"})
         client_scope_scope_mappings_realm = kc.build(f"client-scopes/{client_scope_id}/scope-mappings/realm", realm_name)
         client_scope_scope_mappings_realm.create([role])
 
