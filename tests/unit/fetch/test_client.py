@@ -28,9 +28,9 @@ class TestClientFetch_vcr:
 
         # check generated content
         assert os.listdir(datadir) == unordered(["client-0", "client-1"])
-        assert os.listdir(os.path.join(datadir, "client-0")) == unordered(['ci0-client-0.json', 'roles'])
+        assert os.listdir(os.path.join(datadir, "client-0")) == unordered(['ci0-client-0.json', 'scope-mappings.json', 'roles'])
         assert os.listdir(os.path.join(datadir, "client-0/roles")) == ['roles.json']
-        assert os.listdir(os.path.join(datadir, "client-1")) == unordered(['ci0-client-1.json', 'roles'])
+        assert os.listdir(os.path.join(datadir, "client-1")) == unordered(['ci0-client-1.json', 'scope-mappings.json', 'roles'])
         assert os.listdir(os.path.join(datadir, "client-1/roles")) == ['roles.json']
         #
         data = json.load(open(os.path.join(datadir, "client-0/ci0-client-0.json")))
@@ -66,6 +66,34 @@ class TestClientFetch_vcr:
         assert data["name"] == "ci0-client-0-name"
         assert os.listdir(os.path.join(datadir, "client-0/roles")) == ['roles.json']
 
+        # =======================================================================================
+        # Check client scope mappings
+        data_unsorted = json.load(open(os.path.join(datadir, "client-0/scope-mappings.json")))
+        data = sorted(data_unsorted, key=lambda obj: obj["name"])
+        assert isinstance(data, list)
+        assert len(data) == 3
+
+        assert list(data[0].keys()) == [
+            'clientRole',
+            'composite',
+            'containerId',
+            'description',
+            'name',
+        ]
+
+        assert data[0]["name"] == "ci0-client1-role0"
+        assert data[0]["clientRole"] is True
+        # assert data[0]["containerName"] == ""
+
+        assert data[1]["name"] == "ci0-role-0"
+        assert data[1]["clientRole"] is False
+        # assert data[1]["containerName"] == "ci0-realm"
+
+        assert data[2]["name"] == "ci0-role-1b"
+        assert data[2]["clientRole"] is False
+        # assert data[2]["containerName"] == "ci0-realm"
+
+        # =======================================================================================
         # Check client role
         data = json.load(open(os.path.join(datadir, "client-0/roles/roles.json")))
         assert isinstance(data, list)

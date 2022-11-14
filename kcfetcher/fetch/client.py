@@ -18,6 +18,7 @@ class ClientFetch(GenericFetch):
         kc_objects = self.all(clients_api)
 
         counter = 0
+        client_id_all = [client["id"] for client in kc_objects]
         for kc_object in kc_objects:
             store_api.add_child('client-' + str(counter))  # clients/<client_ind>
             store_api.store_one(kc_object, identifier)
@@ -74,7 +75,21 @@ class ClientFetch(GenericFetch):
 
             store_api.add_child('roles')  # clients/<client_ind>/roles
             store_api.store_one_with_alias('roles', roles)
-
             store_api.remove_last_child()  # clients/<client_ind>/roles
+
+            # Compute scope-mappings
+            client_scope_mappings_api = self.kc.build(f"clients/{client_id}/scope-mappings", realm)
+            client_scope_mappings_all = client_scope_mappings_api.get("realm").verify().resp().json()
+            # now add scope_mappings for each client
+            # TODO FIXME client_id_all should include client['id'] of blacklisted client too (all default clients are blacklisted) !!!!
+            for cid in client_id_all:
+                client_scope_mappings_all += client_scope_mappings_api.get(f"clients/{cid}").verify().resp().json()
+            scope_mappings_all_minimal = []
+            # # Similar to client/realm roles, only a minimal representation is saved.
+            # for sc in client_scope_mappings_all:
+            #     # TODO
+            #     scope_mappings_all_minimal.append(sc)
+            store_api.store_one_with_alias('scope-mappings', client_scope_mappings_all)
+
             store_api.remove_last_child()  # clients/<client_ind>
             counter += 1
