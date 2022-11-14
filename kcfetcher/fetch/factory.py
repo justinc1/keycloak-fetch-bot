@@ -1,5 +1,5 @@
 from kcfetcher.fetch import CustomAuthenticationFetch, ClientFetch, GenericFetch, UserFetch, ClientScopeFetch,\
-    UserFederationFetch, ComponentFetch
+    UserFederationFetch, ComponentFetch, IdentityProviderFetch
 
 
 class FetchFactory:
@@ -10,6 +10,7 @@ class FetchFactory:
             'client-scopes': ClientScopeFetch,
             'users': UserFetch,
             'user-federations': UserFederationFetch,
+            'identity-provider': IdentityProviderFetch,
             'components': ComponentFetch,
         }
 
