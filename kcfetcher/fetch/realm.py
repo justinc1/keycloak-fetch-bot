@@ -1,4 +1,5 @@
 import logging
+from copy import copy
 
 logger = logging.getLogger(__name__)
 
@@ -11,4 +12,9 @@ class RealmFetch():
     def fetch_one(self, store_api, realm):
         # realm - unmodified response from API
         print('publishing: ', realm["id"])
-        store_api.store_one(realm, 'realm')
+
+        # remove attributes that are stored in some other directory
+        realm_min = copy(realm)
+        realm_min.pop("identityProviders")
+
+        store_api.store_one(realm_min, 'realm')
