@@ -29,7 +29,7 @@ def run(output_dir):
         requests.packages.urllib3.disable_warnings()
 
     kc = login(server, user, password)
-    realms = kc.admin()
+    realms_api = kc.admin()
 
     #  ['keycloak_resource', 'unique identifier']
     resources = [
@@ -44,7 +44,7 @@ def run(output_dir):
         ['users', 'username'],
     ]
 
-    for realm in realms.all():
+    for realm in realms_api.all():
         current_realm = realm['realm']
 
         store = Store(path=output_dir)
