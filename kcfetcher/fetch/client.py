@@ -1,28 +1,7 @@
 from kcapi.rest.crud import KeycloakCRUD
 
 from kcfetcher.fetch import GenericFetch
-from kcfetcher.utils import find_in_list
-
-def minimize_role_representation(full_role, clients):
-    """
-    This is used to get a minimal role representation.
-    It contains just enough data that sub-role of the composite role can be found.
-    Or that role referred by client scope mapping can be found.
-
-    For client roles we replace attribute containerId with containerName, value is set to client.clientId.
-    For realm roles, containerId already contains realm name, so attribute is just renamed.
-
-    Complete role representation is stored in realm /roles or client/roles/.
-    """
-    containerId = full_role["containerId"]
-    container_name = containerId
-    if full_role["clientRole"]:
-        container_name = find_in_list(clients, id=containerId)["clientId"]
-    return dict(
-        name=full_role["name"],
-        clientRole=full_role["clientRole"],
-        containerName=container_name,
-    )
+from kcfetcher.utils import find_in_list, minimize_role_representation
 
 
 class ClientFetch(GenericFetch):

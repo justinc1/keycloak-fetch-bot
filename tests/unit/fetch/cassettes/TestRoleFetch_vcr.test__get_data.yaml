@@ -26,7 +26,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 15 Nov 2022 15:28:20 GMT
+      - Tue, 15 Nov 2022 15:57:29 GMT
       Referrer-Policy:
       - no-referrer
       Strict-Transport-Security:
@@ -59,7 +59,7 @@ interactions:
     uri: https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token
   response:
     body:
-      string: '{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxQnpvVVZZM1I2VWVSOTFFUjV5MGpPdzhXSFc2WXBTWDIxY0JVb1M5UkVFIn0.eyJleHAiOjE2Njg1MjYxNjAsImlhdCI6MTY2ODUyNjEwMCwianRpIjoiY2JmMjZlZTMtNWRiNS00NGE3LWI4NTItZTBhOTQxMTE4ZDQwIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDFiMDE0ZWMtMDY3NS00MTZkLTgwZmEtMmNhNzY0Zjc3NmI1IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjVjN2Y4ZDY3LTcwN2QtNDY4NS1hZWMxLTUwY2VkNjRkYjU2OSIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI1YzdmOGQ2Ny03MDdkLTQ2ODUtYWVjMS01MGNlZDY0ZGI1NjkiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.gJCSedAve_5CMaCCXs-tqxMl7xWL34urn3OmQ930pufXHOk65Xa6dqZpfnZCPhcyzk3t2Wn2ble3_w1I3QfHQEDpWNToCdfYczDPVF4uDQZBspBu_2fuEIE8Vxr0B6b29N-WlI3VJxvt6iUZ7L42cdHyaxujlVYtdRvq2vfHXzCVDlob5eHQB4txrN4_oc_GoEMcjIAr962fMIWFsywjpIbbGMFtMTwBlSnd-5g0USYqmUJDDZ1NJ3ECu6n3t2yQi5we8TyvYHJOTt2r0MZWje8Wwyf7-cp2GGtdNJB28YCwVcuTJ-7RB5raHbCf3WPdPt2MdjKZQuJTYnOhVHdinQ","expires_in":60,"refresh_expires_in":1800,"refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIzMjRiMjljYy0yYmQxLTRlMGItYmMwOC0yM2NhZmQzMzEyNzUifQ.eyJleHAiOjE2Njg1Mjc5MDAsImlhdCI6MTY2ODUyNjEwMCwianRpIjoiYmIzNWZjZWYtZjE0Yi00NzIzLWFlYWEtODAwOTliNWQzYzVlIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDFiMDE0ZWMtMDY3NS00MTZkLTgwZmEtMmNhNzY0Zjc3NmI1IiwidHlwIjoiUmVmcmVzaCIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiI1YzdmOGQ2Ny03MDdkLTQ2ODUtYWVjMS01MGNlZDY0ZGI1NjkiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI1YzdmOGQ2Ny03MDdkLTQ2ODUtYWVjMS01MGNlZDY0ZGI1NjkifQ.vAC-sXr5YL4Bpx6D-E5KwvS74raYBbUOdoBxc3T_d9A","token_type":"Bearer","not-before-policy":0,"session_state":"5c7f8d67-707d-4685-aec1-50ced64db569","scope":"profile
+      string: '{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxQnpvVVZZM1I2VWVSOTFFUjV5MGpPdzhXSFc2WXBTWDIxY0JVb1M5UkVFIn0.eyJleHAiOjE2Njg1Mjc5MDksImlhdCI6MTY2ODUyNzg0OSwianRpIjoiMTk0NWEwNTYtYzVhMy00OGJmLThjNzYtZmY0OWVkZmM2NGZjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDFiMDE0ZWMtMDY3NS00MTZkLTgwZmEtMmNhNzY0Zjc3NmI1IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjcwZDE3YjU0LTQ1ZjEtNGVmZS04YzZiLTNmZmEyY2RkZTFlYiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI3MGQxN2I1NC00NWYxLTRlZmUtOGM2Yi0zZmZhMmNkZGUxZWIiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.fbx27lNWgnuduaxpbKE-zsXxaVd-kXZmylv4ER3TkFJQP6ufZhfJMOz2s6_LTMLXrkoN6YVW1HQ_qAX8dFAzCUBd5TFEi1Mmv1kMY4nEjb-p2H9M2iTcRETzEbpptIPs_S-WKmE-BlcmU48unL4-4m0NOkrMhrrRWW_dhpX22-rchVXzd4_mFE1hlxDx8NKrV6TcWHIYfKGvxxgxNlkiChV8H_WQixmxeHlsyCmctwVWwKY88Ftz4B1-cA0SvsawM7vc9glv9d95Ju4gsXgMmjG7-sGKSyjekzhnqChx9_Xz49XyNlpsL0_1zY0rY08VPrbxTKE7R0quajqC4kix8w","expires_in":60,"refresh_expires_in":1800,"refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIzMjRiMjljYy0yYmQxLTRlMGItYmMwOC0yM2NhZmQzMzEyNzUifQ.eyJleHAiOjE2Njg1Mjk2NDksImlhdCI6MTY2ODUyNzg0OSwianRpIjoiZjFmMDMwNjAtYjkwZC00MjE2LWEyZTQtNjNiMjNiMGI2ZDZjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDFiMDE0ZWMtMDY3NS00MTZkLTgwZmEtMmNhNzY0Zjc3NmI1IiwidHlwIjoiUmVmcmVzaCIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiI3MGQxN2I1NC00NWYxLTRlZmUtOGM2Yi0zZmZhMmNkZGUxZWIiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI3MGQxN2I1NC00NWYxLTRlZmUtOGM2Yi0zZmZhMmNkZGUxZWIifQ.MnJCqXnW2_WBFZ6GXltNq4ZYAlLSqJg1BmnIfS5SGO4","token_type":"Bearer","not-before-policy":0,"session_state":"70d17b54-45f1-4efe-8c6b-3ffa2cdde1eb","scope":"profile
         email"}'
     headers:
       Cache-Control:
@@ -71,7 +71,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 15 Nov 2022 15:28:20 GMT
+      - Tue, 15 Nov 2022 15:57:29 GMT
       Pragma:
       - no-cache
       Referrer-Policy:
@@ -100,7 +100,7 @@ interactions:
       Accept-Encoding:
       - gzip, deflate
       Authorization:
-      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxQnpvVVZZM1I2VWVSOTFFUjV5MGpPdzhXSFc2WXBTWDIxY0JVb1M5UkVFIn0.eyJleHAiOjE2Njg1MjYxNjAsImlhdCI6MTY2ODUyNjEwMCwianRpIjoiY2JmMjZlZTMtNWRiNS00NGE3LWI4NTItZTBhOTQxMTE4ZDQwIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDFiMDE0ZWMtMDY3NS00MTZkLTgwZmEtMmNhNzY0Zjc3NmI1IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjVjN2Y4ZDY3LTcwN2QtNDY4NS1hZWMxLTUwY2VkNjRkYjU2OSIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI1YzdmOGQ2Ny03MDdkLTQ2ODUtYWVjMS01MGNlZDY0ZGI1NjkiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.gJCSedAve_5CMaCCXs-tqxMl7xWL34urn3OmQ930pufXHOk65Xa6dqZpfnZCPhcyzk3t2Wn2ble3_w1I3QfHQEDpWNToCdfYczDPVF4uDQZBspBu_2fuEIE8Vxr0B6b29N-WlI3VJxvt6iUZ7L42cdHyaxujlVYtdRvq2vfHXzCVDlob5eHQB4txrN4_oc_GoEMcjIAr962fMIWFsywjpIbbGMFtMTwBlSnd-5g0USYqmUJDDZ1NJ3ECu6n3t2yQi5we8TyvYHJOTt2r0MZWje8Wwyf7-cp2GGtdNJB28YCwVcuTJ-7RB5raHbCf3WPdPt2MdjKZQuJTYnOhVHdinQ
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxQnpvVVZZM1I2VWVSOTFFUjV5MGpPdzhXSFc2WXBTWDIxY0JVb1M5UkVFIn0.eyJleHAiOjE2Njg1Mjc5MDksImlhdCI6MTY2ODUyNzg0OSwianRpIjoiMTk0NWEwNTYtYzVhMy00OGJmLThjNzYtZmY0OWVkZmM2NGZjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDFiMDE0ZWMtMDY3NS00MTZkLTgwZmEtMmNhNzY0Zjc3NmI1IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjcwZDE3YjU0LTQ1ZjEtNGVmZS04YzZiLTNmZmEyY2RkZTFlYiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI3MGQxN2I1NC00NWYxLTRlZmUtOGM2Yi0zZmZhMmNkZGUxZWIiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.fbx27lNWgnuduaxpbKE-zsXxaVd-kXZmylv4ER3TkFJQP6ufZhfJMOz2s6_LTMLXrkoN6YVW1HQ_qAX8dFAzCUBd5TFEi1Mmv1kMY4nEjb-p2H9M2iTcRETzEbpptIPs_S-WKmE-BlcmU48unL4-4m0NOkrMhrrRWW_dhpX22-rchVXzd4_mFE1hlxDx8NKrV6TcWHIYfKGvxxgxNlkiChV8H_WQixmxeHlsyCmctwVWwKY88Ftz4B1-cA0SvsawM7vc9glv9d95Ju4gsXgMmjG7-sGKSyjekzhnqChx9_Xz49XyNlpsL0_1zY0rY08VPrbxTKE7R0quajqC4kix8w
       Connection:
       - keep-alive
       Content-type:
@@ -122,7 +122,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 15 Nov 2022 15:28:20 GMT
+      - Tue, 15 Nov 2022 15:57:29 GMT
       Referrer-Policy:
       - no-referrer
       Strict-Transport-Security:
@@ -144,7 +144,52 @@ interactions:
       Accept-Encoding:
       - gzip, deflate
       Authorization:
-      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxQnpvVVZZM1I2VWVSOTFFUjV5MGpPdzhXSFc2WXBTWDIxY0JVb1M5UkVFIn0.eyJleHAiOjE2Njg1MjYxNjAsImlhdCI6MTY2ODUyNjEwMCwianRpIjoiY2JmMjZlZTMtNWRiNS00NGE3LWI4NTItZTBhOTQxMTE4ZDQwIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDFiMDE0ZWMtMDY3NS00MTZkLTgwZmEtMmNhNzY0Zjc3NmI1IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjVjN2Y4ZDY3LTcwN2QtNDY4NS1hZWMxLTUwY2VkNjRkYjU2OSIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI1YzdmOGQ2Ny03MDdkLTQ2ODUtYWVjMS01MGNlZDY0ZGI1NjkiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.gJCSedAve_5CMaCCXs-tqxMl7xWL34urn3OmQ930pufXHOk65Xa6dqZpfnZCPhcyzk3t2Wn2ble3_w1I3QfHQEDpWNToCdfYczDPVF4uDQZBspBu_2fuEIE8Vxr0B6b29N-WlI3VJxvt6iUZ7L42cdHyaxujlVYtdRvq2vfHXzCVDlob5eHQB4txrN4_oc_GoEMcjIAr962fMIWFsywjpIbbGMFtMTwBlSnd-5g0USYqmUJDDZ1NJ3ECu6n3t2yQi5we8TyvYHJOTt2r0MZWje8Wwyf7-cp2GGtdNJB28YCwVcuTJ-7RB5raHbCf3WPdPt2MdjKZQuJTYnOhVHdinQ
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxQnpvVVZZM1I2VWVSOTFFUjV5MGpPdzhXSFc2WXBTWDIxY0JVb1M5UkVFIn0.eyJleHAiOjE2Njg1Mjc5MDksImlhdCI6MTY2ODUyNzg0OSwianRpIjoiMTk0NWEwNTYtYzVhMy00OGJmLThjNzYtZmY0OWVkZmM2NGZjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDFiMDE0ZWMtMDY3NS00MTZkLTgwZmEtMmNhNzY0Zjc3NmI1IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjcwZDE3YjU0LTQ1ZjEtNGVmZS04YzZiLTNmZmEyY2RkZTFlYiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI3MGQxN2I1NC00NWYxLTRlZmUtOGM2Yi0zZmZhMmNkZGUxZWIiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.fbx27lNWgnuduaxpbKE-zsXxaVd-kXZmylv4ER3TkFJQP6ufZhfJMOz2s6_LTMLXrkoN6YVW1HQ_qAX8dFAzCUBd5TFEi1Mmv1kMY4nEjb-p2H9M2iTcRETzEbpptIPs_S-WKmE-BlcmU48unL4-4m0NOkrMhrrRWW_dhpX22-rchVXzd4_mFE1hlxDx8NKrV6TcWHIYfKGvxxgxNlkiChV8H_WQixmxeHlsyCmctwVWwKY88Ftz4B1-cA0SvsawM7vc9glv9d95Ju4gsXgMmjG7-sGKSyjekzhnqChx9_Xz49XyNlpsL0_1zY0rY08VPrbxTKE7R0quajqC4kix8w
+      Connection:
+      - keep-alive
+      Content-type:
+      - application/json
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients
+  response:
+    body:
+      string: '[{"id":"7b4f0bf2-5f96-4f8f-b390-2270d41b0d1c","clientId":"account","name":"${client_account}","rootUrl":"${authBaseUrl}","baseUrl":"/realms/ci0-realm/account/","surrogateAuthRequired":false,"enabled":true,"alwaysDisplayInConsole":false,"clientAuthenticatorType":"client-secret","redirectUris":["/realms/ci0-realm/account/*"],"webOrigins":[],"notBefore":0,"bearerOnly":false,"consentRequired":false,"standardFlowEnabled":true,"implicitFlowEnabled":false,"directAccessGrantsEnabled":false,"serviceAccountsEnabled":false,"publicClient":true,"frontchannelLogout":false,"protocol":"openid-connect","attributes":{},"authenticationFlowBindingOverrides":{},"fullScopeAllowed":false,"nodeReRegistrationTimeout":0,"defaultClientScopes":["web-origins","roles","profile","email"],"optionalClientScopes":["address","phone","offline_access","microprofile-jwt"],"access":{"view":true,"configure":true,"manage":true}},{"id":"7361940f-7d92-494a-8d76-532de091f940","clientId":"account-console","name":"${client_account-console}","rootUrl":"${authBaseUrl}","baseUrl":"/realms/ci0-realm/account/","surrogateAuthRequired":false,"enabled":true,"alwaysDisplayInConsole":false,"clientAuthenticatorType":"client-secret","redirectUris":["/realms/ci0-realm/account/*"],"webOrigins":[],"notBefore":0,"bearerOnly":false,"consentRequired":false,"standardFlowEnabled":true,"implicitFlowEnabled":false,"directAccessGrantsEnabled":false,"serviceAccountsEnabled":false,"publicClient":true,"frontchannelLogout":false,"protocol":"openid-connect","attributes":{"pkce.code.challenge.method":"S256"},"authenticationFlowBindingOverrides":{},"fullScopeAllowed":false,"nodeReRegistrationTimeout":0,"protocolMappers":[{"id":"69e7e632-f5dd-4ae0-bac5-b0e6e3cad929","name":"audience
+        resolve","protocol":"openid-connect","protocolMapper":"oidc-audience-resolve-mapper","consentRequired":false,"config":{}}],"defaultClientScopes":["web-origins","roles","profile","email"],"optionalClientScopes":["address","phone","offline_access","microprofile-jwt"],"access":{"view":true,"configure":true,"manage":true}},{"id":"2da8e6c8-a57b-48b6-bd5e-db632529e920","clientId":"admin-cli","name":"${client_admin-cli}","surrogateAuthRequired":false,"enabled":true,"alwaysDisplayInConsole":false,"clientAuthenticatorType":"client-secret","redirectUris":[],"webOrigins":[],"notBefore":0,"bearerOnly":false,"consentRequired":false,"standardFlowEnabled":false,"implicitFlowEnabled":false,"directAccessGrantsEnabled":true,"serviceAccountsEnabled":false,"publicClient":true,"frontchannelLogout":false,"protocol":"openid-connect","attributes":{},"authenticationFlowBindingOverrides":{},"fullScopeAllowed":false,"nodeReRegistrationTimeout":0,"defaultClientScopes":["web-origins","roles","profile","email"],"optionalClientScopes":["address","phone","offline_access","microprofile-jwt"],"access":{"view":true,"configure":true,"manage":true}},{"id":"92d68ae6-c1df-4f71-8e81-da09def6a279","clientId":"broker","name":"${client_broker}","surrogateAuthRequired":false,"enabled":true,"alwaysDisplayInConsole":false,"clientAuthenticatorType":"client-secret","redirectUris":[],"webOrigins":[],"notBefore":0,"bearerOnly":true,"consentRequired":false,"standardFlowEnabled":true,"implicitFlowEnabled":false,"directAccessGrantsEnabled":false,"serviceAccountsEnabled":false,"publicClient":false,"frontchannelLogout":false,"protocol":"openid-connect","attributes":{},"authenticationFlowBindingOverrides":{},"fullScopeAllowed":false,"nodeReRegistrationTimeout":0,"defaultClientScopes":["web-origins","roles","profile","email"],"optionalClientScopes":["address","phone","offline_access","microprofile-jwt"],"access":{"view":true,"configure":true,"manage":true}},{"id":"81c9e6d8-0249-423d-bd43-6d61b0254eda","clientId":"ci0-client-0","name":"ci0-client-0-name","description":"ci0-client-0-desc","surrogateAuthRequired":false,"enabled":true,"alwaysDisplayInConsole":false,"clientAuthenticatorType":"client-secret","redirectUris":["https://ci0-client-0.example.com/redirect-url"],"webOrigins":["https://ci0-client-0.example.com"],"notBefore":0,"bearerOnly":false,"consentRequired":false,"standardFlowEnabled":true,"implicitFlowEnabled":false,"directAccessGrantsEnabled":false,"serviceAccountsEnabled":false,"publicClient":false,"frontchannelLogout":false,"protocol":"openid-connect","attributes":{"access.token.lifespan":"600","saml.force.post.binding":"false","saml.multivalued.roles":"false","oauth2.device.authorization.grant.enabled":"false","backchannel.logout.revoke.offline.tokens":"false","saml.server.signature.keyinfo.ext":"false","use.refresh.tokens":"true","oidc.ciba.grant.enabled":"false","backchannel.logout.session.required":"false","client_credentials.use_refresh_token":"false","require.pushed.authorization.requests":"false","saml.client.signature":"false","id.token.as.detached.signature":"false","saml.assertion.signature":"false","saml.encrypt":"false","access.token.signed.response.alg":"ES256","saml.server.signature":"false","exclude.session.state.from.auth.response":"true","saml.artifact.binding":"false","saml_force_name_id_format":"false","tls.client.certificate.bound.access.tokens":"false","saml.authnstatement":"false","display.on.consent.screen":"false","saml.onetimeuse.condition":"false"},"authenticationFlowBindingOverrides":{"browser":"42702a64-a67e-46c9-ba0f-628cdef45045"},"fullScopeAllowed":false,"nodeReRegistrationTimeout":-1,"defaultClientScopes":["web-origins","roles","profile","email"],"optionalClientScopes":["address","phone","offline_access","microprofile-jwt"],"access":{"view":true,"configure":true,"manage":true}},{"id":"5b05d663-6523-428a-8e2d-ecbb2c686182","clientId":"ci0-client-1","name":"ci0-client-1-name","description":"ci0-client-1-desc","surrogateAuthRequired":false,"enabled":true,"alwaysDisplayInConsole":false,"clientAuthenticatorType":"client-secret","redirectUris":["https://ci0-client-1.example.com/redirect-url"],"webOrigins":["https://ci0-client-1.example.com"],"notBefore":0,"bearerOnly":false,"consentRequired":false,"standardFlowEnabled":true,"implicitFlowEnabled":false,"directAccessGrantsEnabled":false,"serviceAccountsEnabled":false,"publicClient":false,"frontchannelLogout":false,"protocol":"openid-connect","attributes":{},"authenticationFlowBindingOverrides":{},"fullScopeAllowed":true,"nodeReRegistrationTimeout":-1,"defaultClientScopes":["web-origins","roles","profile","email"],"optionalClientScopes":["address","phone","offline_access","microprofile-jwt"],"access":{"view":true,"configure":true,"manage":true}},{"id":"d1091426-cb88-4bc3-9403-d919f2abd31d","clientId":"realm-management","name":"${client_realm-management}","surrogateAuthRequired":false,"enabled":true,"alwaysDisplayInConsole":false,"clientAuthenticatorType":"client-secret","redirectUris":[],"webOrigins":[],"notBefore":0,"bearerOnly":true,"consentRequired":false,"standardFlowEnabled":true,"implicitFlowEnabled":false,"directAccessGrantsEnabled":false,"serviceAccountsEnabled":false,"publicClient":false,"frontchannelLogout":false,"protocol":"openid-connect","attributes":{},"authenticationFlowBindingOverrides":{},"fullScopeAllowed":false,"nodeReRegistrationTimeout":0,"defaultClientScopes":["web-origins","roles","profile","email"],"optionalClientScopes":["address","phone","offline_access","microprofile-jwt"],"access":{"view":true,"configure":true,"manage":true}},{"id":"6569f3a8-de45-42d5-9be7-e7c8fec20301","clientId":"security-admin-console","name":"${client_security-admin-console}","rootUrl":"${authAdminUrl}","baseUrl":"/admin/ci0-realm/console/","surrogateAuthRequired":false,"enabled":true,"alwaysDisplayInConsole":false,"clientAuthenticatorType":"client-secret","redirectUris":["/admin/ci0-realm/console/*"],"webOrigins":["+"],"notBefore":0,"bearerOnly":false,"consentRequired":false,"standardFlowEnabled":true,"implicitFlowEnabled":false,"directAccessGrantsEnabled":false,"serviceAccountsEnabled":false,"publicClient":true,"frontchannelLogout":false,"protocol":"openid-connect","attributes":{"pkce.code.challenge.method":"S256"},"authenticationFlowBindingOverrides":{},"fullScopeAllowed":false,"nodeReRegistrationTimeout":0,"protocolMappers":[{"id":"1a4270bf-7cfd-4327-a339-22e9f1baf205","name":"locale","protocol":"openid-connect","protocolMapper":"oidc-usermodel-attribute-mapper","consentRequired":false,"config":{"userinfo.token.claim":"true","user.attribute":"locale","id.token.claim":"true","access.token.claim":"true","claim.name":"locale","jsonType.label":"String"}}],"defaultClientScopes":["web-origins","roles","profile","email"],"optionalClientScopes":["address","phone","offline_access","microprofile-jwt"],"access":{"view":true,"configure":true,"manage":true}}]'
+    headers:
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '8644'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 15 Nov 2022 15:57:29 GMT
+      Referrer-Policy:
+      - no-referrer
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxQnpvVVZZM1I2VWVSOTFFUjV5MGpPdzhXSFc2WXBTWDIxY0JVb1M5UkVFIn0.eyJleHAiOjE2Njg1Mjc5MDksImlhdCI6MTY2ODUyNzg0OSwianRpIjoiMTk0NWEwNTYtYzVhMy00OGJmLThjNzYtZmY0OWVkZmM2NGZjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDFiMDE0ZWMtMDY3NS00MTZkLTgwZmEtMmNhNzY0Zjc3NmI1IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjcwZDE3YjU0LTQ1ZjEtNGVmZS04YzZiLTNmZmEyY2RkZTFlYiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI3MGQxN2I1NC00NWYxLTRlZmUtOGM2Yi0zZmZhMmNkZGUxZWIiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.fbx27lNWgnuduaxpbKE-zsXxaVd-kXZmylv4ER3TkFJQP6ufZhfJMOz2s6_LTMLXrkoN6YVW1HQ_qAX8dFAzCUBd5TFEi1Mmv1kMY4nEjb-p2H9M2iTcRETzEbpptIPs_S-WKmE-BlcmU48unL4-4m0NOkrMhrrRWW_dhpX22-rchVXzd4_mFE1hlxDx8NKrV6TcWHIYfKGvxxgxNlkiChV8H_WQixmxeHlsyCmctwVWwKY88Ftz4B1-cA0SvsawM7vc9glv9d95Ju4gsXgMmjG7-sGKSyjekzhnqChx9_Xz49XyNlpsL0_1zY0rY08VPrbxTKE7R0quajqC4kix8w
       Connection:
       - keep-alive
       Content-type:
@@ -166,7 +211,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 15 Nov 2022 15:28:20 GMT
+      - Tue, 15 Nov 2022 15:57:29 GMT
       Referrer-Policy:
       - no-referrer
       Strict-Transport-Security:
@@ -188,7 +233,51 @@ interactions:
       Accept-Encoding:
       - gzip, deflate
       Authorization:
-      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxQnpvVVZZM1I2VWVSOTFFUjV5MGpPdzhXSFc2WXBTWDIxY0JVb1M5UkVFIn0.eyJleHAiOjE2Njg1MjYxNjAsImlhdCI6MTY2ODUyNjEwMCwianRpIjoiY2JmMjZlZTMtNWRiNS00NGE3LWI4NTItZTBhOTQxMTE4ZDQwIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDFiMDE0ZWMtMDY3NS00MTZkLTgwZmEtMmNhNzY0Zjc3NmI1IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjVjN2Y4ZDY3LTcwN2QtNDY4NS1hZWMxLTUwY2VkNjRkYjU2OSIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI1YzdmOGQ2Ny03MDdkLTQ2ODUtYWVjMS01MGNlZDY0ZGI1NjkiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.gJCSedAve_5CMaCCXs-tqxMl7xWL34urn3OmQ930pufXHOk65Xa6dqZpfnZCPhcyzk3t2Wn2ble3_w1I3QfHQEDpWNToCdfYczDPVF4uDQZBspBu_2fuEIE8Vxr0B6b29N-WlI3VJxvt6iUZ7L42cdHyaxujlVYtdRvq2vfHXzCVDlob5eHQB4txrN4_oc_GoEMcjIAr962fMIWFsywjpIbbGMFtMTwBlSnd-5g0USYqmUJDDZ1NJ3ECu6n3t2yQi5we8TyvYHJOTt2r0MZWje8Wwyf7-cp2GGtdNJB28YCwVcuTJ-7RB5raHbCf3WPdPt2MdjKZQuJTYnOhVHdinQ
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxQnpvVVZZM1I2VWVSOTFFUjV5MGpPdzhXSFc2WXBTWDIxY0JVb1M5UkVFIn0.eyJleHAiOjE2Njg1Mjc5MDksImlhdCI6MTY2ODUyNzg0OSwianRpIjoiMTk0NWEwNTYtYzVhMy00OGJmLThjNzYtZmY0OWVkZmM2NGZjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDFiMDE0ZWMtMDY3NS00MTZkLTgwZmEtMmNhNzY0Zjc3NmI1IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjcwZDE3YjU0LTQ1ZjEtNGVmZS04YzZiLTNmZmEyY2RkZTFlYiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI3MGQxN2I1NC00NWYxLTRlZmUtOGM2Yi0zZmZhMmNkZGUxZWIiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.fbx27lNWgnuduaxpbKE-zsXxaVd-kXZmylv4ER3TkFJQP6ufZhfJMOz2s6_LTMLXrkoN6YVW1HQ_qAX8dFAzCUBd5TFEi1Mmv1kMY4nEjb-p2H9M2iTcRETzEbpptIPs_S-WKmE-BlcmU48unL4-4m0NOkrMhrrRWW_dhpX22-rchVXzd4_mFE1hlxDx8NKrV6TcWHIYfKGvxxgxNlkiChV8H_WQixmxeHlsyCmctwVWwKY88Ftz4B1-cA0SvsawM7vc9glv9d95Ju4gsXgMmjG7-sGKSyjekzhnqChx9_Xz49XyNlpsL0_1zY0rY08VPrbxTKE7R0quajqC4kix8w
+      Connection:
+      - keep-alive
+      Content-type:
+      - application/json
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://172.17.0.2:8443/auth/admin/realms/ci0-realm/roles-by-id/b2ccf67f-eb23-4107-8b73-687980f33477/composites
+  response:
+    body:
+      string: '[{"id":"e85a3f07-3801-47a8-a49f-4acc21d0e457","name":"uma_authorization","description":"${role_uma_authorization}","composite":false,"clientRole":false,"containerId":"ci0-realm"},{"id":"b609694f-0237-4c99-ad6f-88bde295c23c","name":"manage-account","description":"${role_manage-account}","composite":true,"clientRole":true,"containerId":"7b4f0bf2-5f96-4f8f-b390-2270d41b0d1c"},{"id":"eea2be0b-4883-4000-9f23-fdac8cfb74a3","name":"offline_access","description":"${role_offline-access}","composite":false,"clientRole":false,"containerId":"ci0-realm"},{"id":"d6685b3d-b34f-4fd1-a5b2-cfbabab1cecc","name":"view-profile","description":"${role_view-profile}","composite":false,"clientRole":true,"containerId":"7b4f0bf2-5f96-4f8f-b390-2270d41b0d1c"}]'
+    headers:
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '742'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 15 Nov 2022 15:57:29 GMT
+      Referrer-Policy:
+      - no-referrer
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxQnpvVVZZM1I2VWVSOTFFUjV5MGpPdzhXSFc2WXBTWDIxY0JVb1M5UkVFIn0.eyJleHAiOjE2Njg1Mjc5MDksImlhdCI6MTY2ODUyNzg0OSwianRpIjoiMTk0NWEwNTYtYzVhMy00OGJmLThjNzYtZmY0OWVkZmM2NGZjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDFiMDE0ZWMtMDY3NS00MTZkLTgwZmEtMmNhNzY0Zjc3NmI1IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjcwZDE3YjU0LTQ1ZjEtNGVmZS04YzZiLTNmZmEyY2RkZTFlYiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI3MGQxN2I1NC00NWYxLTRlZmUtOGM2Yi0zZmZhMmNkZGUxZWIiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.fbx27lNWgnuduaxpbKE-zsXxaVd-kXZmylv4ER3TkFJQP6ufZhfJMOz2s6_LTMLXrkoN6YVW1HQ_qAX8dFAzCUBd5TFEi1Mmv1kMY4nEjb-p2H9M2iTcRETzEbpptIPs_S-WKmE-BlcmU48unL4-4m0NOkrMhrrRWW_dhpX22-rchVXzd4_mFE1hlxDx8NKrV6TcWHIYfKGvxxgxNlkiChV8H_WQixmxeHlsyCmctwVWwKY88Ftz4B1-cA0SvsawM7vc9glv9d95Ju4gsXgMmjG7-sGKSyjekzhnqChx9_Xz49XyNlpsL0_1zY0rY08VPrbxTKE7R0quajqC4kix8w
       Connection:
       - keep-alive
       Content-type:
@@ -210,7 +299,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 15 Nov 2022 15:28:20 GMT
+      - Tue, 15 Nov 2022 15:57:29 GMT
       Referrer-Policy:
       - no-referrer
       Strict-Transport-Security:
@@ -232,7 +321,7 @@ interactions:
       Accept-Encoding:
       - gzip, deflate
       Authorization:
-      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxQnpvVVZZM1I2VWVSOTFFUjV5MGpPdzhXSFc2WXBTWDIxY0JVb1M5UkVFIn0.eyJleHAiOjE2Njg1MjYxNjAsImlhdCI6MTY2ODUyNjEwMCwianRpIjoiY2JmMjZlZTMtNWRiNS00NGE3LWI4NTItZTBhOTQxMTE4ZDQwIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDFiMDE0ZWMtMDY3NS00MTZkLTgwZmEtMmNhNzY0Zjc3NmI1IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjVjN2Y4ZDY3LTcwN2QtNDY4NS1hZWMxLTUwY2VkNjRkYjU2OSIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI1YzdmOGQ2Ny03MDdkLTQ2ODUtYWVjMS01MGNlZDY0ZGI1NjkiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.gJCSedAve_5CMaCCXs-tqxMl7xWL34urn3OmQ930pufXHOk65Xa6dqZpfnZCPhcyzk3t2Wn2ble3_w1I3QfHQEDpWNToCdfYczDPVF4uDQZBspBu_2fuEIE8Vxr0B6b29N-WlI3VJxvt6iUZ7L42cdHyaxujlVYtdRvq2vfHXzCVDlob5eHQB4txrN4_oc_GoEMcjIAr962fMIWFsywjpIbbGMFtMTwBlSnd-5g0USYqmUJDDZ1NJ3ECu6n3t2yQi5we8TyvYHJOTt2r0MZWje8Wwyf7-cp2GGtdNJB28YCwVcuTJ-7RB5raHbCf3WPdPt2MdjKZQuJTYnOhVHdinQ
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxQnpvVVZZM1I2VWVSOTFFUjV5MGpPdzhXSFc2WXBTWDIxY0JVb1M5UkVFIn0.eyJleHAiOjE2Njg1Mjc5MDksImlhdCI6MTY2ODUyNzg0OSwianRpIjoiMTk0NWEwNTYtYzVhMy00OGJmLThjNzYtZmY0OWVkZmM2NGZjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDFiMDE0ZWMtMDY3NS00MTZkLTgwZmEtMmNhNzY0Zjc3NmI1IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjcwZDE3YjU0LTQ1ZjEtNGVmZS04YzZiLTNmZmEyY2RkZTFlYiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI3MGQxN2I1NC00NWYxLTRlZmUtOGM2Yi0zZmZhMmNkZGUxZWIiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.fbx27lNWgnuduaxpbKE-zsXxaVd-kXZmylv4ER3TkFJQP6ufZhfJMOz2s6_LTMLXrkoN6YVW1HQ_qAX8dFAzCUBd5TFEi1Mmv1kMY4nEjb-p2H9M2iTcRETzEbpptIPs_S-WKmE-BlcmU48unL4-4m0NOkrMhrrRWW_dhpX22-rchVXzd4_mFE1hlxDx8NKrV6TcWHIYfKGvxxgxNlkiChV8H_WQixmxeHlsyCmctwVWwKY88Ftz4B1-cA0SvsawM7vc9glv9d95Ju4gsXgMmjG7-sGKSyjekzhnqChx9_Xz49XyNlpsL0_1zY0rY08VPrbxTKE7R0quajqC4kix8w
       Connection:
       - keep-alive
       Content-type:
@@ -254,7 +343,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 15 Nov 2022 15:28:20 GMT
+      - Tue, 15 Nov 2022 15:57:29 GMT
       Referrer-Policy:
       - no-referrer
       Strict-Transport-Security:
@@ -276,7 +365,51 @@ interactions:
       Accept-Encoding:
       - gzip, deflate
       Authorization:
-      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxQnpvVVZZM1I2VWVSOTFFUjV5MGpPdzhXSFc2WXBTWDIxY0JVb1M5UkVFIn0.eyJleHAiOjE2Njg1MjYxNjAsImlhdCI6MTY2ODUyNjEwMCwianRpIjoiY2JmMjZlZTMtNWRiNS00NGE3LWI4NTItZTBhOTQxMTE4ZDQwIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDFiMDE0ZWMtMDY3NS00MTZkLTgwZmEtMmNhNzY0Zjc3NmI1IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjVjN2Y4ZDY3LTcwN2QtNDY4NS1hZWMxLTUwY2VkNjRkYjU2OSIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI1YzdmOGQ2Ny03MDdkLTQ2ODUtYWVjMS01MGNlZDY0ZGI1NjkiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.gJCSedAve_5CMaCCXs-tqxMl7xWL34urn3OmQ930pufXHOk65Xa6dqZpfnZCPhcyzk3t2Wn2ble3_w1I3QfHQEDpWNToCdfYczDPVF4uDQZBspBu_2fuEIE8Vxr0B6b29N-WlI3VJxvt6iUZ7L42cdHyaxujlVYtdRvq2vfHXzCVDlob5eHQB4txrN4_oc_GoEMcjIAr962fMIWFsywjpIbbGMFtMTwBlSnd-5g0USYqmUJDDZ1NJ3ECu6n3t2yQi5we8TyvYHJOTt2r0MZWje8Wwyf7-cp2GGtdNJB28YCwVcuTJ-7RB5raHbCf3WPdPt2MdjKZQuJTYnOhVHdinQ
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxQnpvVVZZM1I2VWVSOTFFUjV5MGpPdzhXSFc2WXBTWDIxY0JVb1M5UkVFIn0.eyJleHAiOjE2Njg1Mjc5MDksImlhdCI6MTY2ODUyNzg0OSwianRpIjoiMTk0NWEwNTYtYzVhMy00OGJmLThjNzYtZmY0OWVkZmM2NGZjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDFiMDE0ZWMtMDY3NS00MTZkLTgwZmEtMmNhNzY0Zjc3NmI1IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjcwZDE3YjU0LTQ1ZjEtNGVmZS04YzZiLTNmZmEyY2RkZTFlYiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI3MGQxN2I1NC00NWYxLTRlZmUtOGM2Yi0zZmZhMmNkZGUxZWIiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.fbx27lNWgnuduaxpbKE-zsXxaVd-kXZmylv4ER3TkFJQP6ufZhfJMOz2s6_LTMLXrkoN6YVW1HQ_qAX8dFAzCUBd5TFEi1Mmv1kMY4nEjb-p2H9M2iTcRETzEbpptIPs_S-WKmE-BlcmU48unL4-4m0NOkrMhrrRWW_dhpX22-rchVXzd4_mFE1hlxDx8NKrV6TcWHIYfKGvxxgxNlkiChV8H_WQixmxeHlsyCmctwVWwKY88Ftz4B1-cA0SvsawM7vc9glv9d95Ju4gsXgMmjG7-sGKSyjekzhnqChx9_Xz49XyNlpsL0_1zY0rY08VPrbxTKE7R0quajqC4kix8w
+      Connection:
+      - keep-alive
+      Content-type:
+      - application/json
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://172.17.0.2:8443/auth/admin/realms/ci0-realm/roles-by-id/75fbdcc7-f88e-4ac4-891b-6d7f0722e8ad/composites
+  response:
+    body:
+      string: '[{"id":"1e41e0e8-5882-4e81-aa69-1d516064ea86","name":"ci0-role-1a","description":"ci0-role-1a-desc","composite":false,"clientRole":false,"containerId":"ci0-realm"},{"id":"daab7ee6-94d8-43fa-ac30-da4935e1a420","name":"ci0-client0-role1a","description":"ci0-client0-role1a-desc","composite":false,"clientRole":true,"containerId":"81c9e6d8-0249-423d-bd43-6d61b0254eda"},{"id":"342935c1-40c4-4940-b6f8-efd28723df78","name":"ci0-role-1b","description":"ci0-role-1b-desc","composite":false,"clientRole":false,"containerId":"ci0-realm"}]'
+    headers:
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '530'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 15 Nov 2022 15:57:29 GMT
+      Referrer-Policy:
+      - no-referrer
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxQnpvVVZZM1I2VWVSOTFFUjV5MGpPdzhXSFc2WXBTWDIxY0JVb1M5UkVFIn0.eyJleHAiOjE2Njg1Mjc5MDksImlhdCI6MTY2ODUyNzg0OSwianRpIjoiMTk0NWEwNTYtYzVhMy00OGJmLThjNzYtZmY0OWVkZmM2NGZjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDFiMDE0ZWMtMDY3NS00MTZkLTgwZmEtMmNhNzY0Zjc3NmI1IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjcwZDE3YjU0LTQ1ZjEtNGVmZS04YzZiLTNmZmEyY2RkZTFlYiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI3MGQxN2I1NC00NWYxLTRlZmUtOGM2Yi0zZmZhMmNkZGUxZWIiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.fbx27lNWgnuduaxpbKE-zsXxaVd-kXZmylv4ER3TkFJQP6ufZhfJMOz2s6_LTMLXrkoN6YVW1HQ_qAX8dFAzCUBd5TFEi1Mmv1kMY4nEjb-p2H9M2iTcRETzEbpptIPs_S-WKmE-BlcmU48unL4-4m0NOkrMhrrRWW_dhpX22-rchVXzd4_mFE1hlxDx8NKrV6TcWHIYfKGvxxgxNlkiChV8H_WQixmxeHlsyCmctwVWwKY88Ftz4B1-cA0SvsawM7vc9glv9d95Ju4gsXgMmjG7-sGKSyjekzhnqChx9_Xz49XyNlpsL0_1zY0rY08VPrbxTKE7R0quajqC4kix8w
       Connection:
       - keep-alive
       Content-type:
@@ -298,7 +431,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 15 Nov 2022 15:28:20 GMT
+      - Tue, 15 Nov 2022 15:57:29 GMT
       Referrer-Policy:
       - no-referrer
       Strict-Transport-Security:
@@ -320,7 +453,7 @@ interactions:
       Accept-Encoding:
       - gzip, deflate
       Authorization:
-      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxQnpvVVZZM1I2VWVSOTFFUjV5MGpPdzhXSFc2WXBTWDIxY0JVb1M5UkVFIn0.eyJleHAiOjE2Njg1MjYxNjAsImlhdCI6MTY2ODUyNjEwMCwianRpIjoiY2JmMjZlZTMtNWRiNS00NGE3LWI4NTItZTBhOTQxMTE4ZDQwIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDFiMDE0ZWMtMDY3NS00MTZkLTgwZmEtMmNhNzY0Zjc3NmI1IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjVjN2Y4ZDY3LTcwN2QtNDY4NS1hZWMxLTUwY2VkNjRkYjU2OSIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI1YzdmOGQ2Ny03MDdkLTQ2ODUtYWVjMS01MGNlZDY0ZGI1NjkiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.gJCSedAve_5CMaCCXs-tqxMl7xWL34urn3OmQ930pufXHOk65Xa6dqZpfnZCPhcyzk3t2Wn2ble3_w1I3QfHQEDpWNToCdfYczDPVF4uDQZBspBu_2fuEIE8Vxr0B6b29N-WlI3VJxvt6iUZ7L42cdHyaxujlVYtdRvq2vfHXzCVDlob5eHQB4txrN4_oc_GoEMcjIAr962fMIWFsywjpIbbGMFtMTwBlSnd-5g0USYqmUJDDZ1NJ3ECu6n3t2yQi5we8TyvYHJOTt2r0MZWje8Wwyf7-cp2GGtdNJB28YCwVcuTJ-7RB5raHbCf3WPdPt2MdjKZQuJTYnOhVHdinQ
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxQnpvVVZZM1I2VWVSOTFFUjV5MGpPdzhXSFc2WXBTWDIxY0JVb1M5UkVFIn0.eyJleHAiOjE2Njg1Mjc5MDksImlhdCI6MTY2ODUyNzg0OSwianRpIjoiMTk0NWEwNTYtYzVhMy00OGJmLThjNzYtZmY0OWVkZmM2NGZjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDFiMDE0ZWMtMDY3NS00MTZkLTgwZmEtMmNhNzY0Zjc3NmI1IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjcwZDE3YjU0LTQ1ZjEtNGVmZS04YzZiLTNmZmEyY2RkZTFlYiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJzaWQiOiI3MGQxN2I1NC00NWYxLTRlZmUtOGM2Yi0zZmZhMmNkZGUxZWIiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.fbx27lNWgnuduaxpbKE-zsXxaVd-kXZmylv4ER3TkFJQP6ufZhfJMOz2s6_LTMLXrkoN6YVW1HQ_qAX8dFAzCUBd5TFEi1Mmv1kMY4nEjb-p2H9M2iTcRETzEbpptIPs_S-WKmE-BlcmU48unL4-4m0NOkrMhrrRWW_dhpX22-rchVXzd4_mFE1hlxDx8NKrV6TcWHIYfKGvxxgxNlkiChV8H_WQixmxeHlsyCmctwVWwKY88Ftz4B1-cA0SvsawM7vc9glv9d95Ju4gsXgMmjG7-sGKSyjekzhnqChx9_Xz49XyNlpsL0_1zY0rY08VPrbxTKE7R0quajqC4kix8w
       Connection:
       - keep-alive
       Content-type:
@@ -342,7 +475,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 15 Nov 2022 15:28:20 GMT
+      - Tue, 15 Nov 2022 15:57:29 GMT
       Referrer-Policy:
       - no-referrer
       Strict-Transport-Security:

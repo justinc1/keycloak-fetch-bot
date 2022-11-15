@@ -47,15 +47,40 @@ class TestRoleFetch_vcr:
         assert data["name"] == "ci0-role-0"
         assert data["clientRole"] is False
         assert data["composite"] is False
+        assert data["attributes"] == {"ci0-role-0-key0": ["ci0-role-0-value0"]}
 
         data = json.load(open(os.path.join(datadir, "ci0-role-1.json")))
         assert list(data.keys()) == [
             'attributes',
             'clientRole',
             'composite',
+            'composites',
             'description',
             'name',
         ]
         assert data["name"] == "ci0-role-1"
         assert data["clientRole"] is False
         assert data["composite"] is True
+        assert data["attributes"] == {"ci0-role-1-key0": ["ci0-role-1-value0"]}
+        assert len(data["composites"]) == 3
+        #
+        composites_sorted = sorted(data["composites"], key=lambda obj: obj["name"])
+        assert list(composites_sorted[0].keys()) == [
+            'clientRole',
+            # 'composite',
+            'containerName',
+            # 'description',
+            'name',
+        ]
+        # check only important attributes.
+        assert composites_sorted[0]["clientRole"] is True
+        assert composites_sorted[0]["containerName"] == "ci0-client-0"
+        assert composites_sorted[0]["name"] == "ci0-client0-role1a"
+        #
+        assert composites_sorted[1]["clientRole"] is False
+        assert composites_sorted[1]["containerName"] == "ci0-realm"
+        assert composites_sorted[1]["name"] == "ci0-role-1a"
+        #
+        assert composites_sorted[2]["clientRole"] is False
+        assert composites_sorted[2]["containerName"] == "ci0-realm"
+        assert composites_sorted[2]["name"] == "ci0-role-1b"
