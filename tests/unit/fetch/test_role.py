@@ -40,7 +40,6 @@ class TestRoleFetch_vcr:
             'attributes',
             'clientRole',
             'composite',
-            'containerId', # TODO remove
             'description',
             'name',
         ]

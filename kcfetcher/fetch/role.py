@@ -20,6 +20,9 @@ class RoleFetch(GenericFetch):
         roles = []
         for brief_role in brief_roles:
             role = roles_by_id_api.get(brief_role["id"]).verify().resp().json()
+            # the containerId needs to be removed, it is UUID (clientID for client roles, realm name for realm roles)
+            assert role["containerId"] == self.realm
+            role.pop("containerId")
             roles.append(role)
 
         return roles
