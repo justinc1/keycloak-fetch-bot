@@ -30,11 +30,12 @@ class TestRoleFetch_vcr:
         # check generated content
         assert unordered(os.listdir(datadir)) == [
             'ci0-role-0.json',
+            'ci0-role-1.json',
             'ci0-role-1a.json',
             'ci0-role-1b.json',
             'default-roles-ci0-realm.json',
         ]
-        #
+
         data = json.load(open(os.path.join(datadir, "ci0-role-0.json")))
         assert list(data.keys()) == [
             'attributes',
@@ -47,3 +48,14 @@ class TestRoleFetch_vcr:
         assert data["clientRole"] is False
         assert data["composite"] is False
 
+        data = json.load(open(os.path.join(datadir, "ci0-role-1.json")))
+        assert list(data.keys()) == [
+            'attributes',
+            'clientRole',
+            'composite',
+            'description',
+            'name',
+        ]
+        assert data["name"] == "ci0-role-1"
+        assert data["clientRole"] is False
+        assert data["composite"] is True
