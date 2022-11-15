@@ -66,6 +66,11 @@ class TestClientFetch_vcr:
         assert data["name"] == "ci0-client-0-name"
         assert os.listdir(os.path.join(datadir, "client-0/roles")) == ['roles.json']
 
+        # authenticationFlowBindingOverrides must contain names, not UUIDs
+        assert isinstance(data["authenticationFlowBindingOverrides"], dict)
+        assert list(data["authenticationFlowBindingOverrides"].keys()) == ["browser"]
+        assert data["authenticationFlowBindingOverrides"]["browser"] == "browser"
+
         # =======================================================================================
         # Check client scope mappings
         data_unsorted = json.load(open(os.path.join(datadir, "client-0/scope-mappings.json")))

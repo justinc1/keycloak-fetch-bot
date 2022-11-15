@@ -39,10 +39,18 @@ class ClientFetch(GenericFetch):
         print('** Client fetching: ', name)
         kc_objects = self.all(clients_api)
 
+        auth_flow_api = self.kc.build("authentication", realm)
+        auth_flow_all = auth_flow_api.all()
+
         counter = 0
         client_id_all = [client["id"] for client in kc_objects]
         for kc_object in kc_objects:
             store_api.add_child('client-' + str(counter))  # clients/<client_ind>
+            # authenticationFlowBindingOverrides need to be saved with auth flow alias/name, not id/UUID
+            for auth_flow_override in kc_object["authenticationFlowBindingOverrides"]:
+                auth_flow_id = kc_object["authenticationFlowBindingOverrides"][auth_flow_override]
+                auth_flow_alias = find_in_list(auth_flow_all, id=auth_flow_id)["alias"]
+                kc_object["authenticationFlowBindingOverrides"][auth_flow_override] = auth_flow_alias
             store_api.store_one(kc_object, identifier)
 
             client_query = {'key': 'clientId', 'value': kc_object['clientId']}
