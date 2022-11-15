@@ -6,6 +6,7 @@ from .user import UserFetch
 from .user_federation import UserFederationFetch
 from .component import ComponentFetch
 from .identity_provider import IdentityProviderFetch
+from .role import RoleFetch
 from .factory import FetchFactory
 
 __all__ = [
@@ -14,5 +15,6 @@ __all__ = [
     ClientScopeFetch,
     CustomAuthenticationFetch,
     UserFetch,
+    RoleFetch,
     FetchFactory,
 ]

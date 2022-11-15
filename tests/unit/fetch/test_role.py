@@ -3,7 +3,7 @@ from pytest_unordered import unordered
 import json
 import os
 import shutil
-from kcfetcher.fetch import GenericFetch
+from kcfetcher.fetch import RoleFetch
 from kcfetcher.store import Store
 from kcfetcher.utils import remove_folder, make_folder, login
 
@@ -23,7 +23,7 @@ class TestRoleFetch_vcr:
         resource_name = "roles"
         resource_identifier = "name"
 
-        obj = GenericFetch(kc, resource_name, resource_identifier, realm_name)
+        obj = RoleFetch(kc, resource_name, resource_identifier, realm_name)
 
         obj.fetch(store_api)
 
@@ -37,6 +37,7 @@ class TestRoleFetch_vcr:
         #
         data = json.load(open(os.path.join(datadir, "ci0-role-0.json")))
         assert list(data.keys()) == [
+            'attributes',
             'clientRole',
             'composite',
             'containerId', # TODO remove
