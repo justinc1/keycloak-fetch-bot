@@ -7,6 +7,7 @@ from .user_federation import UserFederationFetch
 from .component import ComponentFetch
 from .identity_provider import IdentityProviderFetch
 from .role import RoleFetch
+from .realm import RealmFetch
 from .factory import FetchFactory
 
 __all__ = [

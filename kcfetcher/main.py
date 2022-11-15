@@ -3,7 +3,7 @@
 import logging
 import os
 
-from kcfetcher.fetch import FetchFactory
+from kcfetcher.fetch import FetchFactory, RealmFetch
 from kcfetcher.store import Store
 from kcfetcher.utils import remove_folder, make_folder, login
 
@@ -44,21 +44,20 @@ def run(output_dir):
         ['users', 'username'],
     ]
 
+    store = Store(path=output_dir)
+    realm_fetcher = RealmFetch(kc)
     for realm in realms_api.all():
-        current_realm = realm['realm']
+        realm_name = realm['realm']
+        store.add_child(realm_name)  # outd/<realm>
 
-        store = Store(path=output_dir)
-
-        print('publishing: ', realm['id'])
-
-        store.add_child(current_realm)
-        store.store_one(realm, 'realm')
-
+        realm_fetcher.fetch_one(store, realm)
         for resource in resources:
-            fetch_keycloak_objects = FetchFactory().create(resource, kc, current_realm)
+            fetch_keycloak_objects = FetchFactory().create(resource, kc, realm_name)
             store.add_child(resource[0])
             fetch_keycloak_objects.fetch(store)
             store.remove_last_child()
+
+        store.remove_last_child()  # outd/<realm>
 
 
 def main_cli():
