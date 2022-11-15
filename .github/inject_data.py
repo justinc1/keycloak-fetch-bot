@@ -145,6 +145,43 @@ def main():
             "authenticationFlowBindingOverrides": {
                 "browser": auth_flow_browser["id"]
             },
+            # Add one builtin and one custom protocol mapper
+            # NOTE: this changed also:
+            #   ci0-realm/components/allowed_protocol_mapper_types.json
+            #     extra values in "allowed-protocol-mapper-types" list
+            #     "subType": , from "anonymous" to "authenticated"
+            #   ci0-realm/components/creation_date.json - parentId UUID
+            #   ci0-realm/components/first_name.json - parentId UUID
+            "protocolMappers": [
+                {
+                    "config": {
+                        "access.token.claim": "true",
+                        "claim.name": "gender",
+                        "id.token.claim": "true",
+                        "jsonType.label": "String",
+                        "user.attribute": "gender",
+                        "userinfo.token.claim": "true"
+                    },
+                    "consentRequired": False,
+                    "name": "gender",
+                    "protocol": "openid-connect",
+                    "protocolMapper": "oidc-usermodel-attribute-mapper"
+                },
+                {
+                    "config": {
+                        "access.token.claim": "true",
+                        "claim.name": "ci-claim-name",
+                        "id.token.claim": "true",
+                        "jsonType.label": "String",
+                        "user.attribute": "ci-user-property-name",
+                        "userinfo.token.claim": "true"
+                    },
+                    "consentRequired": False,
+                    "name": "ci0-client0-mapper-1",
+                    "protocol": "openid-connect",
+                    "protocolMapper": "oidc-usermodel-property-mapper"
+                }
+            ],
         }).isOk()
     client0 = client_api.findFirst({'key': 'clientId', 'value': client0_client_id})
 
