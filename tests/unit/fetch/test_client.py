@@ -40,6 +40,7 @@ class TestClientFetch_vcr:
             'ci0-client1-role0.json',
         ])
 
+        # =======================================================================================
         data = json.load(open(os.path.join(datadir, "client-0/ci0-client-0.json")))
         assert list(data.keys()) == [
             'access',
@@ -62,6 +63,7 @@ class TestClientFetch_vcr:
             'notBefore',
             'optionalClientScopes',
             'protocol',
+            'protocolMappers',
             'publicClient',
             'redirectUris',
             'serviceAccountsEnabled',
@@ -76,6 +78,38 @@ class TestClientFetch_vcr:
         assert isinstance(data["authenticationFlowBindingOverrides"], dict)
         assert list(data["authenticationFlowBindingOverrides"].keys()) == ["browser"]
         assert data["authenticationFlowBindingOverrides"]["browser"] == "browser"
+
+        # protocolMappers are present only if they are not an empty list
+        assert data["protocolMappers"] == unordered([
+            {
+                "config": {
+                    "access.token.claim": "true",
+                    "claim.name": "gender",
+                    "id.token.claim": "true",
+                    "jsonType.label": "String",
+                    "user.attribute": "gender",
+                    "userinfo.token.claim": "true"
+                },
+                "consentRequired": False,
+                "name": "gender",
+                "protocol": "openid-connect",
+                "protocolMapper": "oidc-usermodel-attribute-mapper"
+            },
+            {
+                "config": {
+                    "access.token.claim": "true",
+                    "claim.name": "ci-claim-name",
+                    "id.token.claim": "true",
+                    "jsonType.label": "String",
+                    "user.attribute": "ci-user-property-name",
+                    "userinfo.token.claim": "true"
+                },
+                "consentRequired": False,
+                "name": "ci0-client0-mapper-1",
+                "protocol": "openid-connect",
+                "protocolMapper": "oidc-usermodel-property-mapper"
+            },
+        ])
 
         # =======================================================================================
         # Check client scope mappings
@@ -158,3 +192,37 @@ class TestClientFetch_vcr:
         assert composites_sorted[2]["clientRole"] is False
         assert composites_sorted[2]["containerName"] == "ci0-realm"
         assert composites_sorted[2]["name"] == "ci0-role-1a"
+
+        # =======================================================================================
+        data = json.load(open(os.path.join(datadir, "client-1/ci0-client-1.json")))
+        assert list(data.keys()) == [
+            'access',
+            'alwaysDisplayInConsole',
+            'attributes',
+            'authenticationFlowBindingOverrides',
+            'bearerOnly',
+            'clientAuthenticatorType',
+            'clientId',
+            'consentRequired',
+            'defaultClientScopes',
+            'description',
+            'directAccessGrantsEnabled',
+            'enabled',
+            'frontchannelLogout',
+            'fullScopeAllowed',
+            'implicitFlowEnabled',
+            'name',
+            'nodeReRegistrationTimeout',
+            'notBefore',
+            'optionalClientScopes',
+            'protocol',
+            # 'protocolMappers',  # was not configured for ci0-client-1
+            'publicClient',
+            'redirectUris',
+            'serviceAccountsEnabled',
+            'standardFlowEnabled',
+            'surrogateAuthRequired',
+            'webOrigins',
+        ]
+        assert data["clientId"] == "ci0-client-1"
+        assert data["name"] == "ci0-client-1-name"
