@@ -69,7 +69,7 @@ class ClientFetch(GenericFetch):
                 role["composites"] = [minimize_role_representation(cc, kc_objects) for cc in composites]
 
             store_api.add_child('roles')  # clients/<client_ind>/roles
-            store_api.store_one_with_alias('roles', roles)
+            store_api.store(roles, "name")
             store_api.remove_last_child()  # clients/<client_ind>/roles
 
             # Compute scope-mappings
