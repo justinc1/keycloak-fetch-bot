@@ -25,11 +25,7 @@ class UserFederationFetch(GenericFetch):
 
             # For each user federation, store also mappers
             user_federation_id = kc_object["id"]
-            mappers = [
-                copy(obj) for obj in all_components if (
-                        obj["providerType"] == "org.keycloak.storage.ldap.mappers.LDAPStorageMapper" and
-                        obj["parentId"] == user_federation_id
-                )]
+            mappers = self.get_all_mappers(all_components, [user_federation_id])
             # remove parentId - it is a UUID
             for mapper in mappers:
                 mapper.pop("parentId")
@@ -45,17 +41,31 @@ class UserFederationFetch(GenericFetch):
         kc_objects = self.all(kc)
         return kc_objects
 
-    def all(self, kc):
-        # Sample URL used by GUI:
-        # https://172.17.0.2:8443/auth/admin/realms/ci0-realm/components?parent=ci0-realm&type=org.keycloak.storage.UserStorageProvider
-        # kcapi does not accept query params, so we get all components, and filter them here.
-        all_components = kc.all()
+    def all_from_components(self, components):
+        assert isinstance(components, list)
         # parentId must be our realm_name
         all_user_federations = [
-            obj for obj in all_components if (
+            obj for obj in components if (
                 obj["providerType"] == "org.keycloak.storage.UserStorageProvider" and
                 obj["parentId"] == self.realm
         )]
         # There is no default user federation, so nothing is blacklisted.
         # all_user_federations = list(filter(lambda fn: not fn[self.id] in self.black_list, all_user_federations))
         return all_user_federations
+
+    def all(self, kc):
+        # Sample URL used by GUI:
+        # https://172.17.0.2:8443/auth/admin/realms/ci0-realm/components?parent=ci0-realm&type=org.keycloak.storage.UserStorageProvider
+        # kcapi does not accept query params, so we get all components, and filter them here.
+        all_components = kc.all()
+        return self.all_from_components(all_components)
+
+    def get_all_mappers(self, components, user_federation_ids):
+        # Get from all components only those mappers that belong to specified user federations
+        assert isinstance(user_federation_ids, list)
+        mappers = [
+            copy(obj) for obj in components if (
+                obj["providerType"] == "org.keycloak.storage.ldap.mappers.LDAPStorageMapper" and
+                obj["parentId"] in user_federation_ids
+            )]
+        return mappers
