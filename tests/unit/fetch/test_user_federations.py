@@ -2,6 +2,7 @@ from operator import itemgetter
 
 from pytest import mark
 from pytest_unordered import unordered
+from path import glob
 import json
 import os
 import shutil
@@ -30,12 +31,18 @@ class TestUserFederationFetch:
         obj.fetch(store_api)
 
         # check generated content
-        assert os.listdir(datadir) == unordered(["ci0-uf0-ldap", "ci0-uf1-ldap"])
-        assert os.listdir(os.path.join(datadir, "ci0-uf0-ldap")) == unordered(["ci0-uf0-ldap.json", "mappers"])
-        assert os.listdir(os.path.join(datadir, "ci0-uf0-ldap/mappers")) == unordered(["mappers.json"])
-        assert os.listdir(os.path.join(datadir, "ci0-uf1-ldap")) == unordered(["ci0-uf1-ldap.json", "mappers"])
-        assert os.listdir(os.path.join(datadir, "ci0-uf1-ldap/mappers")) == unordered(["mappers.json"])
-        #
+        assert unordered(glob.glob('**', root_dir=datadir, recursive=True)) == [
+            'ci0-uf0-ldap',
+            'ci0-uf0-ldap/ci0-uf0-ldap.json',
+            'ci0-uf0-ldap/mappers',
+            'ci0-uf0-ldap/mappers/mappers.json',
+
+            'ci0-uf1-ldap',
+            'ci0-uf1-ldap/ci0-uf1-ldap.json',
+            'ci0-uf1-ldap/mappers',
+            'ci0-uf1-ldap/mappers/mappers.json',
+        ]
+
         data = json.load(open(os.path.join(datadir, "ci0-uf0-ldap/ci0-uf0-ldap.json")))
         assert list(data.keys()) == [
             'config',
