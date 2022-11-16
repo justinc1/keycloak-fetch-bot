@@ -29,10 +29,17 @@ class TestClientFetch_vcr:
         # check generated content
         assert os.listdir(datadir) == unordered(["client-0", "client-1"])
         assert os.listdir(os.path.join(datadir, "client-0")) == unordered(['ci0-client-0.json', 'scope-mappings.json', 'roles'])
-        assert os.listdir(os.path.join(datadir, "client-0/roles")) == ['roles.json']
+        assert os.listdir(os.path.join(datadir, "client-0/roles")) == unordered([
+            'ci0-client0-role0.json',
+            'ci0-client0-role1.json',
+            'ci0-client0-role1b.json',
+            'ci0-client0-role1a.json',
+        ])
         assert os.listdir(os.path.join(datadir, "client-1")) == unordered(['ci0-client-1.json', 'scope-mappings.json', 'roles'])
-        assert os.listdir(os.path.join(datadir, "client-1/roles")) == ['roles.json']
-        #
+        assert os.listdir(os.path.join(datadir, "client-1/roles")) == unordered([
+            'ci0-client1-role0.json',
+        ])
+
         data = json.load(open(os.path.join(datadir, "client-0/ci0-client-0.json")))
         assert list(data.keys()) == [
             'access',
@@ -64,7 +71,6 @@ class TestClientFetch_vcr:
         ]
         assert data["clientId"] == "ci0-client-0"
         assert data["name"] == "ci0-client-0-name"
-        assert os.listdir(os.path.join(datadir, "client-0/roles")) == ['roles.json']
 
         # authenticationFlowBindingOverrides must contain names, not UUIDs
         assert isinstance(data["authenticationFlowBindingOverrides"], dict)
@@ -98,11 +104,7 @@ class TestClientFetch_vcr:
 
         # =======================================================================================
         # Check client role
-        data = json.load(open(os.path.join(datadir, "client-0/roles/roles.json")))
-        assert isinstance(data, list)
-        assert len(data) == 4
-
-        role = find_in_list(data, name="ci0-client0-role0")
+        role = json.load(open(os.path.join(datadir, "client-0/roles/ci0-client0-role0.json")))
         assert list(role.keys()) == [
             'attributes',
             'clientRole',
@@ -119,7 +121,7 @@ class TestClientFetch_vcr:
         assert role["composite"] is False
         assert role["attributes"] == {"ci0-client0-role0-key0": ["ci0-client0-role0-value0"]}
 
-        role = find_in_list(data, name="ci0-client0-role1")
+        role = json.load(open(os.path.join(datadir, "client-0/roles/ci0-client0-role1.json")))
         assert list(role.keys()) == [
             'attributes',
             'clientRole',
