@@ -147,7 +147,23 @@ class TestRealmFetch_vcr:
         # and a few attributes that are not setup by inject_data.py
         assert data["internationalizationEnabled"] == False
         assert data["clientAuthenticationFlow"] == "clients"
+        # identity provider - mappers are part of /realms/ API endpoint
+        # Check we have correct content
+        assert data["identityProviderMappers"] == [
+            {
+                "config": {
+                    "are.attribute.values.regex": "false",
+                    "attributes": "[{\"key\":\"key0\",\"value\":\"value0\"}]",
+                    "role": "ci0-role-0",
+                    "syncMode": "INHERIT"
+                },
+                "identityProviderAlias": "ci0-idp-saml-0",
+                "identityProviderMapper": "saml-advanced-role-idp-mapper",
+                "name": "idp-mapper-0b"
+            }
+        ]
 
+        # =====================================================================================
         data = json.load(open(os.path.join(datadir, "master/master.json")))
         assert list(data.keys()) == [
             'accessCodeLifespan',
@@ -246,3 +262,4 @@ class TestRealmFetch_vcr:
             'webAuthnPolicySignatureAlgorithms',
             'webAuthnPolicyUserVerificationRequirement',
         ]
+        assert data["identityProviderMappers"] == []
