@@ -5,7 +5,7 @@ import os
 from path import glob
 from kcfetcher.fetch import RealmFetch
 from kcfetcher.store import Store
-from kcfetcher.utils import remove_folder, make_folder, login
+from kcfetcher.utils import remove_folder, make_folder, login, RH_SSO_VERSIONS_7_5
 
 
 @mark.vcr()
@@ -44,8 +44,7 @@ class TestRealmFetch_vcr:
             'ci0-realm/ci0-realm.json'
         ]
 
-        data = json.load(open(os.path.join(datadir, "ci0-realm/ci0-realm.json")))
-        assert list(data.keys()) == [
+        expected_realm_attrs = [
             'accessCodeLifespan',
             'accessCodeLifespanLogin',
             'accessCodeLifespanUserAction',
@@ -60,14 +59,18 @@ class TestRealmFetch_vcr:
             'browserSecurityHeaders',
             'bruteForceProtected',
             'clientAuthenticationFlow',
-            'clientOfflineSessionIdleTimeout',
-            'clientOfflineSessionMaxLifespan',
-            'clientPolicies',
-            'clientProfiles',
-            'clientSessionIdleTimeout',
-            'clientSessionMaxLifespan',
-            'defaultRole',
-            'defaultSignatureAlgorithm',
+            # not in RH 7.4
+            # 'clientOfflineSessionIdleTimeout',
+            # 'clientOfflineSessionMaxLifespan',
+            # 'clientPolicies',
+            # 'clientProfiles',
+            # 'clientSessionIdleTimeout',
+            # 'clientSessionMaxLifespan',
+
+            # 'defaultRole', # RH 7.5
+            'defaultRoles', # RH 7.4
+
+            # 'defaultSignatureAlgorithm',
             'directGrantFlow',
             'displayName',
             'displayNameHtml',
@@ -80,15 +83,15 @@ class TestRealmFetch_vcr:
             'eventsListeners',
             'failureFactor',
             'identityProviderMappers',
-            # 'identityProviders',
+            # 'identityProviders',  # is intentionally removed
             'internationalizationEnabled',
             'loginWithEmailAllowed',
             'maxDeltaTimeSeconds',
             'maxFailureWaitSeconds',
             'minimumQuickLoginWaitSeconds',
             'notBefore',
-            'oauth2DeviceCodeLifespan',
-            'oauth2DevicePollingInterval',
+            # 'oauth2DeviceCodeLifespan',
+            # 'oauth2DevicePollingInterval',
             'offlineSessionIdleTimeout',
             'offlineSessionMaxLifespan',
             'offlineSessionMaxLifespanEnabled',
@@ -142,6 +145,23 @@ class TestRealmFetch_vcr:
             'webAuthnPolicySignatureAlgorithms',
             'webAuthnPolicyUserVerificationRequirement',
         ]
+        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
+            expected_realm_attrs.remove("defaultRoles")
+            expected_realm_attrs.append([
+                'clientOfflineSessionIdleTimeout',
+                'clientOfflineSessionMaxLifespan',
+                'clientPolicies',
+                'clientProfiles',
+                'clientSessionIdleTimeout',
+                'clientSessionMaxLifespan',
+                'defaultRole', # RH 7.5
+                'defaultSignatureAlgorithm',
+                'oauth2DeviceCodeLifespan',
+                'oauth2DevicePollingInterval',
+            ])
+
+        data = json.load(open(os.path.join(datadir, "ci0-realm/ci0-realm.json")))
+        assert list(data.keys()) == unordered(expected_realm_attrs)
         assert data["realm"] == "ci0-realm"
         assert data["displayName"] == "ci0-realm-display"
         # and a few attributes that are not setup by inject_data.py
@@ -165,101 +185,13 @@ class TestRealmFetch_vcr:
 
         # =====================================================================================
         data = json.load(open(os.path.join(datadir, "master/master.json")))
-        assert list(data.keys()) == [
-            'accessCodeLifespan',
-            'accessCodeLifespanLogin',
-            'accessCodeLifespanUserAction',
-            'accessTokenLifespan',
-            'accessTokenLifespanForImplicitFlow',
-            'actionTokenGeneratedByAdminLifespan',
-            'actionTokenGeneratedByUserLifespan',
-            'adminEventsDetailsEnabled',
-            'adminEventsEnabled',
-            'attributes',
-            'browserFlow',
-            'browserSecurityHeaders',
-            'bruteForceProtected',
-            'clientAuthenticationFlow',
-            'clientOfflineSessionIdleTimeout',
-            'clientOfflineSessionMaxLifespan',
-            'clientPolicies',
-            'clientProfiles',
-            'clientSessionIdleTimeout',
-            'clientSessionMaxLifespan',
-            'defaultRole',
-            'defaultSignatureAlgorithm',
-            'directGrantFlow',
-            'displayName',
-            'displayNameHtml',
-            'dockerAuthenticationFlow',
-            'duplicateEmailsAllowed',
-            'editUsernameAllowed',
-            'enabled',
-            'enabledEventTypes',
-            'eventsEnabled',
-            'eventsListeners',
-            'failureFactor',
-            'identityProviderMappers',
-            # 'identityProviders',
-            'internationalizationEnabled',
-            'loginWithEmailAllowed',
-            'maxDeltaTimeSeconds',
-            'maxFailureWaitSeconds',
-            'minimumQuickLoginWaitSeconds',
-            'notBefore',
-            'oauth2DeviceCodeLifespan',
-            'oauth2DevicePollingInterval',
-            'offlineSessionIdleTimeout',
-            'offlineSessionMaxLifespan',
-            'offlineSessionMaxLifespanEnabled',
-            'otpPolicyAlgorithm',
-            'otpPolicyDigits',
-            'otpPolicyInitialCounter',
-            'otpPolicyLookAheadWindow',
-            'otpPolicyPeriod',
-            'otpPolicyType',
-            'otpSupportedApplications',
-            'permanentLockout',
-            'quickLoginCheckMilliSeconds',
-            'realm',
-            'refreshTokenMaxReuse',
-            'registrationAllowed',
-            'registrationEmailAsUsername',
-            'registrationFlow',
-            'rememberMe',
-            'requiredCredentials',
-            'resetCredentialsFlow',
-            'resetPasswordAllowed',
-            'revokeRefreshToken',
-            'smtpServer',
-            'sslRequired',
-            'ssoSessionIdleTimeout',
-            'ssoSessionIdleTimeoutRememberMe',
-            'ssoSessionMaxLifespan',
-            'ssoSessionMaxLifespanRememberMe',
-            'supportedLocales',
-            'userManagedAccessAllowed',
-            'verifyEmail',
-            'waitIncrementSeconds',
-            'webAuthnPolicyAcceptableAaguids',
-            'webAuthnPolicyAttestationConveyancePreference',
-            'webAuthnPolicyAuthenticatorAttachment',
-            'webAuthnPolicyAvoidSameAuthenticatorRegister',
-            'webAuthnPolicyCreateTimeout',
-            'webAuthnPolicyPasswordlessAcceptableAaguids',
-            'webAuthnPolicyPasswordlessAttestationConveyancePreference',
-            'webAuthnPolicyPasswordlessAuthenticatorAttachment',
-            'webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister',
-            'webAuthnPolicyPasswordlessCreateTimeout',
-            'webAuthnPolicyPasswordlessRequireResidentKey',
-            'webAuthnPolicyPasswordlessRpEntityName',
-            'webAuthnPolicyPasswordlessRpId',
-            'webAuthnPolicyPasswordlessSignatureAlgorithms',
-            'webAuthnPolicyPasswordlessUserVerificationRequirement',
-            'webAuthnPolicyRequireResidentKey',
-            'webAuthnPolicyRpEntityName',
-            'webAuthnPolicyRpId',
-            'webAuthnPolicySignatureAlgorithms',
-            'webAuthnPolicyUserVerificationRequirement',
-        ]
-        assert data["identityProviderMappers"] == []
+        # identityProviderMappers - if the list would be empty, then:
+        # RH SSO 7.4 will not include this into realms.json at all
+        # RH SSO 7.5 will include it, identityProviderMappers=[]
+        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
+            assert list(data.keys()) == unordered(expected_realm_attrs)
+            assert data["identityProviderMappers"] == []
+        else:
+            # RH SSO 7.4
+            expected_realm_attrs.remove("identityProviderMappers")
+            assert list(data.keys()) == unordered(expected_realm_attrs)
