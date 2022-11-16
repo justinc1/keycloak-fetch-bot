@@ -147,7 +147,7 @@ class TestRealmFetch_vcr:
         ]
         if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
             expected_realm_attrs.remove("defaultRoles")
-            expected_realm_attrs.append([
+            expected_realm_attrs.extend([
                 'clientOfflineSessionIdleTimeout',
                 'clientOfflineSessionMaxLifespan',
                 'clientPolicies',
