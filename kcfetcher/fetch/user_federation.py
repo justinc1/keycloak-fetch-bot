@@ -35,7 +35,7 @@ class UserFederationFetch(GenericFetch):
                 mapper.pop("parentId")
 
             store_api.add_child('mappers')
-            store_api.store_one_with_alias('mappers', mappers)
+            store_api.store(mappers, "name")
             store_api.remove_last_child()  # user-federations/federation_name
             store_api.remove_last_child()  # user-federations/federation_name/mappers
             counter += 1
