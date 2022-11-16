@@ -15,6 +15,11 @@ class RealmFetch():
 
         # remove attributes that are stored in some other directory
         realm_min = copy(realm)
-        realm_min.pop("identityProviders")
+        if "identityProviders" in realm_min:
+            # KC 9.0, RH SSO 7.4 have identityProviders set only if it is not empty
+            # compound_profile_version = self.kc.server_info.profile_name + " "
+            # compound_profile_version += ".".join(self.kc.server_info.version.split(".")[:2])
+            # assert compound_profile_version in ["community 15.0", "community 18.0", "product 7.5", "product 7.6"]
+            realm_min.pop("identityProviders")
 
         store_api.store_one(realm_min, 'realm')
