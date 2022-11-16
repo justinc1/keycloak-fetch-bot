@@ -5,6 +5,9 @@
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/kcfetcher" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/.pytest_cache" />
+      <excludeFolder url="file://$MODULE_DIR$/output" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.10 (keycloak-fetch-bot)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
