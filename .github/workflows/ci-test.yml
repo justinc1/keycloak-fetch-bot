@@ -11,7 +11,7 @@ jobs:
       - run: pip install -r requirements-dev.txt
       # install dependencies mentioned in pyproject.toml
       - run: pip install .
-      - run: pytest tests/unit
+      - run: pytest --vcr-record=none tests/unit
     env:
       KEYCLOAK_API_CA_BUNDLE:
       # pyvcr created cassette with this particular URL
@@ -34,7 +34,10 @@ jobs:
           SSO_API_USERNAME=admin
           SSO_API_PASSWORD=admin
           EOF
+      - run: ./.github/inject_data.py
       - run: pytest tests/integration
+      # run also unit tests, but ignore VCR files
+      - run: pytest --disable-vcr tests/unit
     env:
       KEYCLOAK_API_CA_BUNDLE:
       SSO_API_URL: https://keycloak:8443/
