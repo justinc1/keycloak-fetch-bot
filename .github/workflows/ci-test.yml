@@ -2,6 +2,7 @@ name: CI tests
 on:
   - push
 jobs:
+
   unit-tests:
     runs-on: ubuntu-22.04
     container: python:3.10
@@ -18,6 +19,7 @@ jobs:
       SSO_API_URL: https://172.17.0.2:8443/
       SSO_API_USERNAME: admin
       SSO_API_PASSWORD: admin
+
   integration-tests:
     runs-on: ubuntu-22.04
     container: python:3.10
@@ -45,7 +47,8 @@ jobs:
       SSO_API_PASSWORD: admin
     services:
       keycloak:
-        image: quay.io/keycloak/keycloak:15.0.2
+#        image: quay.io/keycloak/keycloak:15.0.2
+        image: quay.io/keycloak/keycloak:9.0.3
         env:
           KEYCLOAK_USER: admin
           KEYCLOAK_PASSWORD: admin
