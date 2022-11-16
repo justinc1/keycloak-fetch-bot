@@ -8,16 +8,11 @@ import os
 import shutil
 from kcfetcher.fetch import UserFederationFetch
 from kcfetcher.store import Store
-from kcfetcher.utils import remove_folder, make_folder, login
+from kcfetcher.utils import remove_folder, make_folder, login,  find_in_list
 
 
-@mark.vcr()
-class TestUserFederationFetch:
-    def test_fetch(self):
-        datadir = "output/ci/outd"
-        remove_folder(datadir)
-        make_folder(datadir)
-        store_api = Store(datadir)
+class TestUserFederationFetchBase:
+    def get_fetcher(self):
         server = os.environ["SSO_API_URL"]
         user = os.environ["SSO_API_USERNAME"]
         password = os.environ["SSO_API_PASSWORD"]
@@ -26,9 +21,18 @@ class TestUserFederationFetch:
         realm_name = "ci0-realm"
         resource_name = "user-federations"
         resource_identifier = "name"
-        obj = UserFederationFetch(kc, resource_name, resource_identifier, realm_name)
+        return UserFederationFetch(kc, resource_name, resource_identifier, realm_name)
 
-        obj.fetch(store_api)
+class TestUserFederationFetch(TestUserFederationFetchBase):
+    @mark.vcr()
+    def test_fetch(self):
+        datadir = "output/ci/outd"
+        remove_folder(datadir)
+        make_folder(datadir)
+        store_api = Store(datadir)
+        fetcher = self.get_fetcher()
+
+        fetcher.fetch(store_api)
 
         # check generated content
         assert unordered(glob.glob('**', root_dir=datadir, recursive=True)) == [
@@ -107,3 +111,22 @@ class TestUserFederationFetch:
         assert len(mapper["config"]) == 5
         assert mapper["config"]["ldap.attribute"] == ["mail"]
         assert mapper["config"]["user.model.attribute"] == ["email"]
+
+    @mark.vcr()
+    def test_get_all_mappers(self):
+        fetcher = self.get_fetcher()
+
+        components_api = fetcher.kc.build("components", fetcher.realm)
+        all_components = components_api.all()
+        # we want to get mappers of a single specific user federation.
+        # it is identified by id, so get that id.
+        uf_name = "ci0-uf0-ldap"
+        uf_id = find_in_list(all_components, name=uf_name)["id"]
+
+        mappers = fetcher.get_all_mappers(all_components, [uf_id])
+
+        assert len(mappers) == 6
+        mapper = find_in_list(mappers, name="email")
+        assert mapper["name"] == "email"
+        assert mapper["providerId"] == "user-attribute-ldap-mapper"
+        assert mapper["providerType"] == "org.keycloak.storage.ldap.mappers.LDAPStorageMapper"
