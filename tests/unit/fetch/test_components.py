@@ -32,21 +32,14 @@ class TestComponentFetch:
         # check generated content
         print(os.listdir(datadir))
         assert os.listdir(datadir) == unordered([
-            "last_name.json",
             "consent_required.json",
             "max_clients_limit.json",
             "full_scope_disabled.json",
-            "modify_date.json",
             "allowed_protocol_mapper_types.json",
             "trusted_hosts.json",
-            "first_name.json",
             "rsa-generated.json",
-            "username.json",
-            "ci0-uf0-ldap.json",
             "aes-generated.json",
             "rsa-enc-generated.json",
-            "creation_date.json",
             "hmac-generated.json",
             "allowed_client_scopes.json",
-            "ci0-uf1-ldap.json",
         ])
