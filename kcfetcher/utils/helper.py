@@ -3,6 +3,15 @@ import shutil
 
 from kcapi import OpenID, Keycloak
 
+RH_SSO_VERSIONS_7_4 = [
+    "product 7.4",
+    "community 9.0",
+]
+RH_SSO_VERSIONS_7_5 = [
+    "product 7.5",
+    "community 15.0",
+]
+
 
 def find_in_list(objects, **kwargs):
     # objects - list of dict

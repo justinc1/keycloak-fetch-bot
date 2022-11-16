@@ -5,7 +5,7 @@ import os
 import shutil
 from kcfetcher.fetch import RoleFetch
 from kcfetcher.store import Store
-from kcfetcher.utils import remove_folder, make_folder, login
+from kcfetcher.utils import remove_folder, make_folder, login, RH_SSO_VERSIONS_7_5
 
 
 @mark.vcr()
@@ -28,13 +28,16 @@ class TestRoleFetch_vcr:
         obj.fetch(store_api)
 
         # check generated content
-        assert unordered(os.listdir(datadir)) == [
+        expected_files = [
             'ci0-role-0.json',
             'ci0-role-1.json',
             'ci0-role-1a.json',
             'ci0-role-1b.json',
-            'default-roles-ci0-realm.json',
+            # 'default-roles-ci0-realm.json',  # not in RH SSO 7.4
         ]
+        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
+            expected_files.append("default-roles-ci0-realm.json")
+        assert unordered(os.listdir(datadir)) == expected_files
 
         data = json.load(open(os.path.join(datadir, "ci0-role-0.json")))
         assert list(data.keys()) == [

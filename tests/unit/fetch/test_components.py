@@ -8,6 +8,7 @@ import shutil
 from kcfetcher.fetch import ComponentFetch
 from kcfetcher.store import Store
 from kcfetcher.utils import remove_folder, make_folder, login
+from kcfetcher.utils.helper import RH_SSO_VERSIONS_7_5
 
 
 @mark.vcr()
@@ -31,7 +32,7 @@ class TestComponentFetch:
 
         # check generated content
         print(os.listdir(datadir))
-        assert os.listdir(datadir) == unordered([
+        expected_files = [
             "consent_required.json",
             "max_clients_limit.json",
             "full_scope_disabled.json",
@@ -39,7 +40,10 @@ class TestComponentFetch:
             "trusted_hosts.json",
             "rsa-generated.json",
             "aes-generated.json",
-            "rsa-enc-generated.json",
+            # "rsa-enc-generated.json",  # not in RH SSO 7.4
             "hmac-generated.json",
             "allowed_client_scopes.json",
-        ])
+        ]
+        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
+            expected_files.append("rsa-enc-generated.json")
+        assert os.listdir(datadir) == unordered(expected_files)
