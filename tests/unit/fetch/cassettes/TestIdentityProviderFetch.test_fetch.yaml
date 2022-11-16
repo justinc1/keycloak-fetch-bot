@@ -1,0 +1,110 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://172.17.0.2:8443/auth/realms/master/.well-known/openid-configuration
+  response:
+    body:
+      string: '{"issuer":"https://172.17.0.2:8443/auth/realms/master","authorization_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/auth","token_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token","token_introspection_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token/introspect","userinfo_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/userinfo","end_session_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/logout","jwks_uri":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/certs","check_session_iframe":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/login-status-iframe.html","grant_types_supported":["authorization_code","implicit","refresh_token","password","client_credentials"],"response_types_supported":["code","none","id_token","token","id_token
+        token","code id_token","code token","code id_token token"],"subject_types_supported":["public","pairwise"],"id_token_signing_alg_values_supported":["PS384","ES384","RS384","HS256","HS512","ES256","RS256","HS384","ES512","PS256","PS512","RS512"],"id_token_encryption_alg_values_supported":["RSA-OAEP","RSA1_5"],"id_token_encryption_enc_values_supported":["A128GCM","A128CBC-HS256"],"userinfo_signing_alg_values_supported":["PS384","ES384","RS384","HS256","HS512","ES256","RS256","HS384","ES512","PS256","PS512","RS512","none"],"request_object_signing_alg_values_supported":["PS384","ES384","RS384","HS256","HS512","ES256","RS256","HS384","ES512","PS256","PS512","RS512","none"],"response_modes_supported":["query","fragment","form_post"],"registration_endpoint":"https://172.17.0.2:8443/auth/realms/master/clients-registrations/openid-connect","token_endpoint_auth_methods_supported":["private_key_jwt","client_secret_basic","client_secret_post","tls_client_auth","client_secret_jwt"],"token_endpoint_auth_signing_alg_values_supported":["PS384","ES384","RS384","HS256","HS512","ES256","RS256","HS384","ES512","PS256","PS512","RS512"],"claims_supported":["aud","sub","iss","auth_time","name","given_name","family_name","preferred_username","email","acr"],"claim_types_supported":["normal"],"claims_parameter_supported":false,"scopes_supported":["openid","address","email","microprofile-jwt","offline_access","phone","profile","roles","web-origins"],"request_parameter_supported":true,"request_uri_parameter_supported":true,"code_challenge_methods_supported":["plain","S256"],"tls_client_certificate_bound_access_tokens":true,"introspection_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token/introspect"}'
+    headers:
+      Cache-Control:
+      - no-cache, must-revalidate, no-transform, no-store
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2674'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 16 Nov 2022 20:08:38 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: client_id=admin-cli&grant_type=password&realm=master&username=admin&password=admin
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '82'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      User-Agent:
+      - python-requests/2.28.1
+    method: POST
+    uri: https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token
+  response:
+    body:
+      string: '{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIyRzRyNXFySU1CLV9zTzdlWE9KdDJZZW94WUJyeVhhaVB1SjJKMHk0UmZ3In0.eyJleHAiOjE2Njg2MjkzNzgsImlhdCI6MTY2ODYyOTMxOCwianRpIjoiYjVkZGU1MTQtNGZkMy00MDk1LTg2NzAtZDNjOGU4MmQ2MmE3IiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiYzg3ZTYzNDktODRlOC00ZWM3LTg1MWEtYzJjMzhjNTgzOTRhIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImU0MDk5Zjg4LTg2MTctNGExOS1hNTk5LTY2YzM1NTc0NzBlYiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.eZMmjAhC9aZgk7rQtcnq__X60nGStyOJoEpXFAQJqI62uvYiYn31b4s7FwUT5ms1VSvkmz4Mjk6iCk_p0fa0EfFOtM4p3i8RbQWh6X-ZJf72G7dvGcA6L5VonjGnhW6seHf5m15INUp4UxXMlBQnzUPuCs4yFyECktFHIF0qtiDDsNrXdnjUYv-SaEFy_4qaGBFsOyzcIjKJvCgA_v_HWzo0A4KAQfZ8x4_rF3oFqXwbGr36gV1x0ohNtNEETeXmx7xcq4E7jpBkz3yS90PcYVpFo2-6__TLOwp82Jb-x7d6XBHiKRwOOSeR0YQPU7PanQ_qlPe_ro2dJ103uTgvVg","expires_in":60,"refresh_expires_in":1800,"refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI3ZDZhZjJlMC0wYzRjLTQyMjgtYThiNC00MzY4MWE4MWRiZjAifQ.eyJleHAiOjE2Njg2MzExMTgsImlhdCI6MTY2ODYyOTMxOCwianRpIjoiZjZkM2FlYjQtMWU4OC00NmNkLWFmYWQtZjBlNTJkMmQyNWNiIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiYzg3ZTYzNDktODRlOC00ZWM3LTg1MWEtYzJjMzhjNTgzOTRhIiwidHlwIjoiUmVmcmVzaCIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiJlNDA5OWY4OC04NjE3LTRhMTktYTU5OS02NmMzNTU3NDcwZWIiLCJzY29wZSI6InByb2ZpbGUgZW1haWwifQ.mDmqsKk1wyJ3zJmnAvYnjITmZBcqh2yA7ARD5nA7x_8","token_type":"bearer","not-before-policy":0,"session_state":"e4099f88-8617-4a19-a599-66c3557470eb","scope":"profile
+        email"}'
+    headers:
+      Cache-Control:
+      - no-store
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1726'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 16 Nov 2022 20:08:38 GMT
+      Pragma:
+      - no-cache
+      Set-Cookie:
+      - KEYCLOAK_LOCALE=; Version=1; Comment=Expiring cookie; Expires=Thu, 01-Jan-1970
+        00:00:10 GMT; Max-Age=0; Path=/auth/realms/master/; HttpOnly
+      - KC_RESTART=; Version=1; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Max-Age=0;
+        Path=/auth/realms/master/; HttpOnly
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIyRzRyNXFySU1CLV9zTzdlWE9KdDJZZW94WUJyeVhhaVB1SjJKMHk0UmZ3In0.eyJleHAiOjE2Njg2MjkzNzgsImlhdCI6MTY2ODYyOTMxOCwianRpIjoiYjVkZGU1MTQtNGZkMy00MDk1LTg2NzAtZDNjOGU4MmQ2MmE3IiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiYzg3ZTYzNDktODRlOC00ZWM3LTg1MWEtYzJjMzhjNTgzOTRhIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImU0MDk5Zjg4LTg2MTctNGExOS1hNTk5LTY2YzM1NTc0NzBlYiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.eZMmjAhC9aZgk7rQtcnq__X60nGStyOJoEpXFAQJqI62uvYiYn31b4s7FwUT5ms1VSvkmz4Mjk6iCk_p0fa0EfFOtM4p3i8RbQWh6X-ZJf72G7dvGcA6L5VonjGnhW6seHf5m15INUp4UxXMlBQnzUPuCs4yFyECktFHIF0qtiDDsNrXdnjUYv-SaEFy_4qaGBFsOyzcIjKJvCgA_v_HWzo0A4KAQfZ8x4_rF3oFqXwbGr36gV1x0ohNtNEETeXmx7xcq4E7jpBkz3yS90PcYVpFo2-6__TLOwp82Jb-x7d6XBHiKRwOOSeR0YQPU7PanQ_qlPe_ro2dJ103uTgvVg
+      Connection:
+      - keep-alive
+      Content-type:
+      - application/json
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://172.17.0.2:8443/auth/admin/realms/ci0-realm/identity-provider/instances
+  response:
+    body:
+      string: '[{"alias":"ci0-idp-saml-0","displayName":"ci0-idp-saml-0-displayName","internalId":"d2716059-8e84-403b-90d1-15e586001f4e","providerId":"saml","enabled":true,"updateProfileFirstLoginMode":"on","trustEmail":false,"storeToken":false,"addReadTokenRoleOnCreate":false,"authenticateByDefault":false,"linkOnly":false,"firstBrokerLoginFlowAlias":"first
+        broker login","config":{"authnContextClassRefs":"[\"aa\",\"bb\"]","nameIDPolicyFormat":"urn:oasis:names:tc:SAML:2.0:nameid-format:persistent","singleLogoutServiceUrl":"https://172.17.0.6:8443/logout","authnContextDeclRefs":"[\"cc\",\"dd\"]","entityId":"https://172.17.0.2:8443/auth/realms/ci0-realm","signatureAlgorithm":"RSA_SHA256","wantAssertionsEncrypted":"true","xmlSigKeyInfoKeyNameTransformer":"KEY_ID","useJwksUrl":"true","allowCreate":"true","authnContextComparisonType":"exact","syncMode":"IMPORT","singleSignOnServiceUrl":"https://172.17.0.6:8443/signon","principalType":"SUBJECT"}}]'
+    headers:
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '939'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 16 Nov 2022 20:08:38 GMT
+    status:
+      code: 200
+      message: OK
+version: 1

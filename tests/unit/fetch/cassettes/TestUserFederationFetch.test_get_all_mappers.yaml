@@ -1,0 +1,127 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://172.17.0.2:8443/auth/realms/master/.well-known/openid-configuration
+  response:
+    body:
+      string: '{"issuer":"https://172.17.0.2:8443/auth/realms/master","authorization_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/auth","token_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token","token_introspection_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token/introspect","userinfo_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/userinfo","end_session_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/logout","jwks_uri":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/certs","check_session_iframe":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/login-status-iframe.html","grant_types_supported":["authorization_code","implicit","refresh_token","password","client_credentials"],"response_types_supported":["code","none","id_token","token","id_token
+        token","code id_token","code token","code id_token token"],"subject_types_supported":["public","pairwise"],"id_token_signing_alg_values_supported":["PS384","ES384","RS384","HS256","HS512","ES256","RS256","HS384","ES512","PS256","PS512","RS512"],"id_token_encryption_alg_values_supported":["RSA-OAEP","RSA1_5"],"id_token_encryption_enc_values_supported":["A128GCM","A128CBC-HS256"],"userinfo_signing_alg_values_supported":["PS384","ES384","RS384","HS256","HS512","ES256","RS256","HS384","ES512","PS256","PS512","RS512","none"],"request_object_signing_alg_values_supported":["PS384","ES384","RS384","HS256","HS512","ES256","RS256","HS384","ES512","PS256","PS512","RS512","none"],"response_modes_supported":["query","fragment","form_post"],"registration_endpoint":"https://172.17.0.2:8443/auth/realms/master/clients-registrations/openid-connect","token_endpoint_auth_methods_supported":["private_key_jwt","client_secret_basic","client_secret_post","tls_client_auth","client_secret_jwt"],"token_endpoint_auth_signing_alg_values_supported":["PS384","ES384","RS384","HS256","HS512","ES256","RS256","HS384","ES512","PS256","PS512","RS512"],"claims_supported":["aud","sub","iss","auth_time","name","given_name","family_name","preferred_username","email","acr"],"claim_types_supported":["normal"],"claims_parameter_supported":false,"scopes_supported":["openid","address","email","microprofile-jwt","offline_access","phone","profile","roles","web-origins"],"request_parameter_supported":true,"request_uri_parameter_supported":true,"code_challenge_methods_supported":["plain","S256"],"tls_client_certificate_bound_access_tokens":true,"introspection_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token/introspect"}'
+    headers:
+      Cache-Control:
+      - no-cache, must-revalidate, no-transform, no-store
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2674'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 16 Nov 2022 20:08:39 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: client_id=admin-cli&grant_type=password&realm=master&username=admin&password=admin
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '82'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      User-Agent:
+      - python-requests/2.28.1
+    method: POST
+    uri: https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token
+  response:
+    body:
+      string: '{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIyRzRyNXFySU1CLV9zTzdlWE9KdDJZZW94WUJyeVhhaVB1SjJKMHk0UmZ3In0.eyJleHAiOjE2Njg2MjkzNzksImlhdCI6MTY2ODYyOTMxOSwianRpIjoiY2Q4NWFhMTAtM2UyMC00N2M3LTk3ZDAtMTMwMDQ4ZTJkOWZjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiYzg3ZTYzNDktODRlOC00ZWM3LTg1MWEtYzJjMzhjNTgzOTRhIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImM1OWZjMTc1LWRmNDUtNGMwMy1hNWVlLTE1NjJjMmFjNzVkNiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.mLH3YitkkgYm3NA8fACnibNSzxlfodkgyN2BHzeZuwe2qgxLXeDPJlbZwStq2TUIhmYW0wDmjbaJdc1-Zy0IoPFT_9ef0m5XRYDxyKedBJXgXNPOsybzrRIaiF9gx2LOTi7RKJV_24_ENW_F1tQ8IfL0CrUShOMF6NxDK24E0GxWxcQA8HEPdlIjDxLdtqyBdJhHT8tVlq_Bz41wmHoBFC3ypfQg-QeYAPbNoifvKcXHKgAvFC0zdc8UTz2DQHkAgB3oNEhxJj11rCTidolWdJYkXbAbB9IHCW5GABMVDJz67EfC2NDrQIHtn3W5ccwXTIL0xmpNexs0Pihd1_dfEA","expires_in":60,"refresh_expires_in":1800,"refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI3ZDZhZjJlMC0wYzRjLTQyMjgtYThiNC00MzY4MWE4MWRiZjAifQ.eyJleHAiOjE2Njg2MzExMTksImlhdCI6MTY2ODYyOTMxOSwianRpIjoiMTNkMDJjN2EtNGUwZS00M2JhLWJmNjgtNGJjZjMwYWFmOTQ2IiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiYzg3ZTYzNDktODRlOC00ZWM3LTg1MWEtYzJjMzhjNTgzOTRhIiwidHlwIjoiUmVmcmVzaCIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiJjNTlmYzE3NS1kZjQ1LTRjMDMtYTVlZS0xNTYyYzJhYzc1ZDYiLCJzY29wZSI6InByb2ZpbGUgZW1haWwifQ.Nve1er_rfVe2g5AXt2q1AiFk1s-rRXwz8reLVBsBdR4","token_type":"bearer","not-before-policy":0,"session_state":"c59fc175-df45-4c03-a5ee-1562c2ac75d6","scope":"profile
+        email"}'
+    headers:
+      Cache-Control:
+      - no-store
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1726'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 16 Nov 2022 20:08:39 GMT
+      Pragma:
+      - no-cache
+      Set-Cookie:
+      - KEYCLOAK_LOCALE=; Version=1; Comment=Expiring cookie; Expires=Thu, 01-Jan-1970
+        00:00:10 GMT; Max-Age=0; Path=/auth/realms/master/; HttpOnly
+      - KC_RESTART=; Version=1; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Max-Age=0;
+        Path=/auth/realms/master/; HttpOnly
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIyRzRyNXFySU1CLV9zTzdlWE9KdDJZZW94WUJyeVhhaVB1SjJKMHk0UmZ3In0.eyJleHAiOjE2Njg2MjkzNzksImlhdCI6MTY2ODYyOTMxOSwianRpIjoiY2Q4NWFhMTAtM2UyMC00N2M3LTk3ZDAtMTMwMDQ4ZTJkOWZjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiYzg3ZTYzNDktODRlOC00ZWM3LTg1MWEtYzJjMzhjNTgzOTRhIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImM1OWZjMTc1LWRmNDUtNGMwMy1hNWVlLTE1NjJjMmFjNzVkNiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.mLH3YitkkgYm3NA8fACnibNSzxlfodkgyN2BHzeZuwe2qgxLXeDPJlbZwStq2TUIhmYW0wDmjbaJdc1-Zy0IoPFT_9ef0m5XRYDxyKedBJXgXNPOsybzrRIaiF9gx2LOTi7RKJV_24_ENW_F1tQ8IfL0CrUShOMF6NxDK24E0GxWxcQA8HEPdlIjDxLdtqyBdJhHT8tVlq_Bz41wmHoBFC3ypfQg-QeYAPbNoifvKcXHKgAvFC0zdc8UTz2DQHkAgB3oNEhxJj11rCTidolWdJYkXbAbB9IHCW5GABMVDJz67EfC2NDrQIHtn3W5ccwXTIL0xmpNexs0Pihd1_dfEA
+      Connection:
+      - keep-alive
+      Content-type:
+      - application/json
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://172.17.0.2:8443/auth/admin/realms/ci0-realm/components
+  response:
+    body:
+      string: '[{"id":"cbe9849c-a1cf-473d-b430-9297e9e56a06","name":"aes-generated","providerId":"aes-generated","providerType":"org.keycloak.keys.KeyProvider","parentId":"ci0-realm","config":{"priority":["100"]}},{"id":"bbeef29b-5282-4268-83ba-0226b65d130b","name":"Allowed
+        Client Scopes","providerId":"allowed-client-templates","providerType":"org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy","parentId":"ci0-realm","subType":"authenticated","config":{"allow-default-scopes":["true"]}},{"id":"9a9521ca-d613-49a6-b84c-0d6be7037dac","name":"email","providerId":"user-attribute-ldap-mapper","providerType":"org.keycloak.storage.ldap.mappers.LDAPStorageMapper","parentId":"e1842680-ae21-4ff9-b5f9-7656b3f04889","config":{"ldap.attribute":["mail"],"is.mandatory.in.ldap":["false"],"read.only":["true"],"always.read.value.from.ldap":["false"],"user.model.attribute":["email"]}},{"id":"2960bd2e-4860-4abd-9119-5e4d79c5a9cc","name":"Full
+        Scope Disabled","providerId":"scope","providerType":"org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy","parentId":"ci0-realm","subType":"anonymous","config":{}},{"id":"bdf14f19-4376-4cca-8d46-c328caa45da4","name":"username","providerId":"user-attribute-ldap-mapper","providerType":"org.keycloak.storage.ldap.mappers.LDAPStorageMapper","parentId":"0709b97a-ac35-4919-93d7-22cc65d2c305","config":{"ldap.attribute":["uid"],"is.mandatory.in.ldap":["true"],"always.read.value.from.ldap":["false"],"read.only":["true"],"user.model.attribute":["username"]}},{"id":"7e354ecb-9814-464f-abf1-b43c5e1f12bc","name":"first
+        name","providerId":"user-attribute-ldap-mapper","providerType":"org.keycloak.storage.ldap.mappers.LDAPStorageMapper","parentId":"e1842680-ae21-4ff9-b5f9-7656b3f04889","config":{"ldap.attribute":["cn"],"is.mandatory.in.ldap":["true"],"always.read.value.from.ldap":["true"],"read.only":["true"],"user.model.attribute":["firstName"]}},{"id":"1d0303f4-b3a0-4848-ae45-add8edfa149e","name":"modify
+        date","providerId":"user-attribute-ldap-mapper","providerType":"org.keycloak.storage.ldap.mappers.LDAPStorageMapper","parentId":"e1842680-ae21-4ff9-b5f9-7656b3f04889","config":{"ldap.attribute":["modifyTimestamp"],"is.mandatory.in.ldap":["false"],"read.only":["true"],"always.read.value.from.ldap":["true"],"user.model.attribute":["modifyTimestamp"]}},{"id":"849ad4f1-ff78-4960-8b94-771e770eb8d8","name":"Max
+        Clients Limit","providerId":"max-clients","providerType":"org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy","parentId":"ci0-realm","subType":"anonymous","config":{"max-clients":["200"]}},{"id":"2657d10d-fbf6-40f0-9290-65c44c1ef4a9","name":"first
+        name","providerId":"user-attribute-ldap-mapper","providerType":"org.keycloak.storage.ldap.mappers.LDAPStorageMapper","parentId":"0709b97a-ac35-4919-93d7-22cc65d2c305","config":{"ldap.attribute":["cn"],"is.mandatory.in.ldap":["true"],"always.read.value.from.ldap":["true"],"read.only":["true"],"user.model.attribute":["firstName"]}},{"id":"e1842680-ae21-4ff9-b5f9-7656b3f04889","name":"ci0-uf0-ldap","providerId":"ldap","providerType":"org.keycloak.storage.UserStorageProvider","parentId":"ci0-realm","config":{"fullSyncPeriod":["-1"],"pagination":["true"],"usersDn":["uid"],"connectionPooling":["true"],"cachePolicy":["DEFAULT"],"useKerberosForPasswordAuthentication":["false"],"importEnabled":["true"],"enabled":["true"],"bindDn":["admin"],"usernameLDAPAttribute":["uid"],"changedSyncPeriod":["-1"],"bindCredential":["**********"],"vendor":["rhds"],"uuidLDAPAttribute":["nsuniqueid"],"connectionUrl":["ldaps://172.17.0.4:636"],"allowKerberosAuthentication":["false"],"syncRegistrations":["false"],"authType":["simple"],"debug":["false"],"searchScope":["1"],"useTruststoreSpi":["ldapsOnly"],"trustEmail":["false"],"priority":["0"],"userObjectClasses":["inetOrgPerson,
+        organizationalPerson"],"rdnLDAPAttribute":["uid"],"validatePasswordPolicy":["false"],"batchSizeForSync":["1000"]}},{"id":"736f4e42-e8c3-43d2-914a-907a0a054b77","name":"hmac-generated","providerId":"hmac-generated","providerType":"org.keycloak.keys.KeyProvider","parentId":"ci0-realm","config":{"priority":["100"],"algorithm":["HS256"]}},{"id":"232b18d9-33e6-4582-a2a4-701e7fc3bdc8","name":"creation
+        date","providerId":"user-attribute-ldap-mapper","providerType":"org.keycloak.storage.ldap.mappers.LDAPStorageMapper","parentId":"e1842680-ae21-4ff9-b5f9-7656b3f04889","config":{"ldap.attribute":["createTimestamp"],"is.mandatory.in.ldap":["false"],"always.read.value.from.ldap":["true"],"read.only":["true"],"user.model.attribute":["createTimestamp"]}},{"id":"bc8293d5-244a-4a1b-9699-bac65cd19a25","name":"email","providerId":"user-attribute-ldap-mapper","providerType":"org.keycloak.storage.ldap.mappers.LDAPStorageMapper","parentId":"0709b97a-ac35-4919-93d7-22cc65d2c305","config":{"ldap.attribute":["mail"],"is.mandatory.in.ldap":["false"],"always.read.value.from.ldap":["false"],"read.only":["true"],"user.model.attribute":["email"]}},{"id":"0709b97a-ac35-4919-93d7-22cc65d2c305","name":"ci0-uf1-ldap","providerId":"ldap","providerType":"org.keycloak.storage.UserStorageProvider","parentId":"ci0-realm","config":{"pagination":["true"],"fullSyncPeriod":["-1"],"connectionPooling":["true"],"usersDn":["uid"],"cachePolicy":["DEFAULT"],"useKerberosForPasswordAuthentication":["false"],"importEnabled":["true"],"enabled":["true"],"usernameLDAPAttribute":["uid"],"changedSyncPeriod":["-1"],"bindCredential":["**********"],"bindDn":["admin1"],"vendor":["rhds"],"uuidLDAPAttribute":["nsuniqueid"],"allowKerberosAuthentication":["false"],"connectionUrl":["ldaps://172.17.0.5:636"],"syncRegistrations":["false"],"authType":["simple"],"debug":["false"],"searchScope":["1"],"useTruststoreSpi":["ldapsOnly"],"trustEmail":["false"],"priority":["0"],"userObjectClasses":["inetOrgPerson,
+        organizationalPerson"],"rdnLDAPAttribute":["uid"],"validatePasswordPolicy":["false"],"batchSizeForSync":["1001"]}},{"id":"5ee822a4-4acd-4b5b-8189-32fd702a0bc5","name":"Trusted
+        Hosts","providerId":"trusted-hosts","providerType":"org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy","parentId":"ci0-realm","subType":"anonymous","config":{"host-sending-registration-request-must-match":["true"],"client-uris-must-match":["true"]}},{"id":"9b7225f4-72be-41f6-9c81-b70f15be8a6f","name":"creation
+        date","providerId":"user-attribute-ldap-mapper","providerType":"org.keycloak.storage.ldap.mappers.LDAPStorageMapper","parentId":"0709b97a-ac35-4919-93d7-22cc65d2c305","config":{"ldap.attribute":["createTimestamp"],"is.mandatory.in.ldap":["false"],"always.read.value.from.ldap":["true"],"read.only":["true"],"user.model.attribute":["createTimestamp"]}},{"id":"ca935ad6-9666-46cb-9f41-1a5470907b27","name":"username","providerId":"user-attribute-ldap-mapper","providerType":"org.keycloak.storage.ldap.mappers.LDAPStorageMapper","parentId":"e1842680-ae21-4ff9-b5f9-7656b3f04889","config":{"ldap.attribute":["uid"],"is.mandatory.in.ldap":["true"],"always.read.value.from.ldap":["false"],"read.only":["true"],"user.model.attribute":["username"]}},{"id":"60dc46ba-1bf4-4d4b-8486-f95af5d755ee","name":"modify
+        date","providerId":"user-attribute-ldap-mapper","providerType":"org.keycloak.storage.ldap.mappers.LDAPStorageMapper","parentId":"0709b97a-ac35-4919-93d7-22cc65d2c305","config":{"ldap.attribute":["modifyTimestamp"],"is.mandatory.in.ldap":["false"],"always.read.value.from.ldap":["true"],"read.only":["true"],"user.model.attribute":["modifyTimestamp"]}},{"id":"1c4c869b-9da4-4758-bc30-b8ed2c08a535","name":"rsa-generated","providerId":"rsa-generated","providerType":"org.keycloak.keys.KeyProvider","parentId":"ci0-realm","config":{"priority":["100"]}},{"id":"e3d9cf4d-8105-4d58-add8-60a5b11570cd","name":"Allowed
+        Protocol Mapper Types","providerId":"allowed-protocol-mappers","providerType":"org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy","parentId":"ci0-realm","subType":"anonymous","config":{"allowed-protocol-mapper-types":["saml-user-property-mapper","oidc-address-mapper","oidc-usermodel-property-mapper","saml-user-attribute-mapper","oidc-sha256-pairwise-sub-mapper","oidc-usermodel-attribute-mapper","oidc-full-name-mapper","saml-role-list-mapper"]}},{"id":"fe93fb92-6534-486c-a575-e896f9977be5","name":"Allowed
+        Client Scopes","providerId":"allowed-client-templates","providerType":"org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy","parentId":"ci0-realm","subType":"anonymous","config":{"allow-default-scopes":["true"]}},{"id":"df6b50f8-bfac-4cc2-95c2-8f3254ad7496","name":"Consent
+        Required","providerId":"consent-required","providerType":"org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy","parentId":"ci0-realm","subType":"anonymous","config":{}},{"id":"b73bfc78-3080-44d6-8438-d570b0547926","name":"Allowed
+        Protocol Mapper Types","providerId":"allowed-protocol-mappers","providerType":"org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy","parentId":"ci0-realm","subType":"authenticated","config":{"allowed-protocol-mapper-types":["saml-role-list-mapper","oidc-full-name-mapper","oidc-sha256-pairwise-sub-mapper","saml-user-attribute-mapper","oidc-usermodel-property-mapper","saml-user-property-mapper","oidc-address-mapper","oidc-usermodel-attribute-mapper"]}},{"id":"a874c44b-73ef-4dcc-bf2a-be9f30baa4d8","name":"last
+        name","providerId":"user-attribute-ldap-mapper","providerType":"org.keycloak.storage.ldap.mappers.LDAPStorageMapper","parentId":"0709b97a-ac35-4919-93d7-22cc65d2c305","config":{"ldap.attribute":["sn"],"is.mandatory.in.ldap":["true"],"always.read.value.from.ldap":["true"],"read.only":["true"],"user.model.attribute":["lastName"]}},{"id":"16bb2b87-d256-4ab6-8024-472d5871da82","name":"last
+        name","providerId":"user-attribute-ldap-mapper","providerType":"org.keycloak.storage.ldap.mappers.LDAPStorageMapper","parentId":"e1842680-ae21-4ff9-b5f9-7656b3f04889","config":{"ldap.attribute":["sn"],"is.mandatory.in.ldap":["true"],"always.read.value.from.ldap":["true"],"read.only":["true"],"user.model.attribute":["lastName"]}}]'
+    headers:
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '10046'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 16 Nov 2022 20:08:39 GMT
+    status:
+      code: 200
+      message: OK
+version: 1
