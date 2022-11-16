@@ -35,12 +35,22 @@ class TestUserFederationFetch:
             'ci0-uf0-ldap',
             'ci0-uf0-ldap/ci0-uf0-ldap.json',
             'ci0-uf0-ldap/mappers',
-            'ci0-uf0-ldap/mappers/mappers.json',
+            'ci0-uf0-ldap/mappers/creation_date.json',
+            'ci0-uf0-ldap/mappers/email.json',
+            'ci0-uf0-ldap/mappers/first_name.json',
+            'ci0-uf0-ldap/mappers/last_name.json',
+            'ci0-uf0-ldap/mappers/modify_date.json',
+            'ci0-uf0-ldap/mappers/username.json',
 
             'ci0-uf1-ldap',
             'ci0-uf1-ldap/ci0-uf1-ldap.json',
             'ci0-uf1-ldap/mappers',
-            'ci0-uf1-ldap/mappers/mappers.json',
+            'ci0-uf1-ldap/mappers/creation_date.json',
+            'ci0-uf1-ldap/mappers/email.json',
+            'ci0-uf1-ldap/mappers/first_name.json',
+            'ci0-uf1-ldap/mappers/last_name.json',
+            'ci0-uf1-ldap/mappers/modify_date.json',
+            'ci0-uf1-ldap/mappers/username.json',
         ]
 
         data = json.load(open(os.path.join(datadir, "ci0-uf0-ldap/ci0-uf0-ldap.json")))
@@ -84,18 +94,16 @@ class TestUserFederationFetch:
         assert data["config"]["connectionUrl"] == ["ldaps://172.17.0.4:636"]
 
         # check attribute mappers
-        data = json.load(open(os.path.join(datadir, "ci0-uf0-ldap/mappers/mappers.json")))
-        assert len(data) == 6
-        assert list(data[0].keys()) == [
+        mapper = json.load(open(os.path.join(datadir, "ci0-uf0-ldap/mappers/email.json")))
+        assert list(mapper.keys()) == [
             'config',
             'name',
             'providerId',
             'providerType',
         ]
-        assert data[0]["providerId"] == "user-attribute-ldap-mapper"
-        assert data[0]["providerType"] == "org.keycloak.storage.ldap.mappers.LDAPStorageMapper"
-        assert len(data[0]["config"]) == 5
-        # sort by name, to have predictable order
-        data_sorted = sorted(data, key=itemgetter("name"))
-        assert data_sorted[1]["config"]["ldap.attribute"] == ["mail"]
-        assert data_sorted[1]["config"]["user.model.attribute"] == ["email"]
+        assert mapper["name"] == "email"
+        assert mapper["providerId"] == "user-attribute-ldap-mapper"
+        assert mapper["providerType"] == "org.keycloak.storage.ldap.mappers.LDAPStorageMapper"
+        assert len(mapper["config"]) == 5
+        assert mapper["config"]["ldap.attribute"] == ["mail"]
+        assert mapper["config"]["user.model.attribute"] == ["email"]
