@@ -30,6 +30,27 @@ def get_keycloak():
     token = OpenID.createAdminClient(user, password, endpoint).getToken()
     return Keycloak(token, endpoint)
 
+"""
+TODO keycloak 9.0.3
+What needs to be fixed in inject_data.py,
+Or is just different.
+
+- client role attributes:
+  - are not added to KC
+  - if present, they are dumped to disk
+- client.json - defaultClientScopes contain also role_list role
+- components/rsa-enc-generated.json
+  is only in KC 15.0
+- components/rsa-generated.json
+  in KC 15.0 has also "keyUse": ["sig"] in "config"
+- default-roles - are not dumped to disk in KC 9.0, but are in realm.json
+- realm.json
+    KC 9.0 - in realm.json is "defaultRoles", a simple list of role names
+    KC 15.0 - in realm.json in "defaultRole", complex dict, it contains name od default role.
+    KC 15 has added ~10 extra values in attributes (cibaAuthRequestedUserHint, oauth2DeviceCodeLifespan, etc)
+    KC 15 has added ~10 client related settings (clientOfflineSessionIdleTimeout, clientPolicies, clientProfiles, clientProfiles)
+
+"""
 
 def main():
     kc = get_keycloak()

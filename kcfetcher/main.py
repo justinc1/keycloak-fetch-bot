@@ -30,6 +30,7 @@ def run(output_dir):
 
     kc = login(server, user, password)
     realms_api = kc.admin()
+    logger.info(f"Server profile={kc.server_info.profile_name} version={kc.server_info.version}")
 
     #  ['keycloak_resource', 'unique identifier']
     resources = [
