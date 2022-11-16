@@ -10,6 +10,7 @@ import os
 from copy import copy
 
 from kcapi import OpenID, Keycloak
+from kcfetcher.utils import RH_SSO_VERSIONS_7_4, RH_SSO_VERSIONS_7_5
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -97,7 +98,7 @@ def main():
 
     realm_ids = [realm["id"] for realm in master_realm.all()]
     logger.debug(f"realm_ids={realm_ids}")
-    if not realm_name in realm_ids:
+    if realm_name not in realm_ids:
         # myrealm = kc.build('realms', realm_name)
         master_realm.create({
             "enabled": "true",
@@ -260,11 +261,17 @@ def main():
     client0_roles_api = kc.build(f"clients/{client0['id']}/roles", realm_name)
     for client0_role_name in client0_role_names:
         if not client0_roles_api.findFirst({'key': 'name', 'value': client0_role_name}):
-            client0_roles_api.create({
+            role_spec = {
                 "name": client0_role_name,
                 "description": client0_role_name + "-desc",
                 "attributes": {client0_role_name + "-key0": [client0_role_name + "-value0"]},
-            }).isOk()
+            }
+            client0_roles_api.create(role_spec).isOk()
+            if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
+                # Add attributes to role also for KC 9.0
+                ## role = client0_roles_api.findFirst({'key': 'name', 'value': client0_role_name})
+                ## client0_roles_api.update(role["id"], role_spec)  # NO, here we need name.
+                client0_roles_api.update(client0_role_name, role_spec)
     client0_role0 = client0_roles_api.findFirst({'key': 'name', 'value': client0_role0_name})
     client0_role1 = client0_roles_api.findFirst({'key': 'name', 'value': client0_role1_name})
     client0_role1a = client0_roles_api.findFirst({'key': 'name', 'value': client0_role1a_name})
@@ -284,13 +291,21 @@ def main():
     # TODO add custom mapper to client
 
     roles_api = kc.build('roles', realm_name)
+    # roles_by_id_api = kc.build("roles-by-id", realm_name)
     for role_name in role_names_plain:
         if not roles_api.findFirst({'key': 'name', 'value': role_name}):
-            roles_api.create({
+            role_spec = {
                 "name": role_name,
                 "description": role_name + "-desc",
+                # those attributes are silently ignored by KC 9.0
                 "attributes": {role_name + "-key0": [role_name + "-value0"]},
-            }).isOk()
+            }
+            roles_api.create(role_spec).isOk()
+            if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
+                # Add attributes to role also for KC 9.0
+                role = roles_api.findFirst({'key': 'name', 'value': role_name})
+                roles_api.update(role["id"], role_spec)
+
     ci0_role0 = roles_api.findFirst({'key': 'name', 'value': ci0_role0_name})
     ci0_role1 = roles_api.findFirst({'key': 'name', 'value': ci0_role1_name})
     ci0_role1a = roles_api.findFirst({'key': 'name', 'value': ci0_role1a_name})
