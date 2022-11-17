@@ -5,7 +5,7 @@ import os
 from path import glob
 from kcfetcher.fetch import RealmFetch
 from kcfetcher.store import Store
-from kcfetcher.utils import remove_folder, make_folder, login, RH_SSO_VERSIONS_7_5
+from kcfetcher.utils import remove_folder, make_folder, login, RH_SSO_VERSIONS_7_4, RH_SSO_VERSIONS_7_5
 
 
 @mark.vcr()
@@ -183,11 +183,21 @@ class TestRealmFetch_vcr:
                 "name": "idp-mapper-0b"
             }
         ]
-        assert data["defaultRoles"] == unordered([
-            "offline_access",
-            "uma_authorization",
-            "ci0-role-0",
-        ])
+        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
+            assert data["defaultRoles"] == unordered([
+                "offline_access",
+                "uma_authorization",
+                "ci0-role-0",
+            ])
+        else:
+            assert kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5
+            assert data["defaultRole"] == {
+                'clientRole': False,
+                'composite': True,
+                'containerId': 'ci0-realm',
+                'description': '${role_default-roles}',
+                'name': 'default-roles-ci0-realm',
+            }
 
         # =====================================================================================
         data = json.load(open(os.path.join(datadir, "master/master.json")))
