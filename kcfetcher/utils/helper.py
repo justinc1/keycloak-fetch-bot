@@ -60,7 +60,47 @@ def remove_ids(kc_object={}):
 
 
 def sort_json(data):
+    # We want to sort:
+    # - list of dict, sort by "name" attribute
+    # - dict of dict, sort by "name" attribute
+    # We sort by name, clientId, maybe more.
+
     dd = copy(data)
+
+    # simple scalar values are safe to return
+    if isinstance(dd, (str, bool, int, float)):
+        return dd
+
+    if isinstance(dd, list):
+        if not dd:
+            return dd
+        if not isinstance(dd[0], dict):
+            return dd
+        # we have list of dict
+        key = "name"
+        if key not in dd[0]:
+            return dd
+        # composites_sorted = sorted(data["composites"], key=lambda obj: obj["name"])
+        dd_sorted = sorted(dd, key=lambda obj: obj[key])
+        return dd_sorted
+
+    # sort allowed-protocol-mapper-types
+    assert isinstance(dd, dict)
+    if "config" in dd and \
+            isinstance(dd["config"], dict) and \
+            "allowed-protocol-mapper-types" in dd["config"] and \
+            isinstance(dd["config"]["allowed-protocol-mapper-types"], list):
+        dd["config"]["allowed-protocol-mapper-types"] = sorted(dd["config"]["allowed-protocol-mapper-types"])
+
+    # sort client.json - defaultClientScopes
+    if "defaultClientScopes" in dd and \
+            isinstance(dd["defaultClientScopes"], list):
+        dd["defaultClientScopes"] = sorted(dd["defaultClientScopes"])
+
+    assert isinstance(dd, dict)
+    for kk in dd:
+        vv_sorted = sort_json(dd[kk])
+        dd[kk] = vv_sorted
     return dd
 
 
