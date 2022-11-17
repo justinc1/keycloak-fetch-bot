@@ -4,7 +4,7 @@ import json
 import os
 from kcfetcher.fetch import ClientFetch
 from kcfetcher.store import Store
-from kcfetcher.utils import remove_folder, make_folder, login, find_in_list
+from kcfetcher.utils import remove_folder, make_folder, login, RH_SSO_VERSIONS_7_4
 
 
 @mark.vcr()
@@ -42,7 +42,7 @@ class TestClientFetch_vcr:
 
         # =======================================================================================
         data = json.load(open(os.path.join(datadir, "client-0/ci0-client-0.json")))
-        assert list(data.keys()) == [
+        expected_attrs = [
             'access',
             'alwaysDisplayInConsole',
             'attributes',
@@ -52,6 +52,7 @@ class TestClientFetch_vcr:
             'clientId',
             'consentRequired',
             'defaultClientScopes',
+            # 'defaultRoles',  # RH SSO 7.4
             'description',
             'directAccessGrantsEnabled',
             'enabled',
@@ -71,8 +72,13 @@ class TestClientFetch_vcr:
             'surrogateAuthRequired',
             'webOrigins',
         ]
+        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
+            expected_attrs += ['defaultRoles']
+        assert list(data.keys()) == unordered(expected_attrs)
         assert data["clientId"] == "ci0-client-0"
         assert data["name"] == "ci0-client-0-name"
+        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
+            assert data["defaultRoles"] == ["ci0-client0-role0"]
 
         # authenticationFlowBindingOverrides must contain names, not UUIDs
         assert isinstance(data["authenticationFlowBindingOverrides"], dict)

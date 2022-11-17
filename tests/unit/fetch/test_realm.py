@@ -183,6 +183,11 @@ class TestRealmFetch_vcr:
                 "name": "idp-mapper-0b"
             }
         ]
+        assert data["defaultRoles"] == unordered([
+            "offline_access",
+            "uma_authorization",
+            "ci0-role-0",
+        ])
 
         # =====================================================================================
         data = json.load(open(os.path.join(datadir, "master/master.json")))
@@ -197,3 +202,7 @@ class TestRealmFetch_vcr:
             # TODO - make this [] in .json file
             expected_realm_attrs.remove("identityProviderMappers")
             assert list(data.keys()) == unordered(expected_realm_attrs)
+            assert data["defaultRoles"] == unordered([
+                "offline_access",
+                "uma_authorization",
+            ])
