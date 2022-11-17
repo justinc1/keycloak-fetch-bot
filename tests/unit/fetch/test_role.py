@@ -37,6 +37,7 @@ class TestRoleFetch_vcr:
         ]
         if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
             expected_files.append("default-roles-ci0-realm.json")
+            # TODO fix for 7.4
         assert unordered(os.listdir(datadir)) == expected_files
 
         data = json.load(open(os.path.join(datadir, "ci0-role-0.json")))

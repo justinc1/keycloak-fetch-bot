@@ -146,6 +146,7 @@ class TestRealmFetch_vcr:
             'webAuthnPolicyUserVerificationRequirement',
         ]
         if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
+            # TODO v7.4 - is this actually missing, or in different place?
             expected_realm_attrs.remove("defaultRoles")
             expected_realm_attrs.extend([
                 'clientOfflineSessionIdleTimeout',
@@ -193,5 +194,6 @@ class TestRealmFetch_vcr:
             assert data["identityProviderMappers"] == []
         else:
             # RH SSO 7.4
+            # TODO - make this [] in .json file
             expected_realm_attrs.remove("identityProviderMappers")
             assert list(data.keys()) == unordered(expected_realm_attrs)
