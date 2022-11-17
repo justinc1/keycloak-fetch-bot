@@ -1,9 +1,25 @@
+import itertools
 import logging
+from copy import copy
 
 from kcfetcher.utils import minimize_role_representation
 from kcfetcher.fetch import GenericFetch
 
 logger = logging.getLogger(__name__)
+
+"""
+RH SOSO 7.4:
+Client roles do not have "default roles" concept.
+Realm roles have default roles concept.
+When fetching realm roles, default-roles are not included into dedicated .json file.
+The default roles are part of realm.json and 0-N client.json files.
+For example, in master realm, add create-client role from both "master-realm" and "ci0-realm-realm" realms,
+and they will be saved to:
+  "master/clients/client-1/master-realm.json"
+  "master/clients/client-0/ci0-realm-realm.json"
+
+if self.kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4: no code needed
+"""
 
 
 # A realm role
