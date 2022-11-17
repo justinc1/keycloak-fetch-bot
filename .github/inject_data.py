@@ -10,6 +10,8 @@ import os
 from copy import copy
 
 from kcapi import OpenID, Keycloak
+from pytest_unordered import unordered
+
 from kcfetcher.utils import RH_SSO_VERSIONS_7_4, RH_SSO_VERSIONS_7_5
 
 logging.basicConfig(
@@ -291,7 +293,7 @@ def main():
     # TODO add custom mapper to client
 
     roles_api = kc.build('roles', realm_name)
-    # roles_by_id_api = kc.build("roles-by-id", realm_name)
+    roles_by_id_api = kc.build("roles-by-id", realm_name)
     for role_name in role_names_plain:
         if not roles_api.findFirst({'key': 'name', 'value': role_name}):
             role_spec = {
@@ -312,26 +314,65 @@ def main():
     ci0_role1b = roles_api.findFirst({'key': 'name', 'value': ci0_role1b_name})
 
     # Make ci0_role0_name realm role a default realm role
-    # RH SSO 7.4 - PUT https://172.17.0.2:8443/auth/admin/realms/ci0-realm
+    logger.debug('-'*80)
     realm = master_realm.get(realm_name).verify().resp().json()
-    realm_default_roles = realm["defaultRoles"]
-    if ci0_role0_name not in realm_default_roles:
-        realm_default_roles.append(ci0_role0_name)
-        state = master_realm.update(realm_name, {"defaultRoles": realm_default_roles}).isOk()
-    assert ci0_role0_name in master_realm.get(realm_name).verify().resp().json()["defaultRoles"]
+    if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
+        # RH SSO 7.4 - PUT https://172.17.0.2:8443/auth/admin/realms/ci0-realm
+        realm_default_roles = realm["defaultRoles"]
+        if ci0_role0_name not in realm_default_roles:
+            realm_default_roles.append(ci0_role0_name)
+            state = master_realm.update(realm_name, {"defaultRoles": realm_default_roles}).isOk()
+        assert ci0_role0_name in master_realm.get(realm_name).verify().resp().json()["defaultRoles"]
+    else:
+        assert kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5
+        # RH SSO 7.5 - POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/roles-by-id/f64c449c-f8f0-4435-84ae-e459e20e6e28/composites
+        # https://172.17.0.2:8443/auth/admin/realms/ci0-realm/roles-by-id/f64c449c-f8f0-4435-84ae-e459e20e6e28/composites
+        ci0_default_roles = roles_api.findFirst({'key': 'name', 'value': "default-roles-" + realm_name})
 
-    # TODO Make ci0_client0_role0_name client role a default realm role
-    # RH SSO 7.4 - PUT https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients/864618ea-f1fe-484e-bd73-0517c96668ff
+        # both work
+        # ci0_default_roles_composites_api = kc.build(f"roles-by-id/{ci0_default_roles['id']}/composites", realm_name)
+        ci0_default_roles_composites_api = roles_by_id_api.get_child(roles_by_id_api, ci0_default_roles['id'], "composites")
+
+        # logger.debug(f"ci0_role0={ci0_role0}")
+        ci0_default_roles_composites_api.create([ci0_role0])
+        composites = roles_by_id_api.get(f"{ci0_default_roles['id']}/composites").verify().resp().json()
+        composites_names = [cc["name"] for cc in composites]
+        logger.debug(f"composites_names={composites_names}")
+        assert composites_names == unordered([
+            ci0_role0_name,
+            "offline_access", "uma_authorization",  # default realm roles
+            "manage-account", "view-profile",  # default client roles, from account client
+        ])
+
+
+    # Make ci0_client0_role0_name client role a default realm role
     client0 =  client_api.findFirst({'key': 'clientId', 'value': client0_client_id})
-    # findFirst() - uses different endpoint, might return a bit different result (like /roles and briefRepresentation).
-    # client0 = client_api.get(client0["id"]).verify().resp().json()
-    # empty defaultRoles - whole attribute is missing.
-    client0_default_roles = client0.get("defaultRoles", [])
-    if client0_role0_name not in client0_default_roles:
-        client0_default_roles.append(client0_role0_name)
-        # we can update only whole top-level attributes. update() uses a very simple dict-merge.
-        state = client_api.update(client0["id"], {"defaultRoles": client0_default_roles}).isOk()
-    assert client0_role0_name in client_api.get(client0["id"]).verify().resp().json()["defaultRoles"]
+    if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
+        # RH SSO 7.4 - PUT https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients/864618ea-f1fe-484e-bd73-0517c96668ff
+        # findFirst() - uses different endpoint, might return a bit different result (like /roles and briefRepresentation).
+        # client0 = client_api.get(client0["id"]).verify().resp().json()
+        # empty defaultRoles - whole attribute is missing.
+        client0_default_roles = client0.get("defaultRoles", [])
+        if client0_role0_name not in client0_default_roles:
+            client0_default_roles.append(client0_role0_name)
+            # we can update only whole top-level attributes. update() uses a very simple dict-merge.
+            state = client_api.update(client0["id"], {"defaultRoles": client0_default_roles}).isOk()
+        assert client0_role0_name in client_api.get(client0["id"]).verify().resp().json()["defaultRoles"]
+    else:
+        assert kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5
+        # RH SSO 7.5 - POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/roles-by-id/f64c449c-f8f0-4435-84ae-e459e20e6e28/composites
+        ci0_default_roles = roles_api.findFirst({'key': 'name', 'value': "default-roles-" + realm_name})
+        ci0_default_roles_composites_api = roles_by_id_api.get_child(roles_by_id_api, ci0_default_roles['id'], "composites")
+        ci0_default_roles_composites_api.create([client0_role0])
+        composites = roles_by_id_api.get(f"{ci0_default_roles['id']}/composites").verify().resp().json()
+        composites_names = [cc["name"] for cc in composites]
+        logger.debug(f"composites_names={composites_names}")
+        assert composites_names == unordered([
+            ci0_role0_name,
+            client0_role0_name,
+            "offline_access", "uma_authorization",  # default realm roles
+            "manage-account", "view-profile",  # default client roles, from account client
+        ])
 
     # Create composite realm role
     role_composite_api = kc.build(f"/roles/{ci0_role1_name}/composites", realm_name)
