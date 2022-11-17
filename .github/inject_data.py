@@ -311,6 +311,28 @@ def main():
     ci0_role1a = roles_api.findFirst({'key': 'name', 'value': ci0_role1a_name})
     ci0_role1b = roles_api.findFirst({'key': 'name', 'value': ci0_role1b_name})
 
+    # Make ci0_role0_name realm role a default realm role
+    # RH SSO 7.4 - PUT https://172.17.0.2:8443/auth/admin/realms/ci0-realm
+    realm = master_realm.get(realm_name).verify().resp().json()
+    realm_default_roles = realm["defaultRoles"]
+    if ci0_role0_name not in realm_default_roles:
+        realm_default_roles.append(ci0_role0_name)
+        state = master_realm.update(realm_name, {"defaultRoles": realm_default_roles}).isOk()
+    assert ci0_role0_name in master_realm.get(realm_name).verify().resp().json()["defaultRoles"]
+
+    # TODO Make ci0_client0_role0_name client role a default realm role
+    # RH SSO 7.4 - PUT https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients/864618ea-f1fe-484e-bd73-0517c96668ff
+    client0 =  client_api.findFirst({'key': 'clientId', 'value': client0_client_id})
+    # findFirst() - uses different endpoint, might return a bit different result (like /roles and briefRepresentation).
+    # client0 = client_api.get(client0["id"]).verify().resp().json()
+    # empty defaultRoles - whole attribute is missing.
+    client0_default_roles = client0.get("defaultRoles", [])
+    if client0_role0_name not in client0_default_roles:
+        client0_default_roles.append(client0_role0_name)
+        # we can update only whole top-level attributes. update() uses a very simple dict-merge.
+        state = client_api.update(client0["id"], {"defaultRoles": client0_default_roles}).isOk()
+    assert client0_role0_name in client_api.get(client0["id"]).verify().resp().json()["defaultRoles"]
+
     # Create composite realm role
     role_composite_api = kc.build(f"/roles/{ci0_role1_name}/composites", realm_name)
     role_composite_api.create([ci0_role1a, ci0_role1b, client0_role1a])
