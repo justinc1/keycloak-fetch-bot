@@ -37,6 +37,7 @@ class TestRoleFetch_vcr:
         ]
         if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
             expected_files.append("default-roles-ci0-realm.json")
+            # TODO fix for 7.4
         assert unordered(os.listdir(datadir)) == expected_files
 
         data = json.load(open(os.path.join(datadir, "ci0-role-0.json")))
@@ -87,3 +88,46 @@ class TestRoleFetch_vcr:
         assert composites_sorted[2]["clientRole"] is False
         assert composites_sorted[2]["containerName"] == "ci0-realm"
         assert composites_sorted[2]["name"] == "ci0-role-1b"
+
+        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
+            data = json.load(open(os.path.join(datadir, "default-roles-ci0-realm.json")))
+            assert list(data.keys()) == [
+                'attributes',
+                'clientRole',
+                'composite',
+                'composites',
+                'description',
+                'name',
+            ]
+            assert data["composites"] == unordered([
+                {
+                    "clientRole": False,
+                    "containerName": "ci0-realm",
+                    "name": "ci0-role-0"
+                },
+                {
+                    "clientRole": True,
+                    "containerName": "account",
+                    "name": "manage-account"
+                },
+                {
+                    "clientRole": True,
+                    "containerName": "account",
+                    "name": "view-profile"
+                },
+                {
+                    "clientRole": True,
+                    "containerName": "ci0-client-0",
+                    "name": "ci0-client0-role0"
+                },
+                {
+                    "clientRole": False,
+                    "containerName": "ci0-realm",
+                    "name": "uma_authorization"
+                },
+                {
+                    "clientRole": False,
+                    "containerName": "ci0-realm",
+                    "name": "offline_access"
+                }
+            ])
