@@ -1,5 +1,6 @@
 import os
 import shutil
+from copy import copy
 
 from kcapi import OpenID, Keycloak
 
@@ -56,6 +57,11 @@ def remove_ids(kc_object={}):
     # each dict element needs to be cleaned recursively
     assert isinstance(kc_object, dict)
     return {key: remove_ids(kc_object[key]) for key in kc_object if key not in ['id', 'flowId']}
+
+
+def sort_json(data):
+    dd = copy(data)
+    return dd
 
 
 def login(endpoint, user, password, read_token_from_file=False):

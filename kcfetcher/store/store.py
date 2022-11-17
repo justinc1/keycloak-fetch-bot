@@ -1,7 +1,8 @@
 import json
 import os
 
-from kcfetcher.utils import make_folder, remove_ids, normalize
+from kcfetcher.utils import make_folder, remove_ids, normalize, sort_json
+
 
 class Store:
     def __init__(self, path=''):
@@ -23,6 +24,7 @@ class Store:
 
         file = open(path + '/' + normalize(alias) + '.json', 'w')
         data = remove_ids(data)
+        data = sort_json(data)
         json.dump(data, file, indent=4, sort_keys=True)
         file.close()
 

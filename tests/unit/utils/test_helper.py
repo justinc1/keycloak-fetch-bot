@@ -1,7 +1,7 @@
 import json
 import os
 import shutil
-from kcfetcher.utils.helper import remove_ids, normalize
+from kcfetcher.utils.helper import remove_ids, normalize, sort_json
 # from tests.integration.test_ping import BaseTestClass
 from pytest import mark
 
@@ -112,3 +112,74 @@ class Test_normalize:
     def test_normalize(self, identifier_in, expected_identifier):
         identifier_out = normalize(identifier_in)
         assert expected_identifier == identifier_out
+
+
+role_in = {
+    "attributes": {
+        "ci0-client0-role1-key0": [
+            "ci0-client0-role1-value0"
+        ]
+    },
+    "clientRole": True,
+    "composite": True,
+    "composites": [
+        {
+            "clientRole": True,
+            "containerName": "ci0-client-0",
+            "name": "ci0-client0-role1b"
+        },
+        {
+            "clientRole": True,
+            "containerName": "ci0-client-0",
+            "name": "ci0-client0-role1a"
+        },
+        {
+            "clientRole": True,
+            "containerName": "ci0-realm",
+            "name": "ci0-role-1a"
+        }
+    ],
+    "description": "ci0-client0-role1-desc",
+    "name": "ci0-client0-role1"
+}
+
+role_out = {
+    "attributes": {
+        "ci0-client0-role1-key0": [
+            "ci0-client0-role1-value0"
+        ]
+    },
+    "clientRole": True,
+    "composite": True,
+    "composites": [
+        {
+            "clientRole": True,
+            "containerName": "ci0-client-0",
+            "name": "ci0-client0-role1b"
+        },
+        {
+            "clientRole": True,
+            "containerName": "ci0-client-0",
+            "name": "ci0-client0-role1a"
+        },
+        {
+            "clientRole": True,
+            "containerName": "ci0-realm",
+            "name": "ci0-role-1a"
+        }
+    ],
+    "description": "ci0-client0-role1-desc",
+    "name": "ci0-client0-role1"
+}
+class Test_sort_data:
+    @mark.parametrize(
+        "data, expected_data",
+        [
+            ("myident", "myident"),
+            (role_in, role_out),
+        ]
+    )
+    def test_sort_data(self, data, expected_data):
+        data_out = sort_json(data)
+        assert expected_data == data_out
+
