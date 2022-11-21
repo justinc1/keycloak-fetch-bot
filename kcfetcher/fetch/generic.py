@@ -1,6 +1,9 @@
+import logging
 # https://setuptools.pypa.io/en/stable/userguide/datafiles.html#accessing-data-files-at-runtime
 # from importlib.resources import files  # py3.10 only
 from importlib_resources import files
+
+logger = logging.getLogger(__name__)
 
 
 def get_blacklist():
@@ -34,6 +37,10 @@ class GenericFetch:
         all_objects = kc.all()
         objects = []
         for obj in all_objects:
+            if self.id not in obj:
+                # Likely we want to store such object, but it could be typo in code ("name" vs "namee").
+                # Better check.
+                logger.error(f"No attribute {self.id} in object, realm={self.realm} resource_name={self.resource_name}. OBJ: clientId={obj.get('clientId')} obj={obj}")
             if obj[self.id] in self.black_list:
                 continue
             objects.append(obj)
