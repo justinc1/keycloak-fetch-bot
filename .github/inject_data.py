@@ -210,10 +210,11 @@ def main():
     client0 = client_api.findFirst({'key': 'clientId', 'value': client0_client_id})
 
     # create also one client with default settings
+    # Note: name is not mandatory for a client.
+    # If not provided, the GET response will not include name attribute!
     if not client_api.findFirst({'key': 'clientId', 'value': client1_client_id}):
         client_api.create({
             "clientId": client1_client_id,
-            "name": client1_client_id + "-name",
             "description": client1_client_id + "-desc",
             "redirectUris": [
                 f"https://{client1_client_id}.example.com/redirect-url"
