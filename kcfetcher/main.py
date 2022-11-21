@@ -42,7 +42,8 @@ def run(output_dir):
         ['authentication', 'alias'],
         ['groups', 'name'],
         ['client-scopes', 'name'],
-        ['users', 'username'],
+        # Do not save users, we do not need them, and it takes time.
+        # ['users', 'username'],
     ]
 
     store = Store(path=output_dir)
