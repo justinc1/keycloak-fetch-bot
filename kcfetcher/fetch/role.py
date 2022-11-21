@@ -42,11 +42,11 @@ class RoleFetch(GenericFetch):
     def _get_data(self):
         roles_api = self.kc.build(self.resource_name, self.realm)
         brief_roles = self.all(roles_api)
-        # But we used GET /{realm}/roles - it missed .attributes attribute (it is briefRepresentation).
+        # We used GET /{realm}/roles - response misses .attributes attribute (it is briefRepresentation).
         # We get full role representation from GET /{realm}/roles-by-id/{role-id}
         roles_by_id_api = self.kc.build("roles-by-id", self.realm)
         clients_api = self.kc.build("clients", self.realm)
-        clients = self.all(clients_api)
+        clients = clients_api.all()
         roles = []
         for brief_role in brief_roles:
             role_id = brief_role["id"]

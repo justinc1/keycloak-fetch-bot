@@ -59,7 +59,7 @@ class TestClientFetch_vcr:
             'frontchannelLogout',
             'fullScopeAllowed',
             'implicitFlowEnabled',
-            'name',
+            'name',  # ci0-client-0 has name
             'nodeReRegistrationTimeout',
             'notBefore',
             'optionalClientScopes',
@@ -217,7 +217,7 @@ class TestClientFetch_vcr:
             'frontchannelLogout',
             'fullScopeAllowed',
             'implicitFlowEnabled',
-            'name',
+            # 'name',  # ci0-client-1 does not have a name set, so it is not in json file
             'nodeReRegistrationTimeout',
             'notBefore',
             'optionalClientScopes',
@@ -231,4 +231,4 @@ class TestClientFetch_vcr:
             'webOrigins',
         ]
         assert data["clientId"] == "ci0-client-1"
-        assert data["name"] == "ci0-client-1-name"
+        # assert data["name"] == "ci0-client-1-name"
