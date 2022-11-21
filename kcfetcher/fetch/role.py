@@ -57,6 +57,8 @@ class RoleFetch(GenericFetch):
                 # must be parent client UUID, check the length
                 assert len(role["containerId"]) == 36
             else:
+                if role["containerId"] != self.realm:
+                    logger.error(f"Mismatch between role containerId and realm name, realm={self.realm} role_id={role_id} role_name={role['name']} role_containerId={role['containerId']}. OBJ: role={role}")
                 assert role["containerId"] == self.realm
             role.pop("containerId")
 
