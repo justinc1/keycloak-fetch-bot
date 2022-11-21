@@ -30,5 +30,12 @@ class GenericFetch:
         kc_objects = self.all(kc)
         return kc_objects
 
+    def _filter_function(self, fn):
+        try:
+            return not fn[self.id] in self.black_list
+        except:
+            raise
+
     def all(self, kc):
-        return list(filter(lambda fn: not fn[self.id] in self.black_list, kc.all()))
+        pulled = kc.all()
+        return list(filter(self._filter_function, pulled))
