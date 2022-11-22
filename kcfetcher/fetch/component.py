@@ -25,6 +25,7 @@ class ComponentFetch(GenericFetch):
 
     def all(self, kc):
         objects = kc.all()
+        realm_id = self.kc.admin().get(self.realm).verify().resp().json()["id"]
         forbidden_provider_types = ["org.keycloak.userprofile.UserProfileProvider"]
         objects2 = []
         user_federation_fetch = UserFederationFetch(self.kc, "user-federations", "name", self.realm)
@@ -45,7 +46,7 @@ class ComponentFetch(GenericFetch):
             if obj["id"] in all_user_federation_ids:
                 # saved by UserFederationFetch
                 assert obj["providerType"] == "org.keycloak.storage.UserStorageProvider"
-                assert obj["parentId"] == self.realm
+                assert obj["parentId"] == realm_id
                 continue
 
             if obj["id"] in all_uf_all_mappers_ids:

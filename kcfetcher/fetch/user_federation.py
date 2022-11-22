@@ -44,10 +44,11 @@ class UserFederationFetch(GenericFetch):
     def all_from_components(self, components):
         assert isinstance(components, list)
         # parentId must be our realm_name
+        realm_id = self.kc.admin().get(self.realm).verify().resp().json()["id"]
         all_user_federations = [
             obj for obj in components if (
                 obj["providerType"] == "org.keycloak.storage.UserStorageProvider" and
-                obj["parentId"] == self.realm
+                obj["parentId"] == realm_id
         )]
         # There is no default user federation, so nothing is blacklisted.
         # all_user_federations = list(filter(lambda fn: not fn[self.id] in self.black_list, all_user_federations))
