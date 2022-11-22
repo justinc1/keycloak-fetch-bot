@@ -61,6 +61,7 @@ def main():
 
     # what to add
     realm_name = "ci0-realm"
+    realm_name_old = realm_name + "-OLD"
     client0_client_id = "ci0-client-0"
     client1_client_id = "ci0-client-1"
     # one simple (non-composite) role
@@ -107,8 +108,8 @@ def main():
         # myrealm = kc.build('realms', realm_name)
         master_realm.create({
             "enabled": "true",
-            "id": realm_name,
-            "realm": realm_name,
+            "id": realm_name_old,
+            "realm": realm_name_old,
             "displayName": realm_name + "-display-temp",
             "displayNameHtml": f"<div class=\"kc-logo-text\"><span>{realm_name}</span></div>",
         })
@@ -122,7 +123,10 @@ def main():
         #   displayName=ci0-realm-display - code again works
         # Looks like on every second update we get bug exposed.
         # So we do an update.
-        state = master_realm.update(realm_name, {"displayName": realm_name + "-display"}).isOk()
+        state = master_realm.update(realm_name_old, {
+            "realm": realm_name,
+            "displayName": realm_name + "-display"
+        }).isOk()
 
     auth_flow_api = kc.build('authentication/flows', realm_name)
     auth_flow_browser = auth_flow_api.findFirst({"key": "alias", "value": "browser"})
