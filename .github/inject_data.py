@@ -96,6 +96,9 @@ def main():
     # }
     user_name = "ci0-user"
     group_name = "ci0-group"
+    group1a_name = "ci0-group-1a"
+    group1b_name = "ci0-group-1b"
+    group1c_name = "ci0-group-1c"
     client_scope_name = "ci0-client-scope"
 
     realm_ids = [realm["id"] for realm in master_realm.all()]
@@ -411,17 +414,36 @@ def main():
     client0_scope_mappings_client_api = kc.build(f"clients/{client0['id']}/scope-mappings/clients/{client1['id']}", realm_name)
     client0_scope_mappings_client_api.create([client1_role0])
 
-    group = kc.build('groups', realm_name)
+    groups_api = kc.build('groups', realm_name)
     # {'key': 'username', 'value': 'batman'}
     # if group_name not in [gg["name"] for gg in group.findAll()]:
-    if not group.findFirst({'key': 'name', 'value': group_name}):
-        g_creation_state = group.create({
+    if not groups_api.findFirst({'key': 'name', 'value': group_name}):
+        g_creation_state = groups_api.create({
             "name": group_name,
             "attributes": {group_name + "-key0": [group_name + "-value0"]},
         }).isOk()
         # Assign realm role to group
-        group_roles_mapping = group.realmRoles({'key': 'name', 'value': group_name})
+        group_roles_mapping = groups_api.realmRoles({'key': 'name', 'value': group_name})
         group_roles_mapping.add([role_names_plain[0]])
+
+    # group with subgroup
+    # hierarchy is group1a -> group1b -> group1c
+    # POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/groups/92a517f4-4134-4bb0-9cab-5fd0107d9ff1/children
+    if not groups_api.findFirst({'key': 'name', 'value': group1a_name}):
+        groups_api.create({
+            "name": group1a_name,
+            "attributes": {group1a_name + "-key0": [group1a_name + "-value0"]},
+        }).isOk()
+    group1a = groups_api.findFirst({'key': 'name', 'value': group1a_name})
+    group1a_id = group1a["id"]
+    group1a_children_api = groups_api.get_child(groups_api, group1a_id, "children")
+    group1a_children_api.create({"name": group1b_name})
+    # refresh group1a to get group1b id
+    group1a = groups_api.findFirst({'key': 'name', 'value': group1a_name})
+    assert group1b_name == group1a["subGroups"][0]["name"]
+    group1b_id = group1a["subGroups"][0]["id"]
+    group1b_children_api = groups_api.get_child(groups_api, group1b_id, "children")
+    group1b_children_api.create({"name": group1c_name})
 
     user = kc.build('users', realm_name)
     if not user.findFirst({'key': 'username', 'value': user_name}):

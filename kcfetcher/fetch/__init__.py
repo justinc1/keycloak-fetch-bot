@@ -8,6 +8,7 @@ from .component import ComponentFetch
 from .identity_provider import IdentityProviderFetch
 from .role import RoleFetch
 from .realm import RealmFetch
+from .group import GroupFetch
 from .factory import FetchFactory
 
 __all__ = [
