@@ -194,9 +194,9 @@ class TestRealmFetch_vcr:
             assert data["defaultRole"] == {
                 'clientRole': False,
                 'composite': True,
-                'containerId': 'ci0-realm',
+                'containerId': 'ci0-realm-OLD',
                 'description': '${role_default-roles}',
-                'name': 'default-roles-ci0-realm',
+                'name': 'default-roles-ci0-realm-old',
             }
 
         # =====================================================================================

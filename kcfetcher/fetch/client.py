@@ -21,6 +21,7 @@ class ClientFetch(GenericFetch):
 
         auth_flow_api = self.kc.build("authentication", realm)
         auth_flow_all = auth_flow_api.all()
+        realms = self.kc.admin().all()
 
         counter = 0
         client_id_all = [client["id"] for client in kc_objects]
@@ -47,7 +48,7 @@ class ClientFetch(GenericFetch):
             for cid in client_id_all:
                 client_scope_mappings_all += client_scope_mappings_api.get(f"clients/{cid}").verify().resp().json()
             # Similar to client/realm roles, only a minimal representation is saved.
-            client_scope_mappings_all_minimal = [minimize_role_representation(sc, kc_objects) for sc in client_scope_mappings_all]
+            client_scope_mappings_all_minimal = [minimize_role_representation(sc, realms, kc_objects) for sc in client_scope_mappings_all]
             store_api.store_one_with_alias('scope-mappings', client_scope_mappings_all_minimal)
 
             store_api.remove_last_child()  # clients/<client_ind>

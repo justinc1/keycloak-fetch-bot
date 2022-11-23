@@ -61,6 +61,7 @@ def main():
 
     # what to add
     realm_name = "ci0-realm"
+    realm_name_old = realm_name + "-OLD"
     client0_client_id = "ci0-client-0"
     client1_client_id = "ci0-client-1"
     # one simple (non-composite) role
@@ -103,12 +104,12 @@ def main():
 
     realm_ids = [realm["id"] for realm in master_realm.all()]
     logger.debug(f"realm_ids={realm_ids}")
-    if realm_name not in realm_ids:
+    if realm_name_old not in realm_ids:
         # myrealm = kc.build('realms', realm_name)
         master_realm.create({
             "enabled": "true",
-            "id": realm_name,
-            "realm": realm_name,
+            "id": realm_name_old,
+            "realm": realm_name_old,
             "displayName": realm_name + "-display-temp",
             "displayNameHtml": f"<div class=\"kc-logo-text\"><span>{realm_name}</span></div>",
         })
@@ -122,7 +123,10 @@ def main():
         #   displayName=ci0-realm-display - code again works
         # Looks like on every second update we get bug exposed.
         # So we do an update.
-        state = master_realm.update(realm_name, {"displayName": realm_name + "-display"}).isOk()
+        state = master_realm.update(realm_name_old, {
+            "realm": realm_name,
+            "displayName": realm_name + "-display"
+        }).isOk()
 
     auth_flow_api = kc.build('authentication/flows', realm_name)
     auth_flow_browser = auth_flow_api.findFirst({"key": "alias", "value": "browser"})
@@ -331,7 +335,8 @@ def main():
         assert kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5
         # RH SSO 7.5 - POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/roles-by-id/f64c449c-f8f0-4435-84ae-e459e20e6e28/composites
         # https://172.17.0.2:8443/auth/admin/realms/ci0-realm/roles-by-id/f64c449c-f8f0-4435-84ae-e459e20e6e28/composites
-        ci0_default_roles = roles_api.findFirst({'key': 'name', 'value': "default-roles-" + realm_name})
+        # Interesting, renaming realm does not rename corresponding "default-roles-..." role.
+        ci0_default_roles = roles_api.findFirst({'key': 'name', 'value': "default-roles-" + realm["id"]})
 
         # both work
         # ci0_default_roles_composites_api = kc.build(f"roles-by-id/{ci0_default_roles['id']}/composites", realm_name)
@@ -350,7 +355,7 @@ def main():
 
 
     # Make ci0_client0_role0_name client role a default realm role
-    client0 =  client_api.findFirst({'key': 'clientId', 'value': client0_client_id})
+    client0 = client_api.findFirst({'key': 'clientId', 'value': client0_client_id})
     if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
         # RH SSO 7.4 - PUT https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients/864618ea-f1fe-484e-bd73-0517c96668ff
         # findFirst() - uses different endpoint, might return a bit different result (like /roles and briefRepresentation).
@@ -365,7 +370,7 @@ def main():
     else:
         assert kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5
         # RH SSO 7.5 - POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/roles-by-id/f64c449c-f8f0-4435-84ae-e459e20e6e28/composites
-        ci0_default_roles = roles_api.findFirst({'key': 'name', 'value': "default-roles-" + realm_name})
+        ci0_default_roles = roles_api.findFirst({'key': 'name', 'value': "default-roles-" + realm["id"]})
         ci0_default_roles_composites_api = roles_by_id_api.get_child(roles_by_id_api, ci0_default_roles['id'], "composites")
         ci0_default_roles_composites_api.create([client0_role0])
         composites = roles_by_id_api.get(f"{ci0_default_roles['id']}/composites").verify().resp().json()

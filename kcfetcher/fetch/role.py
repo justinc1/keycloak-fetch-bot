@@ -46,6 +46,8 @@ class RoleFetch(GenericFetch):
         # We get full role representation from GET /{realm}/roles-by-id/{role-id}
         roles_by_id_api = self.kc.build("roles-by-id", self.realm)
         clients_api = self.kc.build("clients", self.realm)
+        realms = self.kc.admin().all()
+        realm_ids = [rr["id"] for rr in realms]
         clients = clients_api.all()
         roles = []
         for brief_role in brief_roles:
@@ -57,9 +59,7 @@ class RoleFetch(GenericFetch):
                 # must be parent client UUID, check the length
                 assert len(role["containerId"]) == 36
             else:
-                if role["containerId"] != self.realm:
-                    logger.error(f"Mismatch between role containerId and realm name, realm={self.realm} role_id={role_id} role_name={role['name']} role_containerId={role['containerId']}. OBJ: role={role}")
-                assert role["containerId"] == self.realm
+                assert role["containerId"] in realm_ids
             role.pop("containerId")
 
             if role["composite"]:
@@ -67,7 +67,7 @@ class RoleFetch(GenericFetch):
                 # For client role, we need to replace containerId (UUID) with client.clientId (string)
                 assert "composites" not in role
                 composites = roles_by_id_api.get(f"{role_id}/composites").verify().resp().json()
-                role["composites"] = [minimize_role_representation(cc, clients) for cc in composites]
+                role["composites"] = [minimize_role_representation(cc, realms, clients) for cc in composites]
 
             roles.append(role)
 

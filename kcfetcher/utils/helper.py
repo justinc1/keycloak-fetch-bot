@@ -23,21 +23,23 @@ def find_in_list(objects, **kwargs):
         if key in obj and obj[key] == value:
             return obj
 
-def minimize_role_representation(full_role, clients):
+def minimize_role_representation(full_role, realms, clients):
     """
     This is used to get a minimal role representation.
     It contains just enough data that sub-role of the composite role can be found.
     Or that role referred by client scope mapping can be found.
 
-    For client roles we replace attribute containerId with containerName, value is set to client.clientId.
-    For realm roles, containerId already contains realm name, so attribute is just renamed.
+    We replace attribute containerId with containerName:
+    - For client roles, containerId contains client.id, containerName is set to client.clientId.
+    - For realm roles, containerId contains realm.id, containerName is set to realm.realm.
 
     Complete role representation is stored in realm /roles or client/roles/.
     """
     containerId = full_role["containerId"]
-    container_name = containerId
     if full_role["clientRole"]:
         container_name = find_in_list(clients, id=containerId)["clientId"]
+    else:
+        container_name = find_in_list(realms, id=containerId)["realm"]
     return dict(
         name=full_role["name"],
         clientRole=full_role["clientRole"],

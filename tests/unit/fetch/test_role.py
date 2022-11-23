@@ -36,7 +36,7 @@ class TestRoleFetch_vcr:
             # 'default-roles-ci0-realm.json',  # not in RH SSO 7.4
         ]
         if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
-            expected_files.append("default-roles-ci0-realm.json")
+            expected_files.append("default-roles-ci0-realm-old.json")
             # TODO fix for 7.4
         assert unordered(os.listdir(datadir)) == expected_files
 
@@ -90,7 +90,7 @@ class TestRoleFetch_vcr:
         assert composites_sorted[2]["name"] == "ci0-role-1b"
 
         if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
-            data = json.load(open(os.path.join(datadir, "default-roles-ci0-realm.json")))
+            data = json.load(open(os.path.join(datadir, "default-roles-ci0-realm-old.json")))
             assert list(data.keys()) == [
                 'attributes',
                 'clientRole',
