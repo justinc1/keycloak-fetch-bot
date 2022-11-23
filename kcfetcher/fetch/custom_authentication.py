@@ -1,10 +1,8 @@
 from kcfetcher.fetch import GenericFetch
+from kcfetcher.utils import normalize
 
 
 class CustomAuthenticationFetch(GenericFetch):
-    def normalize(self, identifier=""):
-        return identifier.lower().replace('//', '_').replace(' ', '_')
-
     def fetch(self, store_api):
         name = self.resource_name
         identifier = self.id
@@ -18,7 +16,7 @@ class CustomAuthenticationFetch(GenericFetch):
 
         counter = 0
         for kc_object in kc_objects:
-            store_api.add_child(self.normalize(kc_object[identifier]))  # auth/authentication_name
+            store_api.add_child(normalize(kc_object[identifier]))  # auth/authentication_name
             store_api.store_one(kc_object, identifier)
 
             executors = authentication_api.executions(kc_object).all()

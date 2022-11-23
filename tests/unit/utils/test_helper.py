@@ -107,6 +107,9 @@ class Test_normalize:
             ("aa/bb cc=dd,ee---aa/bb cc=dd,ee", "aa_bb_cc_dd_ee---aa_bb_cc_dd_ee"),
             ("http://an.url/can.be/a.name-etc", "http___an.url_can.be_a.name-etc"),
             ("username-with-asterix-*", "username-with-asterix-_"),
+            ("aa-#-bb", "aa-_-bb"),
+            ("aa-/-bb", "aa-_-bb"),
+            ("aa-\\-bb", "aa-_-bb"),
         ]
     )
     def test_normalize(self, identifier_in, expected_identifier):
