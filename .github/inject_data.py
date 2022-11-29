@@ -254,6 +254,8 @@ def main():
                 "xmlSigKeyInfoKeyNameTransformer": "KEY_ID"
             },
         }).isOk()
+        # This IdP mapper is suitable for RH SSO 7.5.
+        # 7.4 does load it, but type "saml-advanced-role-idp-mapper" is not recognized.
         idp_mapper_api.create({
             "config": {
                 "are.attribute.values.regex": "false",
@@ -265,6 +267,19 @@ def main():
             "identityProviderMapper": "saml-advanced-role-idp-mapper",
             "name": "idp-mapper-0b"
         })
+        # This IdP mapper is suitable for RH SSO 7.4
+        idp_mapper_api.create({
+            "identityProviderAlias": idp_alias,
+            "config": {
+                "attribute.name": "attr-name",
+                "attribute.friendly.name": "attr-friendly-name",
+                "attribute.value": "attr-value",
+                "role": "ci0-client-0.ci0-client0-role0"
+            },
+            "name": "idp-mapper-1",
+            "identityProviderMapper": "saml-role-idp-mapper",
+        })
+
     # TODO add IdP with providerId=openid, maybe also some pre-defined social one
 
     # add client roles

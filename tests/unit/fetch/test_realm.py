@@ -170,7 +170,7 @@ class TestRealmFetch_vcr:
         assert data["clientAuthenticationFlow"] == "clients"
         # identity provider - mappers are part of /realms/ API endpoint
         # Check we have correct content
-        assert data["identityProviderMappers"] == [
+        assert data["identityProviderMappers"] == unordered([
             {
                 "config": {
                     "are.attribute.values.regex": "false",
@@ -181,8 +181,19 @@ class TestRealmFetch_vcr:
                 "identityProviderAlias": "ci0-idp-saml-0",
                 "identityProviderMapper": "saml-advanced-role-idp-mapper",
                 "name": "idp-mapper-0b"
+            },
+            {
+                "identityProviderAlias": "ci0-idp-saml-0",
+                "config": {
+                    "attribute.name": "attr-name",
+                    "attribute.friendly.name": "attr-friendly-name",
+                    "attribute.value": "attr-value",
+                    "role": "ci0-client-0.ci0-client0-role0"
+                },
+                "name": "idp-mapper-1",
+                "identityProviderMapper": "saml-role-idp-mapper",
             }
-        ]
+        ])
         if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
             assert data["defaultRoles"] == unordered([
                 "offline_access",
