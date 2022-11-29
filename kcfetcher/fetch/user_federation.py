@@ -1,6 +1,6 @@
 from copy import copy
 from kcfetcher.fetch import GenericFetch
-from kcfetcher.utils import normalize
+from kcfetcher.utils import normalize, find_in_list
 
 
 class UserFederationFetch(GenericFetch):
@@ -39,6 +39,16 @@ class UserFederationFetch(GenericFetch):
     def _get_data(self):
         kc = self.kc.build("components", self.realm)
         kc_objects = self.all(kc)
+
+        # replace realm id with realm name
+        master_realm_api = self.kc.admin()
+        realms =  master_realm_api.all()
+        for obj in kc_objects:
+            realm_id = obj.pop("parentId")
+            realm = find_in_list(realms, id=realm_id)
+            realm_name = realm["realm"]
+            obj["parentName"] = realm_name
+
         return kc_objects
 
     def all_from_components(self, components):

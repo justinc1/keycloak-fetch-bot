@@ -58,13 +58,13 @@ class TestUserFederationFetch(TestUserFederationFetchBase):
         ]
 
         data = json.load(open(os.path.join(datadir, "ci0-uf0-ldap/ci0-uf0-ldap.json")))
-        assert list(data.keys()) == [
+        assert list(data.keys()) == unordered([
             'config',
             'name',
-            'parentId',
+            'parentName',
             'providerId',
             'providerType',
-        ]
+        ])
         assert list(data["config"].keys()) == [
             'allowKerberosAuthentication',
             'authType',
@@ -95,6 +95,9 @@ class TestUserFederationFetch(TestUserFederationFetchBase):
             'vendor',
         ]
         assert data["name"] == "ci0-uf0-ldap"
+        assert data["parentName"] == "ci0-realm"
+        assert data["providerId"] == "ldap"
+        assert data["providerType"] == "org.keycloak.storage.UserStorageProvider"
         assert data["config"]["connectionUrl"] == ["ldaps://172.17.0.4:636"]
 
         # check attribute mappers
