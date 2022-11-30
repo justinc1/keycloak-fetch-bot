@@ -265,6 +265,11 @@ class TestCustomAuthenticationFetch:
             'first_broker_login/executors',
             'first_broker_login/executors/executors.json',
             'first_broker_login/first_broker_login.json',
+            # what inject_data.py added
+            'ci0-auth-flow-generic',
+            'ci0-auth-flow-generic/executors',
+            'ci0-auth-flow-generic/executors/executors.json',
+            'ci0-auth-flow-generic/ci0-auth-flow-generic.json',
         ]
 
         data = json.load(open(os.path.join(datadir, "browser/browser.json")))

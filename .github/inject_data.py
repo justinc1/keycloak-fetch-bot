@@ -129,7 +129,56 @@ def main():
         }).isOk()
 
     auth_flow_api = kc.build('authentication/flows', realm_name)
+    auth_executions_api = kc.build('authentication/executions', realm_name)
     auth_flow_browser = auth_flow_api.findFirst({"key": "alias", "value": "browser"})
+
+    auth_flow_generic_alias = "ci0-auth-flow-generic"
+    if not auth_flow_api.findFirstByKV("alias", auth_flow_generic_alias):
+        auth_flow_api.create({
+            "alias": auth_flow_generic_alias,
+            "providerId": "basic-flow",
+            "description": "ci0-auth-flow-generic-desc",
+            "topLevel": True,
+            "builtIn": False,
+        })
+        # auth_flow_generic = auth_flow_api.findFirstByKV("alias", auth_flow_generic_alias)
+        this_flow_executions_api = auth_flow_api.get_child(auth_flow_api, auth_flow_generic_alias, "executions")
+        this_flow_executions_execution_api = this_flow_executions_api.get_child(this_flow_executions_api, "", "execution")
+        # create two executions
+        this_flow_executions_execution_api.create({"provider": "direct-grant-validate-username"})
+        this_flow_executions_execution_api.create({"provider": "auth-conditional-otp-form"})
+
+        # make the second execution "alternative"
+        executions = this_flow_executions_api.all()
+        assert 2 == len(executions)
+        assert "auth-conditional-otp-form" == executions[1]["providerId"]
+        assert "Conditional OTP Form" == executions[1]["displayName"]
+        assert "ALTERNATIVE" in executions[1]["requirementChoices"]
+        execution1_temp = copy(executions[1])
+        execution1_temp.update(dict(requirement="ALTERNATIVE"))
+        # PUT https://172.17.0.2:8443/auth/admin/realms/ci0-realm/authentication/flows/ci0-auth-flow-generic/executions
+        this_flow_executions_api.update("", execution1_temp)
+
+        # configure the second execution
+        # GET https://172.17.0.2:8443/auth/admin/realms/ci0-realm/authentication/flows/ci0-auth-flow-generic/executions
+        # POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/authentication/executions/a418c71e-f2f3-4d17-883b-9d17ccecda29/config
+        assert "authenticationConfig" not in executions[1]  # since authenticationConfig was not yet created
+        execution1_id = executions[1]["id"]
+        execution1_config_api = auth_executions_api.get_child(auth_executions_api, execution1_id, "config")
+        execution1_config_api.create({
+            "config": {
+                "otpControlAttribute": "user-attr",
+                "skipOtpRole": "ci0-role-1",
+                "forceOtpRole": "ci0-client-0.ci0-client0-role0",
+                "noOtpRequiredForHeaderPattern": "ci0-skip-header",
+                "forceOtpForHeaderPattern": "ci0-force-header",
+                "defaultOtpOutcome": "skip"
+            },
+            "alias": "ci0-auth-flow-generic-exec-20-alias"
+        })
+        # TODO add "child" flow
+        # TODO add a second level
+
     client_api = kc.build('clients', realm_name)
     if not client_api.findFirst({'key': 'clientId', 'value': client0_client_id}):
         client_api.create({
