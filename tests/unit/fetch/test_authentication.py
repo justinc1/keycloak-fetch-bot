@@ -272,6 +272,8 @@ class TestCustomAuthenticationFetch:
             'ci0-auth-flow-generic/ci0-auth-flow-generic.json',
         ]
 
+        # -------------------------------------------------------------------------------
+        # Check browser flow. It is unmodified.
         data = json.load(open(os.path.join(datadir, "browser/browser.json")))
         assert data == {
             "alias": "browser",
@@ -413,6 +415,135 @@ class TestCustomAuthenticationFetch:
                 "requirementChoices": [
                     "REQUIRED",
                     "ALTERNATIVE",
+                    "DISABLED"
+                ]
+            }
+        ]
+
+        # -------------------------------------------------------------------------------
+        # Check ci0-auth-flow-generic flow. It is non-default, executions are configured etc.
+        data = json.load(open(os.path.join(datadir, "ci0-auth-flow-generic/ci0-auth-flow-generic.json")))
+        assert data == {
+            "alias": "ci0-auth-flow-generic",
+            "authenticationExecutions": [
+                {
+                    "authenticator": "direct-grant-validate-username",
+                    "autheticatorFlow": False,
+                    "priority": 0,
+                    "requirement": "REQUIRED",
+                    "userSetupAllowed": False
+                },
+                {
+                    "authenticator": "auth-conditional-otp-form",
+                    "authenticatorConfig": "ci0-auth-flow-generic-exec-20-alias",
+                    "autheticatorFlow": False,
+                    "priority": 1,
+                    "requirement": "ALTERNATIVE",
+                    "userSetupAllowed": False
+                },
+                {
+                    "authenticator": "registration-page-form",
+                    "autheticatorFlow": True,
+                    "flowAlias": "ci0-auth-flow-generic-exec-3-generic-alias",
+                    "priority": 2,
+                    "requirement": "CONDITIONAL",
+                    "userSetupAllowed": False
+                },
+                {
+                    "authenticator": "registration-page-form",
+                    "autheticatorFlow": True,
+                    "flowAlias": "ci0-auth-flow-generic-exec-4-flow-alias",
+                    "priority": 3,
+                    "requirement": "REQUIRED",
+                    "userSetupAllowed": False
+                }
+            ],
+            "builtIn": False,
+            "description": "ci0-auth-flow-generic-desc",
+            "providerId": "basic-flow",
+            "topLevel": True
+        }
+
+        data = json.load(open(os.path.join(datadir, "ci0-auth-flow-generic/executors/executors.json")))
+        assert data == [
+            {
+                "configurable": False,
+                "displayName": "Username Validation",
+                "index": 0,
+                "level": 0,
+                "providerId": "direct-grant-validate-username",
+                "requirement": "REQUIRED",
+                "requirementChoices": [
+                    "REQUIRED"
+                ]
+            },
+            {
+                "alias": "ci0-auth-flow-generic-exec-20-alias",
+                "authenticationConfig": "19c5be2a-d37d-4fd6-9872-0a875fda8007",  # TODO UUID to name
+                "configurable": True,
+                "displayName": "Conditional OTP Form",
+                "index": 1,
+                "level": 0,
+                "providerId": "auth-conditional-otp-form",
+                "requirement": "ALTERNATIVE",
+                "requirementChoices": [
+                    "REQUIRED",
+                    "ALTERNATIVE",
+                    "DISABLED"
+                ]
+            },
+            {
+                "authenticationFlow": True,
+                "configurable": False,
+                "displayName": "ci0-auth-flow-generic-exec-3-generic-alias",
+                "index": 2,
+                "level": 0,
+                "requirement": "CONDITIONAL",
+                "requirementChoices": [
+                    "REQUIRED",
+                    "ALTERNATIVE",
+                    "DISABLED",
+                    "CONDITIONAL"
+                ]
+            },
+            {
+                "authenticationFlow": True,
+                "configurable": False,
+                "displayName": "ci0-auth-flow-generic-exec-3-1-flow-alias",
+                "index": 0,
+                "level": 1,
+                "requirement": "ALTERNATIVE",
+                "requirementChoices": [
+                    "REQUIRED",
+                    "ALTERNATIVE",
+                    "DISABLED",
+                    "CONDITIONAL"
+                ]
+            },
+            {
+                "authenticationFlow": True,
+                "configurable": False,
+                "displayName": "ci0-auth-flow-generic-exec-4-flow-alias",
+                "index": 3,
+                "level": 0,
+                "providerId": "registration-page-form",
+                "requirement": "REQUIRED",
+                "requirementChoices": [
+                    "REQUIRED",
+                    "DISABLED"
+                ]
+            },
+            {
+                "alias": "ci0-auth-flow-generic-exec-6-alias",
+                "authenticationConfig": "39719cee-eee5-4791-8b21-afb0763ab609",  # TODO UUID to name
+                "configurable": True,
+                "displayName": "Recaptcha",
+                "index": 0,
+                "level": 1,
+                "providerId": "registration-recaptcha-action",
+                "requirement": "DISABLED",
+                "requirementChoices": [
+                    "REQUIRED",
                     "DISABLED"
                 ]
             }
