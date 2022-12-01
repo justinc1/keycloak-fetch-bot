@@ -270,9 +270,6 @@ class TestCustomAuthenticationFetch:
             'ci0-auth-flow-generic/executors',
             'ci0-auth-flow-generic/executors/executors.json',
             'ci0-auth-flow-generic/ci0-auth-flow-generic.json',
-            'ci0-auth-flow-generic/execution-config/',
-            'ci0-auth-flow-generic/execution-config/ci0-auth-flow-generic-exec-20-alias.json',
-            'ci0-auth-flow-generic/execution-config/ci0-auth-flow-generic-exec-6-alias.json',
         ]
 
         # -------------------------------------------------------------------------------
@@ -482,7 +479,17 @@ class TestCustomAuthenticationFetch:
             },
             {
                 "alias": "ci0-auth-flow-generic-exec-20-alias",
-                "authenticationConfig": "19c5be2a-d37d-4fd6-9872-0a875fda8007",  # TODO UUID to name
+                "authenticationConfigData": {
+                    "alias": "ci0-auth-flow-generic-exec-20-alias",
+                    "config": {
+                        "defaultOtpOutcome": "skip",
+                        "forceOtpForHeaderPattern": "ci0-force-header",
+                        "forceOtpRole": "ci0-client-0.ci0-client0-role0",
+                        "noOtpRequiredForHeaderPattern": "ci0-skip-header",
+                        "otpControlAttribute": "user-attr",
+                        "skipOtpRole": "ci0-role-1"
+                    }
+                },
                 "configurable": True,
                 "displayName": "Conditional OTP Form",
                 "index": 1,
@@ -538,7 +545,14 @@ class TestCustomAuthenticationFetch:
             },
             {
                 "alias": "ci0-auth-flow-generic-exec-6-alias",
-                "authenticationConfig": "39719cee-eee5-4791-8b21-afb0763ab609",  # TODO UUID to name
+                "authenticationConfigData": {
+                    "alias": "ci0-auth-flow-generic-exec-6-alias",
+                    "config": {
+                        "secret": "ci0-recaptcha-secret",
+                        "site.key": "ci0-recaptcha-site-key",
+                        "useRecaptchaNet": "true"
+                    }
+                },
                 "configurable": True,
                 "displayName": "Recaptcha",
                 "index": 0,
@@ -551,26 +565,3 @@ class TestCustomAuthenticationFetch:
                 ]
             }
         ]
-
-        data = json.load(open(os.path.join(datadir, "ci0-auth-flow-generic/execution-config/ci0-auth-flow-generic-exec-20-alias.json")))
-        assert data == {
-            "alias": "ci0-auth-flow-generic-exec-20-alias",
-            "config": {
-                "skipOtpRole": "ci0-role-1",
-                "forceOtpRole": "ci0-client-0.ci0-client0-role0",
-                "otpControlAttribute": "user-attr",
-                "noOtpRequiredForHeaderPattern": "ci0-skip-header",
-                "forceOtpForHeaderPattern": "ci0-force-header",
-                "defaultOtpOutcome": "skip"
-            }
-        }
-
-        data = json.load(open(os.path.join(datadir, "ci0-auth-flow-generic/execution-config/ci0-auth-flow-generic-exec-6-alias.json")))
-        assert data == {
-            "alias": "ci0-auth-flow-generic-exec-6-alias",
-            "config": {
-                "useRecaptchaNet": "true",
-                "secret": "ci0-recaptcha-secret",
-                "site.key": "ci0-recaptcha-site-key"
-            }
-        }
