@@ -144,6 +144,7 @@ def main():
         # auth_flow_generic = auth_flow_api.findFirstByKV("alias", auth_flow_generic_alias)
         this_flow_executions_api = auth_flow_api.get_child(auth_flow_api, auth_flow_generic_alias, "executions")
         this_flow_executions_execution_api = this_flow_executions_api.get_child(this_flow_executions_api, "", "execution")
+        this_flow_executions_flow_api = this_flow_executions_api.get_child(this_flow_executions_api, "", "flow")
         # create two executions
         this_flow_executions_execution_api.create({"provider": "direct-grant-validate-username"})
         this_flow_executions_execution_api.create({"provider": "auth-conditional-otp-form"})
@@ -153,6 +154,7 @@ def main():
         assert 2 == len(executions)
         assert "auth-conditional-otp-form" == executions[1]["providerId"]
         assert "Conditional OTP Form" == executions[1]["displayName"]
+        assert "DISABLED" == executions[1]["requirement"]
         assert "ALTERNATIVE" in executions[1]["requirementChoices"]
         execution1_temp = copy(executions[1])
         execution1_temp.update(dict(requirement="ALTERNATIVE"))
@@ -176,8 +178,74 @@ def main():
             },
             "alias": "ci0-auth-flow-generic-exec-20-alias"
         })
-        # TODO add "child" flow
-        # TODO add a second level
+
+        # To get a second level, we add a 3rd execution, with provider of type flow
+        # That execution can have its own "childs" - a second level.
+        # POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/authentication/flows/ci0-auth-flow-generic/executions/flow
+        # Flow type: generic
+        this_flow_executions_flow_api.create({
+            "alias": "ci0-auth-flow-generic-exec-3-generic-alias",
+            "type": "basic-flow",
+            "description": "ci0-auth-flow-generic-exec-3-generic-alias-desc",
+            "provider": "registration-page-form",
+        })
+        # Flow type: flow
+        this_flow_executions_flow_api.create({
+            "alias": "ci0-auth-flow-generic-exec-4-flow-alias",
+            "type": "form-flow",
+            "description": "ci0-auth-flow-generic-exec-4-flow-alias-desc",
+            "provider": "registration-page-form",
+        })
+
+        executions = this_flow_executions_api.all()
+        # Make 3rd execution CONDITIONAL
+        assert "ci0-auth-flow-generic-exec-3-generic-alias" == executions[2]["displayName"]
+        execution2_temp = copy(executions[2])
+        execution2_temp.update(dict(requirement="CONDITIONAL"))
+        this_flow_executions_api.update("", execution2_temp)
+        # Make 4th execution REQUIRED
+        assert "ci0-auth-flow-generic-exec-4-flow-alias" == executions[3]["displayName"]
+        execution3_temp = copy(executions[3])
+        execution3_temp.update(dict(requirement="REQUIRED"))
+        this_flow_executions_api.update("", execution3_temp)
+
+        # Add child flow to 3rd execution, type generic
+        # NOTE: this will change order in executions - this_flow_executions_api.all() returns ordered list
+        # POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/authentication/flows/ci0-auth-flow-generic-exec-3-generic-alias/executions/flow
+        the_3rd_flow_alias = "ci0-auth-flow-generic-exec-3-generic-alias"
+        the_3rd_flow_executions_flow_api = auth_flow_api.get_child(auth_flow_api, the_3rd_flow_alias, "executions/flow")
+        the_3rd_flow_executions_flow_api.create({
+            "alias": "ci0-auth-flow-generic-exec-3-1-flow-alias",
+            "type": "basic-flow",
+            "description": "ci0-auth-flow-generic-exec-3-1-flow-alias-desc",
+            "provider": "registration-page-form"
+        })
+        # make it ALTERNATIVE
+        executions = this_flow_executions_api.all()
+        assert "ci0-auth-flow-generic-exec-3-1-flow-alias" == executions[3]["displayName"]
+        execution_temp = copy(executions[3])
+        execution_temp.update(dict(requirement="ALTERNATIVE"))
+        this_flow_executions_api.update("", execution_temp)
+
+        # Add child execution to 4th execution, select recaptcha
+        the_4th_flow_alias = "ci0-auth-flow-generic-exec-4-flow-alias"
+        the_4th_flow_executions_execution_api = auth_flow_api.get_child(auth_flow_api, the_4th_flow_alias, "executions/execution")
+        the_4th_flow_executions_execution_api.create({"provider": "registration-recaptcha-action"})
+        # leave it disabled
+        executions = this_flow_executions_api.all()
+        assert "registration-recaptcha-action" == executions[5]["providerId"]
+        assert "DISABLED" == executions[5]["requirement"]
+        # configure it 754
+        execution5_id = executions[5]["id"]
+        execution5_config_api = auth_executions_api.get_child(auth_executions_api, execution5_id, "config")
+        execution5_config_api.create({
+            "config": {
+                "site.key": "ci0-recaptcha-site-key",
+                "secret": "ci0-recaptcha-secret",
+                "useRecaptchaNet": "true"
+            },
+            "alias": "ci0-auth-flow-generic-exec-6-alias"
+        })
 
     client_api = kc.build('clients', realm_name)
     if not client_api.findFirst({'key': 'clientId', 'value': client0_client_id}):
