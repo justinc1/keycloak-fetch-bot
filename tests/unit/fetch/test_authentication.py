@@ -270,6 +270,9 @@ class TestCustomAuthenticationFetch:
             'ci0-auth-flow-generic/executors',
             'ci0-auth-flow-generic/executors/executors.json',
             'ci0-auth-flow-generic/ci0-auth-flow-generic.json',
+            'ci0-auth-flow-generic/execution-config/',
+            'ci0-auth-flow-generic/execution-config/ci0-auth-flow-generic-exec-20-alias.json',
+            'ci0-auth-flow-generic/execution-config/ci0-auth-flow-generic-exec-6-alias.json',
         ]
 
         # -------------------------------------------------------------------------------
@@ -548,3 +551,26 @@ class TestCustomAuthenticationFetch:
                 ]
             }
         ]
+
+        data = json.load(open(os.path.join(datadir, "ci0-auth-flow-generic/execution-config/ci0-auth-flow-generic-exec-20-alias.json")))
+        assert data == {
+            "alias": "ci0-auth-flow-generic-exec-20-alias",
+            "config": {
+                "skipOtpRole": "ci0-role-1",
+                "forceOtpRole": "ci0-client-0.ci0-client0-role0",
+                "otpControlAttribute": "user-attr",
+                "noOtpRequiredForHeaderPattern": "ci0-skip-header",
+                "forceOtpForHeaderPattern": "ci0-force-header",
+                "defaultOtpOutcome": "skip"
+            }
+        }
+
+        data = json.load(open(os.path.join(datadir, "ci0-auth-flow-generic/execution-config/ci0-auth-flow-generic-exec-6-alias.json")))
+        assert data == {
+            "alias": "ci0-auth-flow-generic-exec-6-alias",
+            "config": {
+                "useRecaptchaNet": "true",
+                "secret": "ci0-recaptcha-secret",
+                "site.key": "ci0-recaptcha-site-key"
+            }
+        }
