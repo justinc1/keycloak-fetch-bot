@@ -9,7 +9,55 @@ from pytest_unordered import unordered
 
 from kcfetcher.fetch import CustomAuthenticationFetch
 from kcfetcher.store import Store
-from kcfetcher.utils import remove_folder, make_folder, login
+from kcfetcher.utils import remove_folder, make_folder, login, RH_SSO_VERSIONS_7_4, RH_SSO_VERSIONS_7_5
+
+
+def kc_15_auth_flow_expected_data_fixup(kc, data):
+    """
+    For authentication flow,
+    KC 9/RH SSO 7.4 will return
+        "autheticatorFlow": False,
+    KC 15/RH SSO 7.5 will return
+        "authenticatorFlow": False,
+        "autheticatorFlow": False,
+    """
+    assert isinstance(data, dict)
+    if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
+        for exec in data["authenticationExecutions"]:
+            assert "autheticatorFlow" in exec
+            assert "authenticatorFlow" not in exec
+            exec["authenticatorFlow"] = exec["autheticatorFlow"]
+
+    if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
+        authenticator_field_name = "authenticator___kc15"
+    else:
+        authenticator_field_name = "authenticator___kc9"
+    for exec in data["authenticationExecutions"]:
+        if authenticator_field_name in exec:
+            exec["authenticator"] = exec[authenticator_field_name]
+        for field_name in ["authenticator___kc9", "authenticator___kc15"]:
+            if field_name in exec:
+                exec.pop(field_name)
+    return data
+
+
+def kc_15_auth_flow_executors_expected_data_fixup(kc, data):
+    # KC 15/RH SSO 7.5 added (optional) description field
+    # KC 9 has description field , but (default value) is differen.
+    # Choose correct description from two options.
+    assert isinstance(data, list)
+    assert isinstance(data[0], dict)
+    if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
+        desc_field_name = "description___kc9"
+    else:
+        desc_field_name = "description___kc15"
+    for exec in data:
+        if desc_field_name in exec:
+            exec["description"] = exec[desc_field_name]
+        for field_name in ["description___kc9", "description___kc15"]:
+            if field_name in exec:
+                exec.pop(field_name)
+    return data
 
 
 class TestCustomAuthenticationFetch:
@@ -68,7 +116,7 @@ class TestCustomAuthenticationFetch:
         ]
 
         data = json.load(open(os.path.join(datadir, "browser/browser.json")))
-        assert data == {
+        assert data == kc_15_auth_flow_expected_data_fixup(kc, {
             "alias": "browser",
             "authenticationExecutions": [
                 {
@@ -104,10 +152,10 @@ class TestCustomAuthenticationFetch:
             "description": "browser based authentication",
             "providerId": "basic-flow",
             "topLevel": True
-        }
+        })
 
         data = json.load(open(os.path.join(datadir, "browser/executors/executors.json")))
-        assert data == [
+        assert data == kc_15_auth_flow_executors_expected_data_fixup(kc, [
             {
                 "configurable": False,
                 "displayName": "Cookie",
@@ -150,6 +198,8 @@ class TestCustomAuthenticationFetch:
             {
                 "authenticationFlow": True,
                 "configurable": False,
+                # "description___kc9": "Username, password, otp and other auth forms.",
+                "description___kc15": "Username, password, otp and other auth forms.",
                 "displayName": "forms",
                 "index": 3,
                 "level": 0,
@@ -175,6 +225,8 @@ class TestCustomAuthenticationFetch:
             {
                 "authenticationFlow": True,
                 "configurable": False,
+                #"description___kc9s": "Flow to determine if the OTP is required for the authentication",
+                "description___kc15": "Flow to determine if the OTP is required for the authentication",
                 "displayName": "Browser - Conditional OTP",
                 "index": 1,
                 "level": 1,
@@ -211,7 +263,7 @@ class TestCustomAuthenticationFetch:
                     "DISABLED"
                 ]
             }
-        ]
+        ])
 
     @mark.vcr()
     def test_fetch_ci0_realm(self):
@@ -275,7 +327,7 @@ class TestCustomAuthenticationFetch:
         # -------------------------------------------------------------------------------
         # Check browser flow. It is unmodified.
         data = json.load(open(os.path.join(datadir, "browser/browser.json")))
-        assert data == {
+        assert data == kc_15_auth_flow_expected_data_fixup(kc, {
             "alias": "browser",
             "authenticationExecutions": [
                 {
@@ -311,10 +363,10 @@ class TestCustomAuthenticationFetch:
             "description": "browser based authentication",
             "providerId": "basic-flow",
             "topLevel": True
-        }
+        })
 
         data = json.load(open(os.path.join(datadir, "browser/executors/executors.json")))
-        assert data == [
+        assert data == kc_15_auth_flow_executors_expected_data_fixup(kc, [
             {
                 "configurable": False,
                 "displayName": "Cookie",
@@ -357,6 +409,7 @@ class TestCustomAuthenticationFetch:
             {
                 "authenticationFlow": True,
                 "configurable": False,
+                "description___kc15": "Username, password, otp and other auth forms.",
                 "displayName": "forms",
                 "index": 3,
                 "level": 0,
@@ -382,6 +435,8 @@ class TestCustomAuthenticationFetch:
             {
                 "authenticationFlow": True,
                 "configurable": False,
+                # "description___kc9": "Flow to determine if the OTP is required for the authentication",
+                "description___kc15": "Flow to determine if the OTP is required for the authentication",
                 "displayName": "Browser - Conditional OTP",
                 "index": 1,
                 "level": 1,
@@ -418,12 +473,12 @@ class TestCustomAuthenticationFetch:
                     "DISABLED"
                 ]
             }
-        ]
+        ])
 
         # -------------------------------------------------------------------------------
         # Check ci0-auth-flow-generic flow. It is non-default, executions are configured etc.
         data = json.load(open(os.path.join(datadir, "ci0-auth-flow-generic/ci0-auth-flow-generic.json")))
-        assert data == {
+        assert data == kc_15_auth_flow_expected_data_fixup(kc, {
             "alias": "ci0-auth-flow-generic",
             "authenticationExecutions": [
                 {
@@ -442,7 +497,7 @@ class TestCustomAuthenticationFetch:
                     "userSetupAllowed": False
                 },
                 {
-                    "authenticator": "registration-page-form",
+                    "authenticator___kc9": "registration-page-form",  # only in KC9
                     "autheticatorFlow": True,
                     "flowAlias": "ci0-auth-flow-generic-exec-3-generic-alias",
                     "priority": 2,
@@ -462,10 +517,10 @@ class TestCustomAuthenticationFetch:
             "description": "ci0-auth-flow-generic-desc",
             "providerId": "basic-flow",
             "topLevel": True
-        }
+        })
 
         data = json.load(open(os.path.join(datadir, "ci0-auth-flow-generic/executors/executors.json")))
-        assert data == [
+        assert data == kc_15_auth_flow_executors_expected_data_fixup(kc, [
             {
                 "configurable": False,
                 "displayName": "Username Validation",
@@ -491,6 +546,7 @@ class TestCustomAuthenticationFetch:
                     }
                 },
                 "configurable": True,
+                # "description": "Username, password, otp and other auth forms.",
                 "displayName": "Conditional OTP Form",
                 "index": 1,
                 "level": 0,
@@ -505,6 +561,7 @@ class TestCustomAuthenticationFetch:
             {
                 "authenticationFlow": True,
                 "configurable": False,
+                "description___kc15": "ci0-auth-flow-generic-exec-3-generic-alias-desc",
                 "displayName": "ci0-auth-flow-generic-exec-3-generic-alias",
                 "index": 2,
                 "level": 0,
@@ -519,6 +576,7 @@ class TestCustomAuthenticationFetch:
             {
                 "authenticationFlow": True,
                 "configurable": False,
+                "description___kc15": "ci0-auth-flow-generic-exec-3-1-flow-alias-desc",
                 "displayName": "ci0-auth-flow-generic-exec-3-1-flow-alias",
                 "index": 0,
                 "level": 1,
@@ -533,6 +591,8 @@ class TestCustomAuthenticationFetch:
             {
                 "authenticationFlow": True,
                 "configurable": False,
+                #"description___kc9": "Username, password, otp and other auth forms.",
+                "description___kc15": "ci0-auth-flow-generic-exec-4-flow-alias-desc",
                 "displayName": "ci0-auth-flow-generic-exec-4-flow-alias",
                 "index": 3,
                 "level": 0,
@@ -564,4 +624,4 @@ class TestCustomAuthenticationFetch:
                     "DISABLED"
                 ]
             }
-        ]
+        ])
