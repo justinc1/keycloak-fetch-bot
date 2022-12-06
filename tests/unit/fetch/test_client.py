@@ -4,7 +4,7 @@ import json
 import os
 from kcfetcher.fetch import ClientFetch
 from kcfetcher.store import Store
-from kcfetcher.utils import remove_folder, make_folder, login, RH_SSO_VERSIONS_7_4
+from kcfetcher.utils import remove_folder, make_folder, login, RH_SSO_VERSIONS_7_4, RH_SSO_VERSIONS_7_5
 
 
 @mark.vcr()
@@ -78,7 +78,7 @@ class TestClientFetch_vcr:
         assert data["clientId"] == "ci0-client-0"
         assert data["name"] == "ci0-client-0-name"
         assert data["clientAuthenticatorType"] == "client-secret"
-        assert data["defaultClientScopes"] == [
+        expected_defaultClientScopes = [
             'ci0-client-scope',
             'email',
             'profile',
@@ -86,6 +86,10 @@ class TestClientFetch_vcr:
             'roles',
             'web-origins',
         ]
+        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
+            # remove "role_list"
+            assert "role_list" == expected_defaultClientScopes.pop(3)
+        assert data["defaultClientScopes"] == expected_defaultClientScopes
         assert data["optionalClientScopes"] == [
             'address',
             'phone',
@@ -248,13 +252,17 @@ class TestClientFetch_vcr:
         ]
         assert data["clientId"] == "ci0-client-1"
         assert data["clientAuthenticatorType"] == "client-secret"
-        assert data["defaultClientScopes"] == [
+        expected_defaultClientScopes = [
             'email',
             'profile',
             'role_list',
             'roles',
             'web-origins',
         ]
+        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
+            # remove "role_list"
+            assert "role_list" == expected_defaultClientScopes.pop(2)
+        assert data["defaultClientScopes"] == expected_defaultClientScopes
         assert data["optionalClientScopes"] == [
             'address',
             'phone',
