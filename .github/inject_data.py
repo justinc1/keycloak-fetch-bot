@@ -100,7 +100,7 @@ def main():
     group1a_name = "ci0-group-1a"
     group1b_name = "ci0-group-1b"
     group1c_name = "ci0-group-1c"
-    client_scope_name = "ci0-client-scope"
+    client_scope_0_name = "ci0-client-scope"
 
     realm_ids = [realm["id"] for realm in master_realm.all()]
     logger.debug(f"realm_ids={realm_ids}")
@@ -594,10 +594,10 @@ def main():
         }).isOk()
         # TODO assign roles
 
-    client_scopes = kc.build('client-scopes', realm_name)
-    if not client_scopes.findFirst({'key': 'name', 'value': client_scope_name}):
-        cs_creation_state = client_scopes.create({
-            "name": client_scope_name,
+    client_scopes_api = kc.build('client-scopes', realm_name)
+    if not client_scopes_api.findFirst({'key': 'name', 'value': client_scope_0_name}):
+        cs_creation_state = client_scopes_api.create({
+            "name": client_scope_0_name,
             "description": "ci0 client scope",
             "protocol": "openid-connect",
             "attributes": {
@@ -606,11 +606,11 @@ def main():
                 "include.in.token.scope": "true"
             }
         }).isOk()
-        client_scope = client_scopes.findFirst({'key': 'name', 'value': client_scope_name})
+        client_scope_0 = client_scopes_api.findFirst({'key': 'name', 'value': client_scope_0_name})
 
         # Assign scope mapping to client scope - set realm role
-        client_scope_scope_mappings_realm = kc.build(f"client-scopes/{client_scope['id']}/scope-mappings/realm", realm_name)
-        client_scope_scope_mappings_realm.create([ci0_role0])
+        client_scope_0_scope_mappings_realm = kc.build(f"client-scopes/{client_scope_0['id']}/scope-mappings/realm", realm_name)
+        client_scope_0_scope_mappings_realm.create([ci0_role0])
 
         # Assign scope mapping to client scope - set client role
         # Just assign some existing client role, view-profile role from client account.
@@ -621,13 +621,13 @@ def main():
         print(f"client={client}")
         kc_client_roles = kc.build(f"clients/{client['id']}/roles", realm_name)
         role = kc_client_roles.findFirst({'key': 'name', 'value': role_name})
-        client_scope_scope_mappings_client = kc.build(f"client-scopes/{client_scope['id']}/scope-mappings/clients/{client['id']}", realm_name)
-        client_scope_scope_mappings_client.create([role])
+        client_scope_0_scope_mappings_client = kc.build(f"client-scopes/{client_scope_0['id']}/scope-mappings/clients/{client['id']}", realm_name)
+        client_scope_0_scope_mappings_client.create([role])
 
         # Assign mapper to client scope
-        client_scope_protocol_mapper_many = kc.build(f"client-scopes/{client_scope['id']}/protocol-mappers/add-models", realm_name)
+        client_scope_0_protocol_mapper_many = kc.build(f"client-scopes/{client_scope_0['id']}/protocol-mappers/add-models", realm_name)
         # assign one pre-defined mapper
-        client_scope_protocol_mapper_many.create([
+        client_scope_0_protocol_mapper_many.create([
             {
                 "name": "birthdate",
                 "protocol": "openid-connect",
@@ -644,18 +644,15 @@ def main():
             }
         ])
         # TODO - create a new mapper
-        # client_scope_protocol_mapper_single = kc.build(f"client-scopes/{client_scope_id}/protocol-mappers/models", realm_name)
+        # client_scope_0_protocol_mapper_single = kc.build(f"client-scopes/{client_scope_id}/protocol-mappers/models", realm_name)
 
-        # TODO make client_scope_id a default client scope
-        # PUT https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients/7da5835e-d0fb-47b6-812e-ae65d4311a32/default-client-scopes/f359847c-98b7-4b19-b5c1-0a9e8d98094d
-        # {"realm":"ci0-realm","client":"7da5835e-d0fb-47b6-812e-ae65d4311a32","clientScopeId":"f359847c-98b7-4b19-b5c1-0a9e8d98094d"}
-        #state = client_api.update(client0["id"], {"defaultRoles": client0_default_roles}).isOk()
+        # make client_scope_id a default client scope
         state = client_api.update(
-            f"{client0['id']}/default-client-scopes/{client_scope['id']}",
+            f"{client0['id']}/default-client-scopes/{client_scope_0['id']}",
             {
                 "realm": realm_name,
                 "client": client0['id'],
-                "clientScopeId": client_scope['id'],
+                "clientScopeId": client_scope_0['id'],
             },
         ).isOk()
 
