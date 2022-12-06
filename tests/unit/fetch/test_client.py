@@ -77,6 +77,22 @@ class TestClientFetch_vcr:
         assert list(data.keys()) == unordered(expected_attrs)
         assert data["clientId"] == "ci0-client-0"
         assert data["name"] == "ci0-client-0-name"
+        assert data["clientAuthenticatorType"] == "client-secret"
+        assert data["defaultClientScopes"] == [
+            'ci0-client-scope',
+            'email',
+            'profile',
+            'role_list',
+            'roles',
+            'web-origins',
+        ]
+        assert data["optionalClientScopes"] == [
+            'address',
+            'phone',
+            'offline_access',
+            'microprofile-jwt',
+        ]
+
         if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
             assert data["defaultRoles"] == ["ci0-client0-role0"]
 
@@ -231,4 +247,17 @@ class TestClientFetch_vcr:
             'webOrigins',
         ]
         assert data["clientId"] == "ci0-client-1"
-        # assert data["name"] == "ci0-client-1-name"
+        assert data["clientAuthenticatorType"] == "client-secret"
+        assert data["defaultClientScopes"] == [
+            'email',
+            'profile',
+            'role_list',
+            'roles',
+            'web-origins',
+        ]
+        assert data["optionalClientScopes"] == [
+            'address',
+            'phone',
+            'offline_access',
+            'microprofile-jwt',
+        ]
