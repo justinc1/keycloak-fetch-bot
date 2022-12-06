@@ -606,10 +606,10 @@ def main():
                 "include.in.token.scope": "true"
             }
         }).isOk()
-        client_scope_id = client_scopes.findFirst({'key': 'name', 'value': client_scope_name})["id"]
+        client_scope = client_scopes.findFirst({'key': 'name', 'value': client_scope_name})
 
         # Assign scope mapping to client scope - set realm role
-        client_scope_scope_mappings_realm = kc.build(f"client-scopes/{client_scope_id}/scope-mappings/realm", realm_name)
+        client_scope_scope_mappings_realm = kc.build(f"client-scopes/{client_scope['id']}/scope-mappings/realm", realm_name)
         client_scope_scope_mappings_realm.create([ci0_role0])
 
         # Assign scope mapping to client scope - set client role
@@ -621,11 +621,11 @@ def main():
         print(f"client={client}")
         kc_client_roles = kc.build(f"clients/{client['id']}/roles", realm_name)
         role = kc_client_roles.findFirst({'key': 'name', 'value': role_name})
-        client_scope_scope_mappings_client = kc.build(f"client-scopes/{client_scope_id}/scope-mappings/clients/{client['id']}", realm_name)
+        client_scope_scope_mappings_client = kc.build(f"client-scopes/{client_scope['id']}/scope-mappings/clients/{client['id']}", realm_name)
         client_scope_scope_mappings_client.create([role])
 
         # Assign mapper to client scope
-        client_scope_protocol_mapper_many = kc.build(f"client-scopes/{client_scope_id}/protocol-mappers/add-models", realm_name)
+        client_scope_protocol_mapper_many = kc.build(f"client-scopes/{client_scope['id']}/protocol-mappers/add-models", realm_name)
         # assign one pre-defined mapper
         client_scope_protocol_mapper_many.create([
             {
@@ -645,6 +645,23 @@ def main():
         ])
         # TODO - create a new mapper
         # client_scope_protocol_mapper_single = kc.build(f"client-scopes/{client_scope_id}/protocol-mappers/models", realm_name)
+
+        # TODO make client_scope_id a default client scope
+        # PUT https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients/7da5835e-d0fb-47b6-812e-ae65d4311a32/default-client-scopes/f359847c-98b7-4b19-b5c1-0a9e8d98094d
+        # {"realm":"ci0-realm","client":"7da5835e-d0fb-47b6-812e-ae65d4311a32","clientScopeId":"f359847c-98b7-4b19-b5c1-0a9e8d98094d"}
+        #state = client_api.update(client0["id"], {"defaultRoles": client0_default_roles}).isOk()
+        state = client_api.update(
+            f"{client0['id']}/default-client-scopes/{client_scope['id']}",
+            {
+                "realm": realm_name,
+                "client": client0['id'],
+                "clientScopeId": client_scope['id'],
+            },
+        ).isOk()
+
+        # TODO what are optional client scopes?
+
+        # TODO client scope has assigned realm and/or client roles, and client uses client scope. Create a circular dependency.
 
     # TODO add identity-provider
     idp_alias = "ci0-ipd-saml"
