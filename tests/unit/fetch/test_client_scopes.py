@@ -1,3 +1,5 @@
+import glob
+
 from pytest import mark
 from pytest_unordered import unordered
 import json
@@ -28,10 +30,13 @@ class TestClientScopeFetch:
         obj.fetch(store_api)
 
         # check generated content
-        assert os.listdir(datadir) == unordered([
+        assert unordered(glob.glob('**', root_dir=datadir, recursive=True)) == [
             "ci0-client-scope.json",
             "ci0-client-scope-1-saml.json",
-        ])
+            "default",
+            "default/default-default-client-scopes.json",
+            "default/default-optional-client-scopes.json",
+        ]
 
         # =====================================================================
         data = json.load(open(os.path.join(datadir, "ci0-client-scope.json")))
@@ -95,3 +100,24 @@ class TestClientScopeFetch:
                 "roles": []
             }
         }
+
+        # =====================================================================
+        data = json.load(open(os.path.join(datadir, "default/default-default-client-scopes.json")))
+        assert data == unordered([
+            "email",
+            "profile",
+            "roles",
+            "role_list",
+            "web-origins",
+            "ci0-client-scope",
+        ])
+
+        # =====================================================================
+        data = json.load(open(os.path.join(datadir, "default/default-optional-client-scopes.json")))
+        assert data == unordered([
+            "microprofile-jwt",
+            "address",
+            "phone",
+            "offline_access",
+            "ci0-client-scope-1-saml",
+        ])
