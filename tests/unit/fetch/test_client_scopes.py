@@ -28,8 +28,12 @@ class TestClientScopeFetch:
         obj.fetch(store_api)
 
         # check generated content
-        assert os.listdir(datadir) == ["ci0-client-scope.json"]
-        #
+        assert os.listdir(datadir) == unordered([
+            "ci0-client-scope.json",
+            "ci0-client-scope-1-saml.json",
+        ])
+
+        # =====================================================================
         data = json.load(open(os.path.join(datadir, "ci0-client-scope.json")))
         assert list(data.keys()) == [
             'attributes',
@@ -74,3 +78,20 @@ class TestClientScopeFetch:
             'account',
             ]
         assert list(data["clientScopeMappings"]["account"]) == ["view-profile"]
+
+        # =====================================================================
+        data = json.load(open(os.path.join(datadir, "ci0-client-scope-1-saml.json")))
+        assert data == {
+            "attributes": {
+                "consent.screen.text": "ci0-client-scope-1-saml-consent-text",
+                "display.on.consent.screen": "true",
+                "include.in.token.scope": "true"
+            },
+            "clientScopeMappings": {},
+            "description": "ci0-client-scope-1-saml-desc",
+            "name": "ci0-client-scope-1-saml",
+            "protocol": "saml",
+            "scopeMappings": {
+                "roles": []
+            }
+        }
