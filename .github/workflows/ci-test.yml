@@ -89,4 +89,12 @@ jobs:
       - run: pip install -r requirements-dev.txt
       - run: python -m build
       #- run: python3 -m twine upload --repository testpypi dist/*
+
+      - run: |-
+          PYPROJECT_VERSION=$(grep '^version = ' pyproject.toml | awk '{print $3}' | sed 's/"//g');
+          if [ "$PYPROJECT_VERSION" != "${{ github.ref_name }}" ]
+          then
+            echo "Git tag=${{ github.ref_name }} does not match pyproject.toml version=$PYPROJECT_VERSION" 1>&2
+            exit 1
+          fi
       - run: python3 -m twine upload dist/*
