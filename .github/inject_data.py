@@ -596,6 +596,7 @@ def main():
         # TODO assign roles
 
     client_scopes_api = kc.build('client-scopes', realm_name)
+    default_default_client_scopes_api = kc.build('default-default-client-scopes', realm_name)
     if not client_scopes_api.findFirst({'key': 'name', 'value': client_scope_0_name}):
         cs_creation_state = client_scopes_api.create({
             "name": client_scope_0_name,
@@ -647,7 +648,18 @@ def main():
         # TODO - create a new mapper
         # client_scope_0_protocol_mapper_single = kc.build(f"client-scopes/{client_scope_id}/protocol-mappers/models", realm_name)
 
-        # make client_scope_id a default client scope
+        # make client_scope_id a default client scope - of realm
+        # PUT https://172.17.0.2:8443/auth/admin/realms/ci0-realm/default-default-client-scopes/1221f9ec-48ae-450f-8002-5df70916e166
+        state = default_default_client_scopes_api.update(
+            client_scope_0["id"],
+            {
+                "realm": realm_name,
+                "clientScopeId": client_scope_0['id'],
+            },
+        ).isOk()
+
+
+        # make client_scope_id a default client scope - of client0
         state = client_api.update(
             f"{client0['id']}/default-client-scopes/{client_scope_0['id']}",
             {
