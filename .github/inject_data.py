@@ -101,6 +101,7 @@ def main():
     group1b_name = "ci0-group-1b"
     group1c_name = "ci0-group-1c"
     client_scope_0_name = "ci0-client-scope"
+    client_scope_1_name = "ci0-client-scope-1-saml"
 
     realm_ids = [realm["id"] for realm in master_realm.all()]
     logger.debug(f"realm_ids={realm_ids}")
@@ -659,6 +660,20 @@ def main():
         # TODO what are optional client scopes?
 
         # TODO client scope has assigned realm and/or client roles, and client uses client scope. Create a circular dependency.
+
+    # a second client scope, type SAML
+    if not client_scopes_api.findFirst({'key': 'name', 'value': client_scope_1_name}):
+        cs_creation_state = client_scopes_api.create({
+            "name": client_scope_1_name,
+            "description": "ci0-client-scope-1-saml-desc",
+            "protocol": "saml",
+            "attributes": {
+                "consent.screen.text": "ci0-client-scope-1-saml-consent-text",
+                "display.on.consent.screen": "true",
+                "include.in.token.scope": "true"
+            },
+        }).isOk()
+    client_scope_1 = client_scopes_api.findFirst({'key': 'name', 'value': client_scope_1_name})
 
     # TODO add identity-provider
     idp_alias = "ci0-ipd-saml"
