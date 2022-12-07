@@ -47,3 +47,54 @@ class ClientScopeFetch(GenericFetch):
             client_scope.update(client_scope_mappings)
 
         return kc_objects
+
+    def fetch(self, store_api):
+        super().fetch(store_api)
+        default_client_scope_fetchers = [
+            DefaultClientScopeFetch(self.kc, "default-default-client-scopes", "name", self.realm),
+            DefaultClientScopeFetch(self.kc, "default-optional-client-scopes", "name", self.realm),
+        ]
+        store_api.add_child('default')  # client-scopes/default
+        for default_client_scope_fetcher in default_client_scope_fetchers:
+            default_client_scope_fetcher.fetch(store_api)
+        store_api.remove_last_child()  # client-scopes/default
+
+
+class DefaultClientScopeFetch(GenericFetch):
+    """
+    Fetch default-default-client-scopes or default-optional-client-scopes
+    """
+    def __init__(self, kc, resource_name, resource_id="", realm=""):
+        super().__init__(kc, resource_name, resource_id, realm)
+        assert self.resource_name in [
+            "default-default-client-scopes",
+            "default-optional-client-scopes",
+        ]
+        # NOTE - here name as ID is useless. We store only complete list.
+        # Individual elementes are stored by ClientScopeFetch.
+        assert "name" == self.id
+
+    def all(self, kc):
+        # Do not remove default client-scope objects.
+        # We need them, user can assign/remove them to/from defautl-x-client-scopes.
+        all_objects = kc.all()
+        return all_objects
+
+    def _get_data(self):
+        kc = self.kc.build(self.resource_name, self.realm)
+        kc_objects = self.all(kc)
+        # Response is list of dict, attributes .name and .id
+        # In json we want to store only client_scope name.
+        data = [obj["name"] for obj in kc_objects]
+        return data
+
+    def fetch(self, store_api):
+        name = self.resource_name
+        identifier = self.id
+
+        print('--> fetching: ', name)
+
+        data = self._get_data()
+
+        # store_api.store(kc_objects, identifier)
+        store_api.store_one_with_alias(self.resource_name, data)
