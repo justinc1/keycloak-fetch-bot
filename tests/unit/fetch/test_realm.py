@@ -195,11 +195,11 @@ class TestRealmFetch_vcr:
             }
         ])
         if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
-            assert data["defaultRoles"] == unordered([
+            assert data["defaultRoles"] == [
+                "ci0-role-0",
                 "offline_access",
                 "uma_authorization",
-                "ci0-role-0",
-            ])
+            ]
         else:
             assert kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5
             assert data["defaultRole"] == {
@@ -223,7 +223,7 @@ class TestRealmFetch_vcr:
             # TODO - make this [] in .json file
             expected_realm_attrs.remove("identityProviderMappers")
             assert list(data.keys()) == unordered(expected_realm_attrs)
-            assert data["defaultRoles"] == unordered([
+            assert data["defaultRoles"] == [
                 "offline_access",
                 "uma_authorization",
-            ])
+            ]
