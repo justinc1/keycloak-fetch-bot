@@ -21,6 +21,14 @@ and they will be saved to:
 if self.kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4: no code needed
 """
 
+def role_sort_composites(data):
+    assert isinstance(data, list)
+    assert isinstance(data[0], dict)
+    assert "name" in data[0]
+    assert "containerName" in data[0]
+    data = sorted(data, key=lambda obj: (obj["name"], obj["containerName"]))
+    return data
+
 
 # A realm role
 class RoleFetch(GenericFetch):
@@ -68,6 +76,10 @@ class RoleFetch(GenericFetch):
                 assert "composites" not in role
                 composites = roles_by_id_api.get(f"{role_id}/composites").verify().resp().json()
                 role["composites"] = [minimize_role_representation(cc, realms, clients) for cc in composites]
+
+                # master realm, roles/admin.json - composites will contain "manage-authorization" role from multiple clients.
+                # sort list, first by name, then by containerName
+                role["composites"] = role_sort_composites(role["composites"])
 
             roles.append(role)
 
