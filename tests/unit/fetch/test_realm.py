@@ -1,3 +1,5 @@
+from copy import copy
+
 from pytest import mark
 from pytest_unordered import unordered
 import json
@@ -80,6 +82,7 @@ class TestRealmFetch_vcr:
             'enabled',
             'enabledEventTypes',
             'eventsEnabled',
+            'eventsExpiration',
             'eventsListeners',
             'failureFactor',
             'identityProviderMappers',
@@ -210,19 +213,101 @@ class TestRealmFetch_vcr:
                 'name': 'default-roles-ci0-realm-old',
             }
 
+        # Check Events Config is correctly stored
+        assert data["adminEventsDetailsEnabled"] is True
+        assert data["adminEventsEnabled"] is True
+        assert data["eventsEnabled"] is True
+        assert data["eventsExpiration"] == 3600
+        assert data["eventsListeners"] == [
+            "jboss-logging",
+            "email"
+        ]
+        assert data["enabledEventTypes"] == [
+            "SEND_RESET_PASSWORD",
+            "UPDATE_CONSENT_ERROR",
+            "GRANT_CONSENT",
+            "REMOVE_TOTP",
+            "REVOKE_GRANT",
+            "UPDATE_TOTP",
+            "LOGIN_ERROR",
+            "CLIENT_LOGIN",
+            "RESET_PASSWORD_ERROR",
+            "IMPERSONATE_ERROR",
+            "CODE_TO_TOKEN_ERROR",
+            "CUSTOM_REQUIRED_ACTION",
+            "RESTART_AUTHENTICATION",
+            "IMPERSONATE",
+            "UPDATE_PROFILE_ERROR",
+            "LOGIN",
+            "UPDATE_PASSWORD_ERROR",
+            "CLIENT_INITIATED_ACCOUNT_LINKING",
+            "TOKEN_EXCHANGE",
+            "LOGOUT",
+            "REGISTER",
+            "CLIENT_REGISTER",
+            "IDENTITY_PROVIDER_LINK_ACCOUNT",
+            "UPDATE_PASSWORD",
+            "CLIENT_DELETE",
+            "FEDERATED_IDENTITY_LINK_ERROR",
+            "IDENTITY_PROVIDER_FIRST_LOGIN",
+            "CLIENT_DELETE_ERROR",
+            "VERIFY_EMAIL",
+            "CLIENT_LOGIN_ERROR",
+            "RESTART_AUTHENTICATION_ERROR",
+            "EXECUTE_ACTIONS",
+            "REMOVE_FEDERATED_IDENTITY_ERROR",
+            "TOKEN_EXCHANGE_ERROR",
+            "PERMISSION_TOKEN",
+            "SEND_IDENTITY_PROVIDER_LINK_ERROR",
+            "EXECUTE_ACTION_TOKEN_ERROR",
+            "SEND_VERIFY_EMAIL",
+            "EXECUTE_ACTIONS_ERROR",
+            "REMOVE_FEDERATED_IDENTITY",
+            "IDENTITY_PROVIDER_POST_LOGIN",
+            "IDENTITY_PROVIDER_LINK_ACCOUNT_ERROR",
+            "UPDATE_EMAIL",
+            "REGISTER_ERROR",
+            "REVOKE_GRANT_ERROR",
+            "EXECUTE_ACTION_TOKEN",
+            "LOGOUT_ERROR",
+            "UPDATE_EMAIL_ERROR",
+            "CLIENT_UPDATE_ERROR",
+            "UPDATE_PROFILE",
+            "CLIENT_REGISTER_ERROR",
+            "FEDERATED_IDENTITY_LINK",
+            "SEND_IDENTITY_PROVIDER_LINK",
+            "SEND_VERIFY_EMAIL_ERROR",
+            "RESET_PASSWORD",
+            "UPDATE_CONSENT",
+            "REMOVE_TOTP_ERROR",
+            "VERIFY_EMAIL_ERROR",
+            "SEND_RESET_PASSWORD_ERROR",
+            "CLIENT_UPDATE",
+            "CUSTOM_REQUIRED_ACTION_ERROR",
+            "IDENTITY_PROVIDER_POST_LOGIN_ERROR",
+            "UPDATE_TOTP_ERROR",
+            "CODE_TO_TOKEN",
+            "GRANT_CONSENT_ERROR",
+        ]
+
         # =====================================================================================
         data = json.load(open(os.path.join(datadir, "master/master.json")))
         # identityProviderMappers - if the list would be empty, then:
         # RH SSO 7.4 will not include this into realms.json at all
         # RH SSO 7.5 will include it, identityProviderMappers=[]
+
+        # in master realms we didn't reconfigure events
+        expected_realm_attrs_master = copy(expected_realm_attrs)
+        expected_realm_attrs_master.remove('eventsExpiration')
+
         if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
-            assert list(data.keys()) == unordered(expected_realm_attrs)
+            assert list(data.keys()) == unordered(expected_realm_attrs_master)
             assert data["identityProviderMappers"] == []
         else:
             # RH SSO 7.4
             # TODO - make this [] in .json file
-            expected_realm_attrs.remove("identityProviderMappers")
-            assert list(data.keys()) == unordered(expected_realm_attrs)
+            expected_realm_attrs_master.remove("identityProviderMappers")
+            assert list(data.keys()) == unordered(expected_realm_attrs_master)
             assert data["defaultRoles"] == [
                 "offline_access",
                 "uma_authorization",
