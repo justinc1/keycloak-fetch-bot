@@ -27,5 +27,6 @@ class RealmFetch():
         if self.kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
             assert "defaultRoles" in realm_min
             realm_min["defaultRoles"] = sorted(realm_min["defaultRoles"])
+        realm_min["enabledEventTypes"] = sorted(realm_min["enabledEventTypes"])
 
         store_api.store_one(realm_min, 'realm')
