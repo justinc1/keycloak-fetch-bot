@@ -171,6 +171,11 @@ class TestRoleFetch_vcr:
             ]
             assert data["composites"] == [
                 {
+                    "clientRole": True,
+                    "containerName": "ci0-client-0",
+                    "name": "ci0-client0-role0"
+                },
+                {
                     "clientRole": False,
                     "containerName": "ci0-realm",
                     "name": "ci0-role-0"
@@ -181,14 +186,9 @@ class TestRoleFetch_vcr:
                     "name": "manage-account"
                 },
                 {
-                    "clientRole": True,
-                    "containerName": "account",
-                    "name": "view-profile"
-                },
-                {
-                    "clientRole": True,
-                    "containerName": "ci0-client-0",
-                    "name": "ci0-client0-role0"
+                    "clientRole": False,
+                    "containerName": "ci0-realm",
+                    "name": "offline_access"
                 },
                 {
                     "clientRole": False,
@@ -196,8 +196,8 @@ class TestRoleFetch_vcr:
                     "name": "uma_authorization"
                 },
                 {
-                    "clientRole": False,
-                    "containerName": "ci0-realm",
-                    "name": "offline_access"
-                }
+                    "clientRole": True,
+                    "containerName": "account",
+                    "name": "view-profile"
+                },
             ]
