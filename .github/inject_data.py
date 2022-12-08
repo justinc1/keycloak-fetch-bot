@@ -248,6 +248,86 @@ def main():
             "alias": "ci0-auth-flow-generic-exec-6-alias"
         })
 
+    # reconfigure Authentication - xyz
+    realm_data_old = master_realm_api.get(realm_name).verify().resp().json()
+    realm_data_new = copy(realm_data_old)
+    realm_data_new.update({
+        # ------------------------------------------------------------------
+        # Authentication - bindings
+        "resetCredentialsFlow": "ci0-auth-flow-generic",
+        # ------------------------------------------------------------------
+        # Authentication - password policy
+        "passwordPolicy": "forceExpiredPasswordChange(365) and upperCase(2)",
+        # ------------------------------------------------------------------
+        # Authentication - OTP policy
+        # Default values:
+        #     "otpPolicyType": "totp",
+        #     "otpPolicyAlgorithm": "HmacSHA1",
+        #     "otpPolicyDigits": 6,
+        #     "otpPolicyInitialCounter": 0,
+        #     "otpPolicyLookAheadWindow": 1,
+        #     "otpPolicyPeriod": 30,
+        #     "otpSupportedApplications": [
+        #             "FreeOTP",
+        #             "Google Authenticator"
+        #     ]
+        "otpPolicyType": "hotp",
+        "otpPolicyAlgorithm": "HmacSHA256",
+        "otpPolicyDigits": 8,
+        "otpPolicyInitialCounter": 3,
+        "otpPolicyLookAheadWindow": 2,
+        "otpPolicyPeriod": 30,
+        "otpSupportedApplications": [
+            "FreeOTP"
+        ],
+        # ------------------------------------------------------------------
+        # Authentication - WebAuthn Policy
+        # Default values
+        #     "webAuthnPolicyAttestationConveyancePreference": "not specified",
+        #     "webAuthnPolicyAuthenticatorAttachment": "not specified",
+        #     "webAuthnPolicyAvoidSameAuthenticatorRegister": false,
+        #     "webAuthnPolicyCreateTimeout": 0,
+        #     "webAuthnPolicyRequireResidentKey": "not specified",
+        #     "webAuthnPolicyRpId": "",
+        #     "webAuthnPolicySignatureAlgorithms": [
+        #         "ES256"
+        #     ],
+        #     "webAuthnPolicyUserVerificationRequirement": "not specified",
+        #     "webAuthnPolicyAcceptableAaguids": [],
+        "webAuthnPolicyAttestationConveyancePreference": "indirect",
+        "webAuthnPolicyAuthenticatorAttachment": "platform",
+        "webAuthnPolicyAvoidSameAuthenticatorRegister": True,
+        "webAuthnPolicyCreateTimeout": 2,
+        "webAuthnPolicyRequireResidentKey": "Yes",
+        "webAuthnPolicyRpEntityName": "keycloak",
+        "webAuthnPolicyRpId": "ci0.example.com",
+        "webAuthnPolicySignatureAlgorithms": [
+            "ES384",
+            "ES512"
+        ],
+        "webAuthnPolicyUserVerificationRequirement": "required",
+        "webAuthnPolicyAcceptableAaguids": [
+            "ci0-aaguid-0"
+        ],
+        # ------------------------------------------------------------------
+        # Authentication - webAuthnPolicyPasswordless
+        "webAuthnPolicyPasswordlessAcceptableAaguids": [
+            "cio-aaguid-1"
+        ],
+        "webAuthnPolicyPasswordlessAttestationConveyancePreference": "none",
+        "webAuthnPolicyPasswordlessAuthenticatorAttachment": "platform",
+        "webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister": True,
+        "webAuthnPolicyPasswordlessCreateTimeout": 4,
+        "webAuthnPolicyPasswordlessRequireResidentKey": "No",
+        "webAuthnPolicyPasswordlessRpId": "ci0-RpId",
+        "webAuthnPolicyPasswordlessSignatureAlgorithms": [
+            "ES512",
+            "RS256"
+        ],
+        "webAuthnPolicyPasswordlessUserVerificationRequirement": "preferred",
+    })
+    state = master_realm_api.update(realm_name, realm_data_new).isOk()
+
     client_api = kc.build('clients', realm_name)
     if not client_api.findFirst({'key': 'clientId', 'value': client0_client_id}):
         client_api.create({
