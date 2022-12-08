@@ -222,7 +222,7 @@ class TestRealmFetch_vcr:
             "jboss-logging",
             "email"
         ]
-        assert data["enabledEventTypes"] == [
+        expected_enabledEventTypes = [
             "SEND_RESET_PASSWORD",
             "UPDATE_CONSENT_ERROR",
             "GRANT_CONSENT",
@@ -288,7 +288,24 @@ class TestRealmFetch_vcr:
             "UPDATE_TOTP_ERROR",
             "CODE_TO_TOKEN",
             "GRANT_CONSENT_ERROR",
+            "IDENTITY_PROVIDER_FIRST_LOGIN_ERROR",
         ]
+        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
+            expected_enabledEventTypes += [
+                "VERIFY_PROFILE_ERROR",
+                "OAUTH2_DEVICE_CODE_TO_TOKEN_ERROR",
+                "OAUTH2_DEVICE_VERIFY_USER_CODE",
+                "AUTHREQID_TO_TOKEN",
+                "DELETE_ACCOUNT_ERROR",
+                "DELETE_ACCOUNT",
+                "OAUTH2_DEVICE_AUTH",
+                "OAUTH2_DEVICE_CODE_TO_TOKEN",
+                "OAUTH2_DEVICE_VERIFY_USER_CODE_ERROR",
+                "AUTHREQID_TO_TOKEN_ERROR",
+                "OAUTH2_DEVICE_AUTH_ERROR",
+                "VERIFY_PROFILE",
+            ]
+        assert data["enabledEventTypes"] == sorted(expected_enabledEventTypes)
 
         # =====================================================================================
         data = json.load(open(os.path.join(datadir, "master/master.json")))
