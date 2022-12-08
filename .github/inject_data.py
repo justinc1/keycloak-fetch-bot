@@ -57,7 +57,7 @@ Or is just different.
 
 def main():
     kc = get_keycloak()
-    master_realm = kc.admin()
+    master_realm_api = kc.admin()
 
     # what to add
     realm_name = "ci0-realm"
@@ -103,11 +103,11 @@ def main():
     client_scope_0_name = "ci0-client-scope"
     client_scope_1_name = "ci0-client-scope-1-saml"
 
-    realm_ids = [realm["id"] for realm in master_realm.all()]
+    realm_ids = [realm["id"] for realm in master_realm_api.all()]
     logger.debug(f"realm_ids={realm_ids}")
     if realm_name_old not in realm_ids:
         # myrealm = kc.build('realms', realm_name)
-        master_realm.create({
+        master_realm_api.create({
             "enabled": "true",
             "id": realm_name_old,
             "realm": realm_name_old,
@@ -124,7 +124,7 @@ def main():
         #   displayName=ci0-realm-display - code again works
         # Looks like on every second update we get bug exposed.
         # So we do an update.
-        state = master_realm.update(realm_name_old, {
+        state = master_realm_api.update(realm_name_old, {
             "realm": realm_name,
             "displayName": realm_name + "-display"
         }).isOk()
@@ -456,14 +456,14 @@ def main():
 
     # Make ci0_role0_name realm role a default realm role
     logger.debug('-'*80)
-    realm = master_realm.get(realm_name).verify().resp().json()
+    realm = master_realm_api.get(realm_name).verify().resp().json()
     if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
         # RH SSO 7.4 - PUT https://172.17.0.2:8443/auth/admin/realms/ci0-realm
         realm_default_roles = realm["defaultRoles"]
         if ci0_role0_name not in realm_default_roles:
             realm_default_roles.append(ci0_role0_name)
-            state = master_realm.update(realm_name, {"defaultRoles": realm_default_roles}).isOk()
-        assert ci0_role0_name in master_realm.get(realm_name).verify().resp().json()["defaultRoles"]
+            state = master_realm_api.update(realm_name, {"defaultRoles": realm_default_roles}).isOk()
+        assert ci0_role0_name in master_realm_api.get(realm_name).verify().resp().json()["defaultRoles"]
     else:
         assert kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5
         # RH SSO 7.5 - POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/roles-by-id/f64c449c-f8f0-4435-84ae-e459e20e6e28/composites
