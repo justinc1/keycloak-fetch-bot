@@ -103,21 +103,21 @@ class TestClientScopeFetch:
 
         # =====================================================================
         data = json.load(open(os.path.join(datadir, "default/default-default-client-scopes.json")))
-        assert data == unordered([
+        assert data == [
+            "ci0-client-scope",
             "email",
             "profile",
-            "roles",
             "role_list",
+            "roles",
             "web-origins",
-            "ci0-client-scope",
-        ])
+        ]
 
         # =====================================================================
         data = json.load(open(os.path.join(datadir, "default/default-optional-client-scopes.json")))
-        assert data == unordered([
-            "microprofile-jwt",
+        assert data == [
             "address",
-            "phone",
-            "offline_access",
             "ci0-client-scope-1-saml",
-        ])
+            "microprofile-jwt",
+            "offline_access",
+            "phone",
+        ]

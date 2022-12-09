@@ -86,6 +86,7 @@ class DefaultClientScopeFetch(GenericFetch):
         # Response is list of dict, attributes .name and .id
         # In json we want to store only client_scope name.
         data = [obj["name"] for obj in kc_objects]
+        data = sorted(data)
         return data
 
     def fetch(self, store_api):
