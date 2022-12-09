@@ -335,18 +335,7 @@ def main():
     realm_data_new.update(realm_data_update_2)
     state = master_realm_api.update(realm_name, realm_data_new).isOk()
     # check what is in server
-    realm_data_old2 = master_realm_api.get(realm_name).verify().resp().json()
-    assert realm_data_old2["resetCredentialsFlow"] == "ci0-auth-flow-generic"
-    assert realm_data_old2["passwordPolicy"] == "forceExpiredPasswordChange(365) and upperCase(2)"
-    assert realm_data_old2["otpPolicyType"] == "hotp"
-    assert realm_data_old2["webAuthnPolicyRpId"] == "ci0.example.com"
-    assert realm_data_old2["webAuthnPolicyPasswordlessRpId"] == "ci0-RpId"
-    # webAuthnPolicyAttestationConveyancePreference and webAuthnPolicyPasswordlessAttestationConveyancePreference
-    # were not set with single update call
-    assert realm_data_old2["webAuthnPolicyAttestationConveyancePreference"] == "indirect"
-    assert realm_data_old2["webAuthnPolicyPasswordlessAttestationConveyancePreference"] == "none"
-    # Surprise v2 - at line 990, reevaluate "realm_data_old2 = master_realm_api.get(realm_name).verify().resp().json()"
-    # And webAuthnPolicyAttestationConveyancePreference are different.
+    assert_realm_authentication(master_realm_api, realm_name)
 
     client_api = kc.build('clients', realm_name)
     if not client_api.findFirst({'key': 'clientId', 'value': client0_client_id}):
@@ -433,6 +422,7 @@ def main():
             ],
         }).isOk()
     client0 = client_api.findFirst({'key': 'clientId', 'value': client0_client_id})
+    assert_realm_authentication(master_realm_api, realm_name)
 
     # create also one client with default settings
     # Note: name is not mandatory for a client.
@@ -446,6 +436,7 @@ def main():
             ],
         }).isOk()
     client1 = client_api.findFirst({'key': 'clientId', 'value': client1_client_id})
+    assert_realm_authentication(master_realm_api, realm_name)
 
     # add SAML identity provider, with 2 mappers
     idp_api = kc.build("identity-provider/instances", realm_name)
@@ -497,6 +488,7 @@ def main():
             "name": "idp-mapper-1",
             "identityProviderMapper": "saml-role-idp-mapper",
         })
+    assert_realm_authentication(master_realm_api, realm_name)
 
     # TODO add IdP with providerId=openid, maybe also some pre-defined social one
 
@@ -519,6 +511,7 @@ def main():
     client0_role1 = client0_roles_api.findFirst({'key': 'name', 'value': client0_role1_name})
     client0_role1a = client0_roles_api.findFirst({'key': 'name', 'value': client0_role1a_name})
     client0_role1b = client0_roles_api.findFirst({'key': 'name', 'value': client0_role1b_name})
+    assert_realm_authentication(master_realm_api, realm_name)
 
     # Add a client role to client1
     client1_roles_api = kc.build(f"clients/{client1['id']}/roles", realm_name)
@@ -529,6 +522,7 @@ def main():
             "attributes": {client1_role0_name + "-key0": [client1_role0_name + "-value0"]},
         }).isOk()
     client1_role0 = client1_roles_api.findFirst({'key': 'name', 'value': client1_role0_name})
+    assert_realm_authentication(master_realm_api, realm_name)
 
     # TODO add builtin mapper to client
     # TODO add custom mapper to client
@@ -553,6 +547,7 @@ def main():
     ci0_role1 = roles_api.findFirst({'key': 'name', 'value': ci0_role1_name})
     ci0_role1a = roles_api.findFirst({'key': 'name', 'value': ci0_role1a_name})
     ci0_role1b = roles_api.findFirst({'key': 'name', 'value': ci0_role1b_name})
+    assert_realm_authentication(master_realm_api, realm_name)
 
     # Make ci0_role0_name realm role a default realm role
     logger.debug('-'*80)
@@ -585,6 +580,7 @@ def main():
             "offline_access", "uma_authorization",  # default realm roles
             "manage-account", "view-profile",  # default client roles, from account client
         ])
+    assert_realm_authentication(master_realm_api, realm_name)
 
 
     # Make ci0_client0_role0_name client role a default realm role
@@ -615,6 +611,7 @@ def main():
             "offline_access", "uma_authorization",  # default realm roles
             "manage-account", "view-profile",  # default client roles, from account client
         ])
+    assert_realm_authentication(master_realm_api, realm_name)
 
     # Create composite realm role
     role_composite_api = kc.build(f"/roles/{ci0_role1_name}/composites", realm_name)
@@ -651,6 +648,7 @@ def main():
     # The client roles must be from a different client.
     client0_scope_mappings_client_api = kc.build(f"clients/{client0['id']}/scope-mappings/clients/{client1['id']}", realm_name)
     client0_scope_mappings_client_api.create([client1_role0])
+    assert_realm_authentication(master_realm_api, realm_name)
 
     groups_api = kc.build('groups', realm_name)
     # {'key': 'username', 'value': 'batman'}
@@ -663,6 +661,7 @@ def main():
         # Assign realm role to group
         group_roles_mapping = groups_api.realmRoles({'key': 'name', 'value': group_name})
         group_roles_mapping.add([role_names_plain[0]])
+    assert_realm_authentication(master_realm_api, realm_name)
 
     # group with subgroup
     # hierarchy is group1a -> group1b -> group1c
@@ -682,6 +681,7 @@ def main():
     group1b_id = group1a["subGroups"][0]["id"]
     group1b_children_api = groups_api.get_child(groups_api, group1b_id, "children")
     group1b_children_api.create({"name": group1c_name})
+    assert_realm_authentication(master_realm_api, realm_name)
 
     user = kc.build('users', realm_name)
     if not user.findFirst({'key': 'username', 'value': user_name}):
@@ -694,6 +694,7 @@ def main():
             "groups": [group_name],
         }).isOk()
         # TODO assign roles
+    assert_realm_authentication(master_realm_api, realm_name)
 
     client_scopes_api = kc.build('client-scopes', realm_name)
     default_default_client_scopes_api = kc.build('default-default-client-scopes', realm_name)
@@ -768,6 +769,7 @@ def main():
                 "clientScopeId": client_scope_0['id'],
             },
         ).isOk()
+    assert_realm_authentication(master_realm_api, realm_name)
 
         # TODO what are optional client scopes?
 
@@ -797,6 +799,7 @@ def main():
             },
         ).isOk()
     client_scope_1 = client_scopes_api.findFirst({'key': 'name', 'value': client_scope_1_name})
+    assert_realm_authentication(master_realm_api, realm_name)
 
     # TODO add identity-provider
     idp_alias = "ci0-ipd-saml"
@@ -993,6 +996,7 @@ def main():
         # TODO add additional mapper to user-federation
     if not components_api.findFirst({'key': 'name', 'value': uf1_name}):
         components_api.create(uf1_payload)
+    assert_realm_authentication(master_realm_api, realm_name)
 
     # configure events
     events_config_api = kc.build('events/config', realm_name)
@@ -1015,6 +1019,23 @@ def main():
     events_config_new = events_config_api.get(None).verify().resp().json()
     assert "email" in events_config_new["eventsListeners"]
     assert "CLIENT_INITIATED_ACCOUNT_LINKING_ERROR" not in events_config_new["enabledEventTypes"]
+    assert_realm_authentication(master_realm_api, realm_name)
+
+
+def assert_realm_authentication(master_realm_api, realm_name):
+    realm_data_old2 = master_realm_api.get(realm_name).verify().resp().json()
+    assert realm_data_old2["resetCredentialsFlow"] == "ci0-auth-flow-generic"
+    assert realm_data_old2["passwordPolicy"] == "forceExpiredPasswordChange(365) and upperCase(2)"
+    assert realm_data_old2["otpPolicyType"] == "hotp"
+    assert realm_data_old2["webAuthnPolicyRpId"] == "ci0.example.com"
+    assert realm_data_old2["webAuthnPolicyPasswordlessRpId"] == "ci0-RpId"
+    # webAuthnPolicyAttestationConveyancePreference and webAuthnPolicyPasswordlessAttestationConveyancePreference
+    # were not set with single update call
+    assert realm_data_old2["webAuthnPolicyAttestationConveyancePreference"] == "indirect"
+    assert realm_data_old2["webAuthnPolicyPasswordlessAttestationConveyancePreference"] == "none"
+    # Surprise v2 - at line 990, reevaluate "realm_data_old2 = master_realm_api.get(realm_name).verify().resp().json()"
+    # line 990: "if not components_api.findFirst({'key': 'name', 'value': uf0_name}):"
+    # And webAuthnPolicyAttestationConveyancePreference are different.
 
 
 if __name__ == "__main__":
