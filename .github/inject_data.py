@@ -251,7 +251,7 @@ def main():
     # reconfigure Authentication - xyz
     realm_data_old = master_realm_api.get(realm_name).verify().resp().json()
     realm_data_new = copy(realm_data_old)
-    realm_data_new.update({
+    realm_data_update_1 = {
         # ------------------------------------------------------------------
         # Authentication - bindings
         "resetCredentialsFlow": "ci0-auth-flow-generic",
@@ -280,6 +280,8 @@ def main():
         "otpSupportedApplications": [
             "FreeOTP"
         ],
+    }
+    realm_data_update_2 = {
         # ------------------------------------------------------------------
         # Authentication - WebAuthn Policy
         # Default values
@@ -325,8 +327,26 @@ def main():
             "RS256"
         ],
         "webAuthnPolicyPasswordlessUserVerificationRequirement": "preferred",
-    })
+    }
+    # Surprise. KC 9.02 - on first update, "WebAuthn Policy" changes were not applied.
+    # Do it a second time, or split update into two parts.
+    realm_data_new.update(realm_data_update_1)
     state = master_realm_api.update(realm_name, realm_data_new).isOk()
+    realm_data_new.update(realm_data_update_2)
+    state = master_realm_api.update(realm_name, realm_data_new).isOk()
+    # check what is in server
+    realm_data_old2 = master_realm_api.get(realm_name).verify().resp().json()
+    assert realm_data_old2["resetCredentialsFlow"] == "ci0-auth-flow-generic"
+    assert realm_data_old2["passwordPolicy"] == "forceExpiredPasswordChange(365) and upperCase(2)"
+    assert realm_data_old2["otpPolicyType"] == "hotp"
+    assert realm_data_old2["webAuthnPolicyRpId"] == "ci0.example.com"
+    assert realm_data_old2["webAuthnPolicyPasswordlessRpId"] == "ci0-RpId"
+    # webAuthnPolicyAttestationConveyancePreference and webAuthnPolicyPasswordlessAttestationConveyancePreference
+    # were not set with single update call
+    assert realm_data_old2["webAuthnPolicyAttestationConveyancePreference"] == "indirect"
+    assert realm_data_old2["webAuthnPolicyPasswordlessAttestationConveyancePreference"] == "none"
+    # Surprise v2 - at line 990, reevaluate "realm_data_old2 = master_realm_api.get(realm_name).verify().resp().json()"
+    # And webAuthnPolicyAttestationConveyancePreference are different.
 
     client_api = kc.build('clients', realm_name)
     if not client_api.findFirst({'key': 'clientId', 'value': client0_client_id}):
