@@ -551,20 +551,20 @@ def main():
 
     # Make ci0_role0_name realm role a default realm role
     logger.debug('-'*80)
-    realm = master_realm_api.get(realm_name).verify().resp().json()
+    realm_data_old = master_realm_api.get(realm_name).verify().resp().json()
+    realm_data_new = copy(realm_data_old)
     if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
         # RH SSO 7.4 - PUT https://172.17.0.2:8443/auth/admin/realms/ci0-realm
-        realm_default_roles = realm["defaultRoles"]
-        if ci0_role0_name not in realm_default_roles:
-            realm_default_roles.append(ci0_role0_name)
-            state = master_realm_api.update(realm_name, {"defaultRoles": realm_default_roles}).isOk()
+        if ci0_role0_name not in realm_data_new["defaultRoles"]:
+            realm_data_new["defaultRoles"].append(ci0_role0_name)
+            state = master_realm_api.update(realm_name, realm_data_new).isOk()
         assert ci0_role0_name in master_realm_api.get(realm_name).verify().resp().json()["defaultRoles"]
     else:
         assert kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5
         # RH SSO 7.5 - POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/roles-by-id/f64c449c-f8f0-4435-84ae-e459e20e6e28/composites
         # https://172.17.0.2:8443/auth/admin/realms/ci0-realm/roles-by-id/f64c449c-f8f0-4435-84ae-e459e20e6e28/composites
         # Interesting, renaming realm does not rename corresponding "default-roles-..." role.
-        ci0_default_roles = roles_api.findFirst({'key': 'name', 'value': "default-roles-" + realm["id"]})
+        ci0_default_roles = roles_api.findFirst({'key': 'name', 'value': "default-roles-" + realm_data_old["id"]})
 
         # both work
         # ci0_default_roles_composites_api = kc.build(f"roles-by-id/{ci0_default_roles['id']}/composites", realm_name)
@@ -580,6 +580,11 @@ def main():
             "offline_access", "uma_authorization",  # default realm roles
             "manage-account", "view-profile",  # default client roles, from account client
         ])
+
+    # This one was failing.
+    # Call to "master_realm_api.update(realm_name, {"defaultRoles": realm_default_roles}).isOk()" destroyed
+    # webAuthnPolicy and webAuthnPolicyPasswordless configuration.
+    # We MUST use READ-MODIFY-WRITE to send full realm data to each .update() call.
     assert_realm_authentication(master_realm_api, realm_name)
 
 
@@ -599,7 +604,7 @@ def main():
     else:
         assert kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5
         # RH SSO 7.5 - POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/roles-by-id/f64c449c-f8f0-4435-84ae-e459e20e6e28/composites
-        ci0_default_roles = roles_api.findFirst({'key': 'name', 'value': "default-roles-" + realm["id"]})
+        ci0_default_roles = roles_api.findFirst({'key': 'name', 'value': "default-roles-" + realm_data_old["id"]})
         ci0_default_roles_composites_api = roles_by_id_api.get_child(roles_by_id_api, ci0_default_roles['id'], "composites")
         ci0_default_roles_composites_api.create([client0_role0])
         composites = roles_by_id_api.get(f"{ci0_default_roles['id']}/composites").verify().resp().json()
