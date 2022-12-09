@@ -163,9 +163,13 @@ class TestRealmFetch_vcr:
                 'oauth2DeviceCodeLifespan',
                 'oauth2DevicePollingInterval',
             ])
+        # password policy is configured for ci0-realm, but not for master realm
+        expected_realm_attrs___ci0_realm = [
+            "passwordPolicy",
+        ]
 
         data = json.load(open(os.path.join(datadir, "ci0-realm/ci0-realm.json")))
-        assert list(data.keys()) == unordered(expected_realm_attrs)
+        assert list(data.keys()) == unordered(expected_realm_attrs + expected_realm_attrs___ci0_realm)
         assert data["realm"] == "ci0-realm"
         assert data["displayName"] == "ci0-realm-display"
         # and a few attributes that are not setup by inject_data.py
@@ -306,6 +310,57 @@ class TestRealmFetch_vcr:
                 "VERIFY_PROFILE",
             ]
         assert data["enabledEventTypes"] == sorted(expected_enabledEventTypes)
+
+        # ------------------------------------------------------------------
+        # Authentication - bindings
+        assert data["resetCredentialsFlow"] == "ci0-auth-flow-generic"
+        # ------------------------------------------------------------------
+        # Authentication - password policy
+        assert data["passwordPolicy"] == "forceExpiredPasswordChange(365) and upperCase(2)"
+        # ------------------------------------------------------------------
+        # Authentication - OTP policy
+        assert data["otpPolicyType"] == "hotp"
+        assert data["otpPolicyAlgorithm"] == "HmacSHA256"
+        assert data["otpPolicyDigits"] == 8
+        assert data["otpPolicyInitialCounter"] == 3
+        assert data["otpPolicyLookAheadWindow"] == 2
+        assert data["otpPolicyPeriod"] == 30
+        assert data["otpSupportedApplications"] == [
+            "FreeOTP",
+        ]
+        # ------------------------------------------------------------------
+        # Authentication - WebAuthn Policy
+        assert data["webAuthnPolicyAttestationConveyancePreference"] == "indirect"
+        assert data["webAuthnPolicyAuthenticatorAttachment"] == "platform"
+        assert data["webAuthnPolicyAvoidSameAuthenticatorRegister"] == True
+        assert data["webAuthnPolicyCreateTimeout"] == 2
+        assert data["webAuthnPolicyRequireResidentKey"] == "Yes"
+        assert data["webAuthnPolicyRpEntityName"] == "keycloak"
+        assert data["webAuthnPolicyRpId"] == "ci0.example.com"
+        assert data["webAuthnPolicySignatureAlgorithms"] == [
+            "ES384",
+            "ES512",
+        ]
+        assert data["webAuthnPolicyUserVerificationRequirement"] == "required"
+        assert data["webAuthnPolicyAcceptableAaguids"] == [
+            "ci0-aaguid-0",
+        ]
+        # ------------------------------------------------------------------
+        # Authentication - webAuthnPolicyPasswordless
+        assert data["webAuthnPolicyPasswordlessAcceptableAaguids"] == [
+            "cio-aaguid-1",
+        ]
+        assert data["webAuthnPolicyPasswordlessAttestationConveyancePreference"] == "none"
+        assert data["webAuthnPolicyPasswordlessAuthenticatorAttachment"] == "platform"
+        assert data["webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister"] == True
+        assert data["webAuthnPolicyPasswordlessCreateTimeout"] == 4
+        assert data["webAuthnPolicyPasswordlessRequireResidentKey"] == "No"
+        assert data["webAuthnPolicyPasswordlessRpId"] == "ci0-RpId"
+        assert data["webAuthnPolicyPasswordlessSignatureAlgorithms"] == [
+            "ES512",
+            "RS256",
+        ]
+        assert data["webAuthnPolicyPasswordlessUserVerificationRequirement"] == "preferred"
 
         # =====================================================================================
         data = json.load(open(os.path.join(datadir, "master/master.json")))
