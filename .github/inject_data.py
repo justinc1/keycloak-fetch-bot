@@ -330,6 +330,7 @@ def main():
     }
     # Surprise. KC 9.02 - on first update, "WebAuthn Policy" changes were not applied.
     # Do it a second time, or split update into two parts.
+    # Update: the real problem was a partial update - see commit 2bdd5b5851e96548042ffceb786ea51f0b2fe78d.
     realm_data_new.update(realm_data_update_1)
     state = master_realm_api.update(realm_name, realm_data_new).isOk()
     realm_data_new.update(realm_data_update_2)
