@@ -81,41 +81,42 @@ class TestCustomAuthenticationFetch:
 
         # check generated content
         assert unordered(glob.glob('**', root_dir=datadir, recursive=True)) == [
-            'registration',
-            'registration/executors',
-            'registration/executors/executors.json',
-            'registration/registration.json',
-            'browser',
-            'browser/executors',
-            'browser/executors/executors.json',
-            'browser/browser.json',
-            'reset_credentials',
-            'reset_credentials/executors',
-            'reset_credentials/executors/executors.json',
-            'reset_credentials/reset_credentials.json',
-            'http_challenge',
-            'http_challenge/executors',
-            'http_challenge/executors/executors.json',
-            'http_challenge/http_challenge.json',
-            'direct_grant',
-            'direct_grant/executors',
-            'direct_grant/executors/executors.json',
-            'direct_grant/direct_grant.json',
-            'clients',
-            'clients/executors',
-            'clients/executors/executors.json',
-            'clients/clients.json',
-            'docker_auth',
-            'docker_auth/executors',
-            'docker_auth/executors/executors.json',
-            'docker_auth/docker_auth.json',
-            'first_broker_login',
-            'first_broker_login/executors',
-            'first_broker_login/executors/executors.json',
-            'first_broker_login/first_broker_login.json',
+            'flows',
+            'flows/registration',
+            'flows/registration/executors',
+            'flows/registration/executors/executors.json',
+            'flows/registration/registration.json',
+            'flows/browser',
+            'flows/browser/executors',
+            'flows/browser/executors/executors.json',
+            'flows/browser/browser.json',
+            'flows/reset_credentials',
+            'flows/reset_credentials/executors',
+            'flows/reset_credentials/executors/executors.json',
+            'flows/reset_credentials/reset_credentials.json',
+            'flows/http_challenge',
+            'flows/http_challenge/executors',
+            'flows/http_challenge/executors/executors.json',
+            'flows/http_challenge/http_challenge.json',
+            'flows/direct_grant',
+            'flows/direct_grant/executors',
+            'flows/direct_grant/executors/executors.json',
+            'flows/direct_grant/direct_grant.json',
+            'flows/clients',
+            'flows/clients/executors',
+            'flows/clients/executors/executors.json',
+            'flows/clients/clients.json',
+            'flows/docker_auth',
+            'flows/docker_auth/executors',
+            'flows/docker_auth/executors/executors.json',
+            'flows/docker_auth/docker_auth.json',
+            'flows/first_broker_login',
+            'flows/first_broker_login/executors',
+            'flows/first_broker_login/executors/executors.json',
+            'flows/first_broker_login/first_broker_login.json',
         ]
 
-        data = json.load(open(os.path.join(datadir, "browser/browser.json")))
+        data = json.load(open(os.path.join(datadir, "flows/browser/browser.json")))
         assert data == kc_15_auth_flow_expected_data_fixup(kc, {
             "alias": "browser",
             "authenticationExecutions": [
@@ -154,7 +155,7 @@ class TestCustomAuthenticationFetch:
             "topLevel": True
         })
 
-        data = json.load(open(os.path.join(datadir, "browser/executors/executors.json")))
+        data = json.load(open(os.path.join(datadir, "flows/browser/executors/executors.json")))
         assert data == kc_15_auth_flow_executors_expected_data_fixup(kc, [
             {
                 "configurable": False,
@@ -285,48 +286,49 @@ class TestCustomAuthenticationFetch:
 
         # check generated content
         assert unordered(glob.glob('**', root_dir=datadir, recursive=True)) == [
-            'registration',
-            'registration/executors',
-            'registration/executors/executors.json',
-            'registration/registration.json',
-            'browser',
-            'browser/executors',
-            'browser/executors/executors.json',
-            'browser/browser.json',
-            'reset_credentials',
-            'reset_credentials/executors',
-            'reset_credentials/executors/executors.json',
-            'reset_credentials/reset_credentials.json',
-            'http_challenge',
-            'http_challenge/executors',
-            'http_challenge/executors/executors.json',
-            'http_challenge/http_challenge.json',
-            'direct_grant',
-            'direct_grant/executors',
-            'direct_grant/executors/executors.json',
-            'direct_grant/direct_grant.json',
-            'clients',
-            'clients/executors',
-            'clients/executors/executors.json',
-            'clients/clients.json',
-            'docker_auth',
-            'docker_auth/executors',
-            'docker_auth/executors/executors.json',
-            'docker_auth/docker_auth.json',
-            'first_broker_login',
-            'first_broker_login/executors',
-            'first_broker_login/executors/executors.json',
-            'first_broker_login/first_broker_login.json',
+            'flows',
+            'flows/registration',
+            'flows/registration/executors',
+            'flows/registration/executors/executors.json',
+            'flows/registration/registration.json',
+            'flows/browser',
+            'flows/browser/executors',
+            'flows/browser/executors/executors.json',
+            'flows/browser/browser.json',
+            'flows/reset_credentials',
+            'flows/reset_credentials/executors',
+            'flows/reset_credentials/executors/executors.json',
+            'flows/reset_credentials/reset_credentials.json',
+            'flows/http_challenge',
+            'flows/http_challenge/executors',
+            'flows/http_challenge/executors/executors.json',
+            'flows/http_challenge/http_challenge.json',
+            'flows/direct_grant',
+            'flows/direct_grant/executors',
+            'flows/direct_grant/executors/executors.json',
+            'flows/direct_grant/direct_grant.json',
+            'flows/clients',
+            'flows/clients/executors',
+            'flows/clients/executors/executors.json',
+            'flows/clients/clients.json',
+            'flows/docker_auth',
+            'flows/docker_auth/executors',
+            'flows/docker_auth/executors/executors.json',
+            'flows/docker_auth/docker_auth.json',
+            'flows/first_broker_login',
+            'flows/first_broker_login/executors',
+            'flows/first_broker_login/executors/executors.json',
+            'flows/first_broker_login/first_broker_login.json',
             # what inject_data.py added
-            'ci0-auth-flow-generic',
-            'ci0-auth-flow-generic/executors',
-            'ci0-auth-flow-generic/executors/executors.json',
-            'ci0-auth-flow-generic/ci0-auth-flow-generic.json',
+            'flows/ci0-auth-flow-generic',
+            'flows/ci0-auth-flow-generic/executors',
+            'flows/ci0-auth-flow-generic/executors/executors.json',
+            'flows/ci0-auth-flow-generic/ci0-auth-flow-generic.json',
         ]
 
         # -------------------------------------------------------------------------------
         # Check browser flow. It is unmodified.
-        data = json.load(open(os.path.join(datadir, "browser/browser.json")))
+        data = json.load(open(os.path.join(datadir, "flows/browser/browser.json")))
         assert data == kc_15_auth_flow_expected_data_fixup(kc, {
             "alias": "browser",
             "authenticationExecutions": [
@@ -365,7 +367,7 @@ class TestCustomAuthenticationFetch:
             "topLevel": True
         })
 
-        data = json.load(open(os.path.join(datadir, "browser/executors/executors.json")))
+        data = json.load(open(os.path.join(datadir, "flows/browser/executors/executors.json")))
         assert data == kc_15_auth_flow_executors_expected_data_fixup(kc, [
             {
                 "configurable": False,
@@ -477,7 +479,7 @@ class TestCustomAuthenticationFetch:
 
         # -------------------------------------------------------------------------------
         # Check ci0-auth-flow-generic flow. It is non-default, executions are configured etc.
-        data = json.load(open(os.path.join(datadir, "ci0-auth-flow-generic/ci0-auth-flow-generic.json")))
+        data = json.load(open(os.path.join(datadir, "flows/ci0-auth-flow-generic/ci0-auth-flow-generic.json")))
         assert data == kc_15_auth_flow_expected_data_fixup(kc, {
             "alias": "ci0-auth-flow-generic",
             "authenticationExecutions": [
@@ -519,7 +521,7 @@ class TestCustomAuthenticationFetch:
             "topLevel": True
         })
 
-        data = json.load(open(os.path.join(datadir, "ci0-auth-flow-generic/executors/executors.json")))
+        data = json.load(open(os.path.join(datadir, "flows/ci0-auth-flow-generic/executors/executors.json")))
         assert data == kc_15_auth_flow_executors_expected_data_fixup(kc, [
             {
                 "configurable": False,
