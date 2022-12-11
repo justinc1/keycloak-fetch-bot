@@ -40,6 +40,7 @@ def run(output_dir):
         ['user-federations', 'name'],
         ['components', 'name'],
         ['authentication', 'alias'],
+        ['authentication/required-actions', 'alias'],
         ['groups', 'name'],
         ['client-scopes', 'name'],
         # Do not save users, we do not need them, and it takes time.
