@@ -129,6 +129,8 @@ def main():
             "displayName": realm_name + "-display"
         }).isOk()
 
+    ## NO: auth_api = kc.build('authentication', realm_name)
+    auth_api = master_realm_api.get_child(master_realm_api, realm_name, "authentication")
     auth_flow_api = kc.build('authentication/flows', realm_name)
     auth_required_actions_api = kc.build('authentication/required-actions', realm_name)
     auth_executions_api = kc.build('authentication/executions', realm_name)
@@ -341,10 +343,11 @@ def main():
 
     # Authentication - required actions
     # GET https://172.17.0.2:8443/auth/admin/realms/ci0-realm/authentication/required-actions
+    # Reconfigure two existing required actions
     # PUT https://172.17.0.2:8443/auth/admin/realms/ci0-realm/authentication/required-actions/CONFIGURE_TOTP
     # {"alias":"CONFIGURE_TOTP","name":"Configure OTP","providerId":"CONFIGURE_TOTP","enabled":true,"defaultAction":false,"priority":10,"config":{}}
     required_actions = auth_required_actions_api.get(None).verify().resp().json()
-    # required_actions_aliases = [obj['alias'] for obj in required_actions]
+    required_actions_aliases = [obj['alias'] for obj in required_actions]
     assert "CONFIGURE_TOTP" in required_actions[0]["alias"]
     if required_actions[0]["defaultAction"] is not True:
         req_action_new = copy(required_actions[0])
@@ -358,6 +361,30 @@ def main():
         req_action_new["enabled"] = True
         state = auth_required_actions_api.update(req_action_new["alias"], req_action_new)
         del req_action_new
+    # Create/register a new required-action
+    # To figure out, what can be registered:
+    # GET https://172.17.0.2:8443/auth/admin/realms/ci0-realm/authentication/unregistered-required-actions
+    # [{"providerId":"webauthn-register-passwordless","name":"Webauthn Register Passwordless"},{"providerId":"webauthn-register","name":"Webauthn Register"}]
+    # POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/authentication/register-required-action
+    # {"providerId":"webauthn-register","name":"Webauthn Register"}
+    if "webauthn-register" not in required_actions_aliases:
+        unregistered_required_actions = auth_api.get("unregistered-required-actions").verify().resp().json()
+        for req_action_new in unregistered_required_actions:
+            if "webauthn-register" == req_action_new["providerId"]:
+                break
+        assert "webauthn-register" == req_action_new["providerId"]
+        auth_register_required_action_api = auth_api.get_child(auth_api, "register-required-action", None)
+        auth_register_required_action_api.create(req_action_new).isOk()
+        # BUG - call .create() again, and we have two copies
+        # auth_register_required_action_api.create(req_action_new).isOk()
+        # req_action_new is last in list. Move it higher
+        # POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/authentication/required-actions/webauthn-register/raise-priority
+        # {"realm":"ci0-realm","alias":"webauthn-register"}
+        auth_required_actions_webauthn_register_raise_priority_api = auth_required_actions_api.get_child(auth_required_actions_api, "webauthn-register", "raise-priority")
+        auth_required_actions_webauthn_register_raise_priority_api.create({
+            "realm": realm_name,
+            "alias": "webauthn-register",
+        })
 
     client_api = kc.build('clients', realm_name)
     if not client_api.findFirst({'key': 'clientId', 'value': client0_client_id}):
