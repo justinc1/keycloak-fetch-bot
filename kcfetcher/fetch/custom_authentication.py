@@ -3,6 +3,7 @@ from kcfetcher.utils import normalize
 
 
 class CustomAuthenticationFetch(GenericFetch):
+    # This class stores authentication flows.
     def fetch(self, store_api):
         name = self.resource_name
         identifier = self.id
@@ -10,23 +11,25 @@ class CustomAuthenticationFetch(GenericFetch):
 
         authentication_api = self.kc.build(name, realm)
 
-        print('** Authentication fetching: ', name)
+        print('** Authentication flow fetching: ', name)
 
         kc_objects = self.all(authentication_api)
 
+        store_api.add_child("flows")  # auth/flows
         counter = 0
         for kc_object in kc_objects:
-            store_api.add_child(normalize(kc_object[identifier]))  # auth/authentication_name
+            store_api.add_child(normalize(kc_object[identifier]))  # auth/flows/authentication_name
             store_api.store_one(kc_object, identifier)
 
             executors = authentication_api.executions(kc_object).all()
             self._update_executors_with_config(executors)
-            store_api.add_child('executors')  # auth/authentication_name/executions
+            store_api.add_child('executors')  # auth/flows/authentication_name/executions
             store_api.store_one_with_alias('executors', executors)
 
-            store_api.remove_last_child()  # auth/auth_name/*executions*
-            store_api.remove_last_child()  # auth/*authentication_name*
+            store_api.remove_last_child()  # auth/flows/auth_name/*executions*
+            store_api.remove_last_child()  # auth/flows/*authentication_name*
             counter += 1
+        store_api.remove_last_child()  # auth/flows
 
     def _update_executors_with_config(self, executors):
         """
