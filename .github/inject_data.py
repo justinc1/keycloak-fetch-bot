@@ -130,6 +130,7 @@ def main():
         }).isOk()
 
     auth_flow_api = kc.build('authentication/flows', realm_name)
+    auth_required_actions_api = kc.build('authentication/required-actions', realm_name)
     auth_executions_api = kc.build('authentication/executions', realm_name)
     auth_flow_browser = auth_flow_api.findFirst({"key": "alias", "value": "browser"})
 
@@ -337,6 +338,26 @@ def main():
     state = master_realm_api.update(realm_name, realm_data_new).isOk()
     # check what is in server
     assert_realm_authentication(master_realm_api, realm_name)
+
+    # Authentication - required actions
+    # GET https://172.17.0.2:8443/auth/admin/realms/ci0-realm/authentication/required-actions
+    # PUT https://172.17.0.2:8443/auth/admin/realms/ci0-realm/authentication/required-actions/CONFIGURE_TOTP
+    # {"alias":"CONFIGURE_TOTP","name":"Configure OTP","providerId":"CONFIGURE_TOTP","enabled":true,"defaultAction":false,"priority":10,"config":{}}
+    required_actions = auth_required_actions_api.get(None).verify().resp().json()
+    # required_actions_aliases = [obj['alias'] for obj in required_actions]
+    assert "CONFIGURE_TOTP" in required_actions[0]["alias"]
+    if required_actions[0]["defaultAction"] is not True:
+        req_action_new = copy(required_actions[0])
+        assert req_action_new["enabled"] is True
+        req_action_new["defaultAction"] = True
+        state = auth_required_actions_api.update(req_action_new["alias"], req_action_new)
+        del req_action_new
+    assert "terms_and_conditions" in required_actions[1]["alias"]
+    if required_actions[1]["enabled"] is not True:
+        req_action_new = copy(required_actions[1])
+        req_action_new["enabled"] = True
+        state = auth_required_actions_api.update(req_action_new["alias"], req_action_new)
+        del req_action_new
 
     client_api = kc.build('clients', realm_name)
     if not client_api.findFirst({'key': 'clientId', 'value': client0_client_id}):
