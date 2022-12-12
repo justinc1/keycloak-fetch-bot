@@ -13,6 +13,16 @@ But some don't have it, example:
 The missing "name" would usually by typo, we want to ignore this only in very specific cases.
 """
 
+"""
+TODO
+cat output/keycloak/ci0-realm/components/allowed_protocol_mapper_types.json
+  move this out of ci0-realm/components/ into ci0-realm/client-registration-policies/
+  GET https://172.17.0.2:8443/auth/admin/realms/ci0-realm/client-registration-policy/providers
+Reconfigure one component.
+Add a new component.
+There are authenticated and anonymous policies.
+"""
+
 import logging
 logger = logging.getLogger(__name__)
 
@@ -26,7 +36,12 @@ class ComponentFetch(GenericFetch):
     def all(self, kc):
         objects = kc.all()
         realm_id = self.kc.admin().get(self.realm).verify().resp().json()["id"]
-        forbidden_provider_types = ["org.keycloak.userprofile.UserProfileProvider"]
+        not_saved_here_provider_types = [
+            "org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy"
+        ]
+        forbidden_provider_types = [
+            "org.keycloak.userprofile.UserProfileProvider",
+        ]
         objects2 = []
         user_federation_fetch = UserFederationFetch(self.kc, "user-federations", "name", self.realm)
         all_user_federations = user_federation_fetch.all_from_components(objects)
@@ -35,6 +50,8 @@ class ComponentFetch(GenericFetch):
         all_uf_all_mappers_ids = [ufm["id"] for ufm in all_uf_all_mappers]
 
         for obj in objects:
+            if "providerType" in obj and obj["providerType"] in not_saved_here_provider_types:
+                continue
             if "providerType" in obj and obj["providerType"] in forbidden_provider_types:
                 # This one has no name, so do not check the name
                 # We just drop it for now
