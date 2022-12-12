@@ -331,12 +331,33 @@ def main():
         ],
         "webAuthnPolicyPasswordlessUserVerificationRequirement": "preferred",
     }
+    # reconfigure realm security-defenses
+    realm_data_update_3 = {
+        "browserSecurityHeaders": {
+            "contentSecurityPolicy": "frame-src 'self'; frame-ancestors 'self'; object-src 'none-b';",
+            "contentSecurityPolicyReportOnly": "c",
+            "strictTransportSecurity": "max-age=31536000; includeSubDomains-g",
+            "xContentTypeOptions": "nosniff-d",
+            "xFrameOptions": "SAMEORIGIN-a",
+            "xRobotsTag": "none-e",
+            "xXSSProtection": "1; mode=block-f"
+        },
+        "bruteForceProtected": True,
+        "failureFactor": 31,
+        "maxDeltaTimeSeconds": 61200,
+        "maxFailureWaitSeconds": 960,
+        "minimumQuickLoginWaitSeconds": 240,
+        "quickLoginCheckMilliSeconds": 1003,
+        "waitIncrementSeconds": 120,
+    }
     # Surprise. KC 9.02 - on first update, "WebAuthn Policy" changes were not applied.
     # Do it a second time, or split update into two parts.
     # Update: the real problem was a partial update - see commit 2bdd5b5851e96548042ffceb786ea51f0b2fe78d.
     realm_data_new.update(realm_data_update_1)
     state = master_realm_api.update(realm_name, realm_data_new).isOk()
     realm_data_new.update(realm_data_update_2)
+    realm_data_new.update(realm_data_update_3)
+    #
     state = master_realm_api.update(realm_name, realm_data_new).isOk()
     # check what is in server
     assert_realm_authentication(master_realm_api, realm_name)

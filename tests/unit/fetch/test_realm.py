@@ -362,6 +362,27 @@ class TestRealmFetch_vcr:
         ]
         assert data["webAuthnPolicyPasswordlessUserVerificationRequirement"] == "preferred"
 
+        # ci0-realm has modified values
+        expected_realm_security_defenses = {
+            "browserSecurityHeaders": {
+                "contentSecurityPolicy": "frame-src 'self'; frame-ancestors 'self'; object-src 'none-b';",
+                "contentSecurityPolicyReportOnly": "c",
+                "strictTransportSecurity": "max-age=31536000; includeSubDomains-g",
+                "xContentTypeOptions": "nosniff-d",
+                "xFrameOptions": "SAMEORIGIN-a",
+                "xRobotsTag": "none-e",
+                "xXSSProtection": "1; mode=block-f"
+            },
+            "bruteForceProtected": True,
+            "failureFactor": 31,
+            "maxDeltaTimeSeconds": 61200,
+            "maxFailureWaitSeconds": 960,
+            "minimumQuickLoginWaitSeconds": 240,
+            "quickLoginCheckMilliSeconds": 1003,
+            "waitIncrementSeconds": 120,
+        }
+        assert_subobj_eq_obj(expected_realm_security_defenses, data)
+
         # =====================================================================================
         data = json.load(open(os.path.join(datadir, "master/master.json")))
         # identityProviderMappers - if the list would be empty, then:
@@ -384,3 +405,32 @@ class TestRealmFetch_vcr:
                 "offline_access",
                 "uma_authorization",
             ]
+
+        # master realm has default values
+        expected_realm_security_defenses = {
+            "browserSecurityHeaders": {
+                "contentSecurityPolicy": "frame-src 'self'; frame-ancestors 'self'; object-src 'none';",
+                "contentSecurityPolicyReportOnly": "",
+                "strictTransportSecurity": "max-age=31536000; includeSubDomains",
+                "xContentTypeOptions": "nosniff",
+                "xFrameOptions": "SAMEORIGIN",
+                "xRobotsTag": "none",
+                "xXSSProtection": "1; mode=block"
+            },
+            "bruteForceProtected": False,
+            "failureFactor": 30,
+            "maxDeltaTimeSeconds": 43200,
+            "maxFailureWaitSeconds": 900,
+            "minimumQuickLoginWaitSeconds": 60,
+            "quickLoginCheckMilliSeconds": 1000,
+            "waitIncrementSeconds": 60,
+        }
+        assert_subobj_eq_obj(expected_realm_security_defenses, data)
+
+
+def assert_subobj_eq_obj(expected_subobj, obj):
+    """
+    For every key in expected_subobj, check obj has same value.
+    """
+    for key in expected_subobj:
+        assert expected_subobj[key] == obj[key]
