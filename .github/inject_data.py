@@ -105,7 +105,7 @@ def main():
 
     realm_ids = [realm["id"] for realm in master_realm_api.all()]
     logger.debug(f"realm_ids={realm_ids}")
-    if realm_name_old not in realm_ids:
+    if realm_name_old not in realm_ids and realm_name not in realm_ids:
         # myrealm = kc.build('realms', realm_name)
         master_realm_api.create({
             "enabled": "true",
@@ -230,6 +230,15 @@ def main():
         execution_temp = copy(executions[3])
         execution_temp.update(dict(requirement="ALTERNATIVE"))
         this_flow_executions_api.update("", execution_temp)
+
+    #if 1:
+        # if commented out. line "the_4th_flow_executions_execution_api.create({"provider": "registration-recaptcha-action"})" works,
+        #   "POST /auth/admin/realms/ci0-realm/authentication/flows/ci0-auth-flow-generic-exec-4-flow-alias/executions/execution HTTP/1.1" 201 0,
+        # if uncommented, kcloader loads 5 flows, and than injects_data tries to add 6th, and fails.
+
+        this_flow_executions_api = auth_flow_api.get_child(auth_flow_api, auth_flow_generic_alias, "executions")
+        this_flow_executions_execution_api = this_flow_executions_api.get_child(this_flow_executions_api, "", "execution")
+        this_flow_executions_flow_api = this_flow_executions_api.get_child(this_flow_executions_api, "", "flow")
 
         # Add child execution to 4th execution, select recaptcha
         the_4th_flow_alias = "ci0-auth-flow-generic-exec-4-flow-alias"
