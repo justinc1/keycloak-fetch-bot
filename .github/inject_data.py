@@ -145,6 +145,18 @@ def main():
             "topLevel": True,
             "builtIn": False,
         })
+        if 0:
+            # Looks like PUT /{realm}/authentication/flows/{id} exists, but is not usable.
+            # In UI edit is not possible, and API returns 409/500 error.
+            auth_flow_generic = auth_flow_api.findFirstByKV("alias", auth_flow_generic_alias)
+            data_change = {
+                "description": "ci0-auth-flow-generic-desc---NEW",
+            }
+            # auth_flow_api.update(auth_flow_generic["id"], data_change)  # 409 error
+            data_new = copy(auth_flow_generic)
+            data_new.update(data_change)
+            auth_flow_api.update(auth_flow_generic["id"], data_new)  # 500 error
+
         # auth_flow_generic = auth_flow_api.findFirstByKV("alias", auth_flow_generic_alias)
         this_flow_executions_api = auth_flow_api.get_child(auth_flow_api, auth_flow_generic_alias, "executions")
         this_flow_executions_execution_api = this_flow_executions_api.get_child(this_flow_executions_api, "", "execution")
