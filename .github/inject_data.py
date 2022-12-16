@@ -150,6 +150,7 @@ def main():
         this_flow_executions_execution_api = this_flow_executions_api.get_child(this_flow_executions_api, "", "execution")
         this_flow_executions_flow_api = this_flow_executions_api.get_child(this_flow_executions_api, "", "flow")
         # create two executions
+        # POST /auth/admin/realms/ci0-realm/authentication/flows/ci0-auth-flow-generic/executions/execution
         this_flow_executions_execution_api.create({"provider": "direct-grant-validate-username"})
         this_flow_executions_execution_api.create({"provider": "auth-conditional-otp-form"})
 
@@ -193,6 +194,8 @@ def main():
             "description": "ci0-auth-flow-generic-exec-3-generic-alias-desc",
             "provider": "registration-page-form",
         })
+        # kcload        {'alias': 'ci0-auth-flow-generic-exec-3-generic-alias', 'type': 'basic-flow', 'provider': 'registration-page-flow'}
+
         # Flow type: flow
         this_flow_executions_flow_api.create({
             "alias": "ci0-auth-flow-generic-exec-4-flow-alias",
@@ -243,6 +246,7 @@ def main():
         # Add child execution to 4th execution, select recaptcha
         the_4th_flow_alias = "ci0-auth-flow-generic-exec-4-flow-alias"
         the_4th_flow_executions_execution_api = auth_flow_api.get_child(auth_flow_api, the_4th_flow_alias, "executions/execution")
+        # POST /auth/admin/realms/ci0-realm/authentication/flows/ci0-auth-flow-generic-exec-4-flow-alias/executions/execution
         the_4th_flow_executions_execution_api.create({"provider": "registration-recaptcha-action"})
         # leave it disabled
         executions = this_flow_executions_api.all()
@@ -259,6 +263,76 @@ def main():
             },
             "alias": "ci0-auth-flow-generic-exec-6-alias"
         })
+
+
+
+
+
+
+    if 0:
+        # create two executions
+        # POST /auth/admin/realms/ci0-realm/authentication/flows/ci0-auth-flow-generic/executions/execution
+        this_flow_executions_execution_api.create({"provider": "direct-grant-validate-username"})
+        this_flow_executions_execution_api.create({"provider": "auth-conditional-otp-form"})
+
+        # make the second execution "alternative"
+        # PUT https://172.17.0.2:8443/auth/admin/realms/ci0-realm/authentication/flows/ci0-auth-flow-generic/executions
+        this_flow_executions_api.update("", execution1_temp)
+        # configure the second execution
+        # GET https://172.17.0.2:8443/auth/admin/realms/ci0-realm/authentication/flows/ci0-auth-flow-generic/executions
+        # POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/authentication/executions/a418c71e-f2f3-4d17-883b-9d17ccecda29/config
+        execution1_config_api.create({
+            "config": {
+                "forceOtpRole": "ci0-client-0.ci0-client0-role0",
+            },
+            "alias": "ci0-auth-flow-generic-exec-20-alias"
+        })
+
+        # add a 3rd execution, with provider of type flow
+        # POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/authentication/flows/ci0-auth-flow-generic/executions/flow
+        # Flow type: generic
+        this_flow_executions_flow_api.create({
+            "alias": "ci0-auth-flow-generic-exec-3-generic-alias",
+            "type": "basic-flow",  # Flow type: generic
+            "description": "ci0-auth-flow-generic-exec-3-generic-alias-desc",
+            "provider": "registration-page-form",
+        })
+        # kcload        {'alias': 'ci0-auth-flow-generic-exec-3-generic-alias', 'type': 'basic-flow', 'provider': 'registration-page-flow' --- NAROBE}
+
+        # Flow type: flow
+        this_flow_executions_flow_api.create({
+            "alias": "ci0-auth-flow-generic-exec-4-flow-alias",
+            "type": "form-flow",
+            "description": "ci0-auth-flow-generic-exec-4-flow-alias-desc",
+            "provider": "registration-page-form",
+        })
+
+        # Add child flow to 3rd execution, type generic
+        # NOTE: this will change order in executions - this_flow_executions_api.all() returns ordered list
+        # POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/authentication/flows/ci0-auth-flow-generic-exec-3-generic-alias/executions/flow
+        the_3rd_flow_alias = "ci0-auth-flow-generic-exec-3-generic-alias"
+        the_3rd_flow_executions_flow_api = auth_flow_api.get_child(auth_flow_api, the_3rd_flow_alias, "executions/flow")
+        the_3rd_flow_executions_flow_api.create({
+            "alias": "ci0-auth-flow-generic-exec-3-1-flow-alias",
+            "type": "basic-flow",
+            "description": "ci0-auth-flow-generic-exec-3-1-flow-alias-desc",
+            "provider": "registration-page-form"
+        })
+
+        # if 1:
+        # if commented out. line "the_4th_flow_executions_execution_api.create({"provider": "registration-recaptcha-action"})" works,
+        #   "POST /auth/admin/realms/ci0-realm/authentication/flows/ci0-auth-flow-generic-exec-4-flow-alias/executions/execution HTTP/1.1" 201 0,
+        # if uncommented, kcloader loads 5 flows, and than injects_data tries to add 6th, and fails.
+
+        # Add child execution to 4th execution, select recaptcha
+        # POST /auth/admin/realms/ci0-realm/authentication/flows/ci0-auth-flow-generic-exec-4-flow-alias/executions/execution
+        the_4th_flow_executions_execution_api.create({"provider": "registration-recaptcha-action"})
+
+
+
+
+
+
 
     # reconfigure Authentication - xyz
     realm_data_old = master_realm_api.get(realm_name).verify().resp().json()
