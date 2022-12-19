@@ -33,6 +33,7 @@ class TestClientScopeFetch:
         assert unordered(glob.glob('**', root_dir=datadir, recursive=True)) == [
             "ci0-client-scope.json",
             "ci0-client-scope-1-saml.json",
+            "ci0-client-scope-2-saml.json",
             "default",
             "default/default-default-client-scopes.json",
             "default/default-optional-client-scopes.json",

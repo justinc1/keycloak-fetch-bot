@@ -310,6 +310,7 @@ class TestClientFetch_vcr:
             'clientId': 'ci0-client-2-saml',
             'consentRequired': False,
             'defaultClientScopes': [
+                'ci0-client-scope-2-saml',
                 'email',
                 'profile',
                 'role_list',

@@ -104,6 +104,7 @@ def main():
     group1c_name = "ci0-group-1c"
     client_scope_0_name = "ci0-client-scope"
     client_scope_1_name = "ci0-client-scope-1-saml"
+    client_scope_2_name = "ci0-client-scope-2-saml"
 
     realm_ids = [realm["id"] for realm in master_realm_api.all()]
     logger.debug(f"realm_ids={realm_ids}")
@@ -935,6 +936,31 @@ def main():
         ).isOk()
     client_scope_1 = client_scopes_api.findFirst({'key': 'name', 'value': client_scope_1_name})
     assert_realm_authentication(master_realm_api, realm_name)
+
+    # client-scope-2, type SAML, it will be assigned to SAML client
+    if not client_scopes_api.findFirst({'key': 'name', 'value': client_scope_2_name}):
+        cs_creation_state = client_scopes_api.create({
+            "name": client_scope_2_name,
+            "description": f"{client_scope_2_name}-desc",
+            "protocol": "saml",
+            "attributes": {
+                "consent.screen.text": "consent-text-ci0-scope-2-saml",
+                "display.on.consent.screen": "true",
+                "include.in.token.scope": "true"
+            }
+        }).isOk()
+        client_scope_2 = client_scopes_api.findFirst({'key': 'name', 'value': client_scope_2_name})
+
+        # make client_scope_id a default client scope - of client2-saml
+        state = client_api.update(
+            f"{client2['id']}/default-client-scopes/{client_scope_2['id']}",
+            {
+                "realm": realm_name,
+                "client": client2['id'],
+                "clientScopeId": client_scope_2['id'],
+            },
+        ).isOk()
+    client_scope_2 = client_scopes_api.findFirst({'key': 'name', 'value': client_scope_2_name})
 
     # TODO add identity-provider
     idp_alias = "ci0-ipd-saml"
