@@ -64,6 +64,8 @@ def main():
     realm_name_old = realm_name + "-OLD"
     client0_client_id = "ci0-client-0"
     client1_client_id = "ci0-client-1"
+    client2_client_id = "ci0-client-2-saml"
+    client3_client_id = "ci0-client-3-saml"
     # one simple (non-composite) role
     client0_role0_name = "ci0-client0-role0"
     # one composite role, it will contain two other simple client roles
@@ -519,6 +521,52 @@ def main():
         }).isOk()
     client1 = client_api.findFirst({'key': 'clientId', 'value': client1_client_id})
     assert_realm_authentication(master_realm_api, realm_name)
+
+    # create a SAML client, with roles etc.
+    if not client_api.findFirst({'key': 'clientId', 'value': client2_client_id}):
+        # POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients
+        # {"enabled":true,"attributes":{},"redirectUris":[],"protocol":"saml","clientId":"ci0-client-2-saml","adminUrl":"http://the-saml.com"}
+        client_api.create({
+            "enabled": True,
+            "attributes": {},
+            "redirectUris": [
+                f"https://{client2_client_id}.example.com/redirect-url",
+            ],
+            "protocol": "saml",
+            "clientId": client2_client_id,
+            "adminUrl": f"http://{client2_client_id}-admin-url.example.com"
+        }).isOk()
+        client2 = client_api.findFirst({'key': 'clientId', 'value': client2_client_id})
+        client2_id = client2["id"]
+        client2_new = copy(client2)
+        client2_new.update({
+            "name": client2_client_id + "-name",
+            "description": client2_client_id + "-desc",
+        })
+        client2_new["attributes"].update({
+            "saml_assertion_consumer_url_post": "http://saml-admin-url-post.example.com",
+            "saml.assertion.lifespan": 120,
+        })
+        client2_new["authenticationFlowBindingOverrides"].update({
+            "browser": auth_flow_browser["id"],
+        })
+        client_api.update(client2_id, client2_new)
+    client2 = client_api.findFirst({'key': 'clientId', 'value': client2_client_id})
+
+    # create default SAML client - no roles etc
+    if not client_api.findFirst({'key': 'clientId', 'value': client3_client_id}):
+        # POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients
+        # {"enabled":true,"attributes":{},"redirectUris":[],"protocol":"saml","clientId":"ci0-client-2-saml","adminUrl":"http://the-saml.com"}
+        client_api.create({
+            "enabled": True,
+            "attributes": {},
+            "redirectUris": [],
+            "protocol": "saml",
+            "clientId": client3_client_id,
+            "adminUrl": f"http://{client3_client_id}-admin-url.example.com"
+        }).isOk()
+
+
 
     # add SAML identity provider, with 2 mappers
     idp_api = kc.build("identity-provider/instances", realm_name)
