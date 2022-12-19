@@ -286,11 +286,40 @@ class TestClientFetch_vcr:
 
         # =======================================================================================
         data = json.load(open(os.path.join(datadir, "client-2/ci0-client-2-saml.json")))
+        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
+            assert data["defaultClientScopes"] == [
+                'ci0-client-scope-2-saml',
+                'email',
+                'profile',
+                'role_list',
+                'roles',
+                'web-origins',
+            ]
+            assert data["optionalClientScopes"] == [
+                'address',
+                'phone',
+                'offline_access',
+                'microprofile-jwt',
+            ]
+        else:
+            # RH SSO 7.5
+            assert data["defaultClientScopes"] == [
+                'ci0-client-scope-2-saml',
+                'role_list',
+            ]
+            assert data["optionalClientScopes"] == []
+            assert 'saml.artifact.binding.identifier' in data["attributes"]
+            assert isinstance( data["attributes"]["saml.artifact.binding.identifier"], str)
+            data["attributes"].pop("saml.artifact.binding.identifier")
+        data.pop("defaultClientScopes")
+        data.pop("optionalClientScopes")
+
         assert data == {
             'access': {'configure': True, 'manage': True, 'view': True},
             'adminUrl': 'http://ci0-client-2-saml-admin-url.example.com',
             'alwaysDisplayInConsole': False,
             'attributes': {
+                # 'saml.artifact.binding.identifier': ""  # RHSSO 7.5 only
                 'saml.assertion.lifespan': '120',
                 'saml.authnstatement': 'true',
                 'saml.client.signature': 'true',
@@ -309,14 +338,7 @@ class TestClientFetch_vcr:
             'clientAuthenticatorType': 'client-secret',
             'clientId': 'ci0-client-2-saml',
             'consentRequired': False,
-            'defaultClientScopes': [
-                'ci0-client-scope-2-saml',
-                'email',
-                'profile',
-                'role_list',
-                'roles',
-                'web-origins',
-            ],
+            # 'defaultClientScopes': [...]
             'description': 'ci0-client-2-saml-desc',
             'directAccessGrantsEnabled': False,
             'enabled': True,
@@ -326,12 +348,7 @@ class TestClientFetch_vcr:
             'name': 'ci0-client-2-saml-name',
             'nodeReRegistrationTimeout': -1,
             'notBefore': 0,
-            'optionalClientScopes': [
-                'address',
-                'phone',
-                'offline_access',
-                'microprofile-jwt',
-            ],
+            # 'optionalClientScopes': [...]
             'protocol': 'saml',
             'publicClient': False,
             'redirectUris': [
@@ -348,6 +365,32 @@ class TestClientFetch_vcr:
         # =======================================================================================
         # A defautl, unconfigured SAML client
         data = json.load(open(os.path.join(datadir, "client-3/ci0-client-3-saml.json")))
+        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
+            assert data["defaultClientScopes"] == [
+                'email',
+                'profile',
+                'role_list',
+                'roles',
+                'web-origins',
+            ]
+            assert data["optionalClientScopes"] == [
+                'address',
+                'phone',
+                'offline_access',
+                'microprofile-jwt',
+            ]
+        else:
+            # RH SSO 7.5
+            assert data["defaultClientScopes"] == [
+                'role_list',
+            ]
+            assert data["optionalClientScopes"] == []
+            assert 'saml.artifact.binding.identifier' in data["attributes"]
+            assert isinstance( data["attributes"]["saml.artifact.binding.identifier"], str)
+            data["attributes"].pop("saml.artifact.binding.identifier")
+        data.pop("defaultClientScopes")
+        data.pop("optionalClientScopes")
+
         assert data == {
              'access': {'configure': True, 'manage': True, 'view': True},
              'adminUrl': 'http://ci0-client-3-saml-admin-url.example.com',
@@ -365,11 +408,7 @@ class TestClientFetch_vcr:
              'clientAuthenticatorType': 'client-secret',
              'clientId': 'ci0-client-3-saml',
              'consentRequired': False,
-             'defaultClientScopes': ['email',
-                                     'profile',
-                                     'role_list',
-                                     'roles',
-                                     'web-origins'],
+             # 'defaultClientScopes': [...],
              'directAccessGrantsEnabled': False,
              'enabled': True,
              'frontchannelLogout': True,
@@ -377,10 +416,7 @@ class TestClientFetch_vcr:
              'implicitFlowEnabled': False,
              'nodeReRegistrationTimeout': -1,
              'notBefore': 0,
-             'optionalClientScopes': ['address',
-                                      'phone',
-                                      'offline_access',
-                                      'microprofile-jwt'],
+             # 'optionalClientScopes': [...],
              'protocol': 'saml',
              'publicClient': False,
              'redirectUris': [],
