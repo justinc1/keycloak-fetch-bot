@@ -343,7 +343,7 @@ class TestClientFetch_vcr:
             'directAccessGrantsEnabled': False,
             'enabled': True,
             'frontchannelLogout': True,
-            'fullScopeAllowed': True,
+            'fullScopeAllowed': False,
             'implicitFlowEnabled': False,
             'name': 'ci0-client-2-saml-name',
             'nodeReRegistrationTimeout': -1,
@@ -389,8 +389,22 @@ class TestClientFetch_vcr:
             ],
         }
 
+        data = json.load(open(os.path.join(datadir, "client-2/scope-mappings.json")))
+        assert data == [
+            {
+                "clientRole": True,
+                "containerName": "ci0-client-0",
+                "name": "ci0-client0-role1",
+            },
+            {
+                "clientRole": False,
+                "containerName": "ci0-realm",
+                "name": "ci0-role-1a",
+            },
+        ]
+
         # =======================================================================================
-        # A defautl, unconfigured SAML client
+        # A default, unconfigured SAML client
         data = json.load(open(os.path.join(datadir, "client-3/ci0-client-3-saml.json")))
         if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
             assert data["defaultClientScopes"] == [
@@ -452,3 +466,6 @@ class TestClientFetch_vcr:
              'surrogateAuthRequired': False,
              'webOrigins': []
              }
+
+        data = json.load(open(os.path.join(datadir, "client-3/scope-mappings.json")))
+        assert data == []
