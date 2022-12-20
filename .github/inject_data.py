@@ -689,8 +689,6 @@ def main():
     client1_role0 = client1_roles_api.findFirst({'key': 'name', 'value': client1_role0_name})
     assert_realm_authentication(master_realm_api, realm_name)
 
-    # TODO add builtin mapper to client
-    # TODO add custom mapper to client
 
     roles_api = kc.build('roles', realm_name)
     roles_by_id_api = kc.build("roles-by-id", realm_name)
