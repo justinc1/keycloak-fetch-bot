@@ -286,6 +286,19 @@ class TestClientFetch_vcr:
             'microprofile-jwt',
         ]
 
+        data = json.load(open(os.path.join(datadir, "client-1/roles/ci0-client1-role0.json")))
+        assert data == {
+            "attributes": {
+                "ci0-client1-role0-key0": [
+                    "ci0-client1-role0-value0"
+                ]
+            },
+            "clientRole": True,
+            "composite": False,
+            "description": "ci0-client1-role0-desc",
+            "name": "ci0-client1-role0"
+        }
+
         # =======================================================================================
         data = json.load(open(os.path.join(datadir, "client-2/ci0-client-2-saml.json")))
         if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:

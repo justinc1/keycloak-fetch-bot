@@ -682,11 +682,15 @@ def main():
     # Add a client role to client1
     client1_roles_api = kc.build(f"clients/{client1['id']}/roles", realm_name)
     if not client1_roles_api.findFirst({'key': 'name', 'value': client1_role0_name}):
-        client1_roles_api.create({
+        role_spec = {
             "name": client1_role0_name,
             "description": client1_role0_name + "-desc",
             "attributes": {client1_role0_name + "-key0": [client1_role0_name + "-value0"]},
-        }).isOk()
+        }
+        client1_roles_api.create(role_spec).isOk()
+        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
+            # Add attributes to role also for KC 9.0
+            client1_roles_api.update(client1_role0_name, role_spec).isOk()
     client1_role0 = client1_roles_api.findFirst({'key': 'name', 'value': client1_role0_name})
     assert_realm_authentication(master_realm_api, realm_name)
 
