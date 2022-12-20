@@ -46,6 +46,8 @@ class TestClientFetch_vcr:
             'client-1/scope-mappings.json',
 
             'client-2',
+            'client-2/roles',
+            'client-2/roles/ci0-client2-role0.json',
             'client-2/ci0-client-2-saml.json',
             'client-2/scope-mappings.json',
 
@@ -402,6 +404,19 @@ class TestClientFetch_vcr:
                 "name": "ci0-role-1a",
             },
         ]
+
+        data = json.load(open(os.path.join(datadir, "client-2/roles/ci0-client2-role0.json")))
+        assert data == {
+            "attributes": {
+                "ci0-client2-role0-key0": [
+                    "ci0-client2-role0-value0"
+                ]
+            },
+            "clientRole": True,
+            "composite": False,
+            "description": "ci0-client2-role0-desc",
+            "name": "ci0-client2-role0"
+        }
 
         # =======================================================================================
         # A default, unconfigured SAML client

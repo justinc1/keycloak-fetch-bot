@@ -80,6 +80,7 @@ def main():
         client0_role1b_name,
     ]
     client1_role0_name = "ci0-client1-role0"
+    client2_role0_name = "ci0-client2-role0"
     idp_alias = "ci0-idp-saml-0"
     ci0_role0_name = "ci0-role-0"
     ci0_role1_name = "ci0-role-1"
@@ -689,6 +690,18 @@ def main():
     client1_role0 = client1_roles_api.findFirst({'key': 'name', 'value': client1_role0_name})
     assert_realm_authentication(master_realm_api, realm_name)
 
+    client2_roles_api = kc.build(f"clients/{client2['id']}/roles", realm_name)
+    if not client2_roles_api.findFirst({'key': 'name', 'value': client2_role0_name}):
+        role_spec = {
+            "name": client2_role0_name,
+            "description": client2_role0_name + "-desc",
+            "attributes": {client2_role0_name + "-key0": [client2_role0_name + "-value0"]},
+        }
+        client2_roles_api.create(role_spec).isOk()
+        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
+            # Add attributes to role also for KC 9.0
+            client2_roles_api.update(client2_role0_name, role_spec).isOk()
+    client2_role0 = client2_roles_api.findFirst({'key': 'name', 'value': client2_role0_name})
 
     roles_api = kc.build('roles', realm_name)
     roles_by_id_api = kc.build("roles-by-id", realm_name)
