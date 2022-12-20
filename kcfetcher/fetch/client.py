@@ -33,6 +33,9 @@ class ClientFetch(GenericFetch):
                 auth_flow_id = kc_object["authenticationFlowBindingOverrides"][auth_flow_override]
                 auth_flow_alias = find_in_list(auth_flow_all, id=auth_flow_id)["alias"]
                 kc_object["authenticationFlowBindingOverrides"][auth_flow_override] = auth_flow_alias
+            # SAML client - do not store 'saml.signing.certificate' and 'saml.signing.private.key'
+            kc_object["attributes"].pop('saml.signing.certificate', None)
+            kc_object["attributes"].pop('saml.signing.private.key', None)
             store_api.store_one(kc_object, identifier)
 
             role_fetcher = RoleFetch(self.kc, f"clients/{client_id}/roles", "name", self.realm)

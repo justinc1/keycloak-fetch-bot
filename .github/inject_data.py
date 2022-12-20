@@ -64,6 +64,8 @@ def main():
     realm_name_old = realm_name + "-OLD"
     client0_client_id = "ci0-client-0"
     client1_client_id = "ci0-client-1"
+    client2_client_id = "ci0-client-2-saml"
+    client3_client_id = "ci0-client-3-saml"
     # one simple (non-composite) role
     client0_role0_name = "ci0-client0-role0"
     # one composite role, it will contain two other simple client roles
@@ -78,6 +80,7 @@ def main():
         client0_role1b_name,
     ]
     client1_role0_name = "ci0-client1-role0"
+    client2_role0_name = "ci0-client2-role0"
     idp_alias = "ci0-idp-saml-0"
     ci0_role0_name = "ci0-role-0"
     ci0_role1_name = "ci0-role-1"
@@ -102,6 +105,7 @@ def main():
     group1c_name = "ci0-group-1c"
     client_scope_0_name = "ci0-client-scope"
     client_scope_1_name = "ci0-client-scope-1-saml"
+    client_scope_2_name = "ci0-client-scope-2-saml"
 
     realm_ids = [realm["id"] for realm in master_realm_api.all()]
     logger.debug(f"realm_ids={realm_ids}")
@@ -520,6 +524,86 @@ def main():
     client1 = client_api.findFirst({'key': 'clientId', 'value': client1_client_id})
     assert_realm_authentication(master_realm_api, realm_name)
 
+    # create a SAML client, with roles etc.
+    if not client_api.findFirst({'key': 'clientId', 'value': client2_client_id}):
+        # POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients
+        # {"enabled":true,"attributes":{},"redirectUris":[],"protocol":"saml","clientId":"ci0-client-2-saml","adminUrl":"http://the-saml.com"}
+        client_api.create({
+            "enabled": True,
+            "attributes": {},
+            "redirectUris": [
+                f"https://{client2_client_id}.example.com/redirect-url",
+            ],
+            "protocol": "saml",
+            "clientId": client2_client_id,
+            "adminUrl": f"http://{client2_client_id}-admin-url.example.com"
+        }).isOk()
+        client2 = client_api.findFirst({'key': 'clientId', 'value': client2_client_id})
+        client2_id = client2["id"]
+        client2_new = copy(client2)
+        client2_new.update({
+            "name": client2_client_id + "-name",
+            "description": client2_client_id + "-desc",
+        })
+        client2_new["attributes"].update({
+            "saml_assertion_consumer_url_post": "http://saml-admin-url-post.example.com",
+            "saml.assertion.lifespan": 120,
+        })
+        client2_new["authenticationFlowBindingOverrides"].update({
+            "browser": auth_flow_browser["id"],
+        })
+        client_api.update(client2_id, client2_new)
+
+        # add builtin protocol mapper
+        # POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients/2eb30cd6-628d-47cd-9943-373d73f81785/protocol-mappers/add-models
+        # [{"name":"X500 email","protocol":"saml","protocolMapper":"saml-user-property-mapper","consentRequired":false,"config":{"attribute.nameformat":"urn:oasis:names:tc:SAML:2.0:attrname-format:uri","user.attribute":"email","friendly.name":"email","attribute.name":"urn:oid:1.2.840.113549.1.9.1"}}]
+        client2_protocol_mappers_add_models_api = client_api.get_child(client_api, client2_id, "protocol-mappers/add-models")
+        client2_protocol_mappers_add_models_api.create([{
+            "name": "X500 email",
+            "protocol": "saml",
+            "protocolMapper": "saml-user-property-mapper",
+            "consentRequired": False,
+            "config": {
+                "attribute.nameformat": "urn:oasis:names:tc:SAML:2.0:attrname-format:uri",
+                "user.attribute": "email",
+                "friendly.name": "email",
+                "attribute.name": "urn:oid:1.2.840.113549.1.9.1",
+            },
+        }]).isOk()
+
+        # add custom protocol mapper
+        # POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients/2eb30cd6-628d-47cd-9943-373d73f81785/protocol-mappers/models
+        # {"protocol":"saml","config":{"Script":"/**/\n//insert your code here...","single":"true","friendly.name":"ci0-client-2-saml-mapper-js-friedly","attribute.name":"ci0-client-2-saml-mapper-attr-name","attribute.nameformat":"Basic"},"name":"ci0-client-2-saml-mapper-js","protocolMapper":"saml-javascript-mapper"}
+        client2_protocol_mappers_models_api = client_api.get_child(client_api, client2_id, "protocol-mappers/models")
+        client2_protocol_mappers_models_api.create({
+            "protocol": "saml",
+            "config": {
+                "Script": "/**/\n//insert your code here...",
+                "single": "true",
+                "friendly.name": "ci0-client-2-saml-mapper-js-friedly",
+                "attribute.name": "ci0-client-2-saml-mapper-attr-name",
+                "attribute.nameformat": "Basic",
+            },
+            "name": "ci0-client-2-saml-mapper-js",
+            "protocolMapper": "saml-javascript-mapper",
+        }).isOk()
+    client2 = client_api.findFirst({'key': 'clientId', 'value': client2_client_id})
+
+    # create default SAML client - no roles etc
+    if not client_api.findFirst({'key': 'clientId', 'value': client3_client_id}):
+        # POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients
+        # {"enabled":true,"attributes":{},"redirectUris":[],"protocol":"saml","clientId":"ci0-client-2-saml","adminUrl":"http://the-saml.com"}
+        client_api.create({
+            "enabled": True,
+            "attributes": {},
+            "redirectUris": [],
+            "protocol": "saml",
+            "clientId": client3_client_id,
+            "adminUrl": f"http://{client3_client_id}-admin-url.example.com"
+        }).isOk()
+
+
+
     # add SAML identity provider, with 2 mappers
     idp_api = kc.build("identity-provider/instances", realm_name)
     idp_mapper_api = kc.build(f"identity-provider/instances/{idp_alias}/mappers", realm_name)
@@ -598,16 +682,30 @@ def main():
     # Add a client role to client1
     client1_roles_api = kc.build(f"clients/{client1['id']}/roles", realm_name)
     if not client1_roles_api.findFirst({'key': 'name', 'value': client1_role0_name}):
-        client1_roles_api.create({
+        role_spec = {
             "name": client1_role0_name,
             "description": client1_role0_name + "-desc",
             "attributes": {client1_role0_name + "-key0": [client1_role0_name + "-value0"]},
-        }).isOk()
+        }
+        client1_roles_api.create(role_spec).isOk()
+        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
+            # Add attributes to role also for KC 9.0
+            client1_roles_api.update(client1_role0_name, role_spec).isOk()
     client1_role0 = client1_roles_api.findFirst({'key': 'name', 'value': client1_role0_name})
     assert_realm_authentication(master_realm_api, realm_name)
 
-    # TODO add builtin mapper to client
-    # TODO add custom mapper to client
+    client2_roles_api = kc.build(f"clients/{client2['id']}/roles", realm_name)
+    if not client2_roles_api.findFirst({'key': 'name', 'value': client2_role0_name}):
+        role_spec = {
+            "name": client2_role0_name,
+            "description": client2_role0_name + "-desc",
+            "attributes": {client2_role0_name + "-key0": [client2_role0_name + "-value0"]},
+        }
+        client2_roles_api.create(role_spec).isOk()
+        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
+            # Add attributes to role also for KC 9.0
+            client2_roles_api.update(client2_role0_name, role_spec).isOk()
+    client2_role0 = client2_roles_api.findFirst({'key': 'name', 'value': client2_role0_name})
 
     roles_api = kc.build('roles', realm_name)
     roles_by_id_api = kc.build("roles-by-id", realm_name)
@@ -736,6 +834,27 @@ def main():
     client0_scope_mappings_client_api = kc.build(f"clients/{client0['id']}/scope-mappings/clients/{client1['id']}", realm_name)
     client0_scope_mappings_client_api.create([client1_role0])
     assert_realm_authentication(master_realm_api, realm_name)
+
+    # scope mappings for client ci0-client-2-saml
+    # GUI: "full scope allowed" to off
+    # PUT https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients/17033bb3-0430-46d9-8053-88e56ea62d1d
+    # full payload, with 'fullScopeAllowed: False'
+    # {"id":"17033bb3-0430-46d9-8053-88e56ea62d1d","clientId":"ci0-client-2-saml","name":"ci0-client-2-saml-name","description":"ci0-client-2-saml-desc","adminUrl":"http://ci0-client-2-saml-admin-url.example.com","surrogateAuthRequired":false,"enabled":true,"alwaysDisplayInConsole":false,"clientAuthenticatorType":"client-secret","redirectUris":["https://ci0-client-2-saml.example.com/redirect-url"],"webOrigins":["https://ci0-client-2-saml.example.com"],"notBefore":0,"bearerOnly":false,"consentRequired":false,"standardFlowEnabled":true,"implicitFlowEnabled":false,"directAccessGrantsEnabled":false,"serviceAccountsEnabled":false,"publicClient":false,"frontchannelLogout":true,"protocol":"saml","attributes":{"saml.force.post.binding":"true","saml_assertion_consumer_url_post":"http://saml-admin-url-post.example.com","saml.server.signature":"true","saml.signing.certificate":"MIICsTCCAZkCBgGFLnwu5TANBgkqhkiG9w0BAQsFADAcMRowGAYDVQQDDBFjaTAtY2xpZW50LTItc2FtbDAeFw0yMjEyMjAwNzQxMDhaFw0zMjEyMjAwNzQyNDhaMBwxGjAYBgNVBAMMEWNpMC1jbGllbnQtMi1zYW1sMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlesr4gfXMnlmFW8GCojwFI8n/0bgXTQp3NUbwKjRIpfmjCHtOQBo1whyd4iQdYpJIo+tJZe/lXppQapkyQH7VGYgTE+3/khwq5TzmNuhP93kTSZNrMPDvmYJMOstCLp8iWkOXWwqnGUVavJV5bWP7Xzbyl1PklCUw82w9uMBv2JsARTVMTI+ZW2AHMPIoyiilYD6ezhiQowAp03oYGci0KlXGvdIeb9YRHxNaJs4psnGWVXplp+FZYpvGxbwjw76PNcbNrMCIBx5ZrSHj1Mmh2FvR4ZIKULWrpaWRbubnEvwCje7lPoPPQqXA5rJw/ZU64vndtyFmsjsDEfQDSSR5QIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAeMb1osWpULmXYXlf/z7el7EGpwTZA0kknehokJvqYMZDqyoWvbrLuFgkZmb74Sh0zt1Igs8azwvhX1as6Ojb/LZeFIJY8eEKSKhA6XbFvi+NvHPPuLWZNblhioLNoI0DhdwbCf6WrNQfN071dzmUh49xB8x7qQ8vkoAFp83iyN6PqhR7yYbI1UQhonNMSuFFwcoC1dTlsOiS4wZz6sdtq0yTJsL9w6rvATSx1/cJuqHFVlpWb4NHRZpUVFwr7DFc0K7uHqV2VtNKbTFb4ZCxiyxjk1LQRTFidDOR3GnQiMvXnOeEno2Zax2urkC+2+26WPzKkwZPGkqz0B157t/rV","saml.signature.algorithm":"RSA_SHA256","saml_force_name_id_format":"false","saml.client.signature":"true","saml.authnstatement":"true","saml.assertion.lifespan":"120","saml.signing.private.key":"MIIEowIBAAKCAQEAlesr4gfXMnlmFW8GCojwFI8n/0bgXTQp3NUbwKjRIpfmjCHtOQBo1whyd4iQdYpJIo+tJZe/lXppQapkyQH7VGYgTE+3/khwq5TzmNuhP93kTSZNrMPDvmYJMOstCLp8iWkOXWwqnGUVavJV5bWP7Xzbyl1PklCUw82w9uMBv2JsARTVMTI+ZW2AHMPIoyiilYD6ezhiQowAp03oYGci0KlXGvdIeb9YRHxNaJs4psnGWVXplp+FZYpvGxbwjw76PNcbNrMCIBx5ZrSHj1Mmh2FvR4ZIKULWrpaWRbubnEvwCje7lPoPPQqXA5rJw/ZU64vndtyFmsjsDEfQDSSR5QIDAQABAoIBAAUHwg4wgyj/Z8x6UDKUS7H057uqDicyc+EkCW1afMHzZNn43XPXLq1gbC7UlzxKao/NUFr9j4EdfWClrgIMnflD//tvhVXz6kvnkJDldbCl6l4oVdzhKLU/yTkp+vXbBAi8TK4Xzgo3XhOblAREJlMqqFlO7jeTmppDUZfHICzivGTM0eJEeb3eMhMwro0DJ6J1nzaXB3456n96aUcTwEYf7pGE2fc0yUonyBGMALDHaFThTfOKGSw7817enkTWrRSdvwb2/vcfRrxdfttciKj9H4f5d19OiGBTSKUfpluh5s8Mg8HkTskMO4UGrGppCzl8f3twRG8QI2rSEwUypBUCgYEAx6MxCtDOflgT+JpWKcyNuOZ5oJ+E7wQXiMyTC6AT6Ivqp9MC8oFySXUDIluBecdcPqqtrQllXKqwP5clODMKcPb4+ejBQ0yHIng/4A5bhPP8SyUeJqVEpS1f4GxKVFSEPMguIBoKvmmcdAD4MiCe/wdVAW0xROVCRotQE/DV8csCgYEAwD6Mg9FjZl8U2aeX6Ooyhz1+Ik2HM8RnHMVR4gyw5u3B+uY7aPBp3xYhP2LGXRu4X3wsvPov8qyEyCiO+5hT8RUb/SHvqHX00VO2DfeM3+oIwyXmST10oDvAqtvaWLXDdTa1HInx6hrobKv/rJVRUwkmmptzntoDnzjZQI+ZVQ8CgYBY766NbvBPANYEzlzMSkBouuQ8VlRWVrBVVS285Bd6ZbqoAS0y89ACQYqf57wKkHHbyRWOHL13RuM1sRP3sWVZZe0NCE/wt0sMZB2wpzTGSht/Lo38EWw/WbN4u0VxxCUVHujNjEx0/3+ffj8TtcyfOJj6BbcJRkj8PFv0RjpJeQKBgAmUlGgVTUDSyDU4ludylGYM+HY5Kt23kfPrGXOMclxvyNT6GEfYg04syidggsYtFXkctRYN2cncMxnOe6GqK7S9+pEY2dqpVjQAWfhEN+8IuLsQ7nMD7wX1NFrPbggxtrXmrgvoC/hAswiHYcx1/IGI2TWnPZHTB48txBXlkhydAoGBALxl/32La2ZlpbsSdQ/c+J5BDctm/Z0wxn4pdG+Qg7+tjTEAof3Mpvc1AjqABEMPWunWDyIncqXQkFiEOj2mEYuUFnZM5DOGaEMybArNu9oqLoDQir/8/IAVxBcrlR3lY3+OOuTZTGHvjKiApIvv5HUmdCNZXcXAskQCr3XzmRDB","saml_name_id_format":"username","saml_signature_canonicalization_method":"http://www.w3.org/2001/10/xml-exc-c14n#"},"authenticationFlowBindingOverrides":{"browser":"e04769fe-3086-4b6c-978d-806570c69d3e"},"fullScopeAllowed":false,"nodeReRegistrationTimeout":-1,"protocolMappers":[{"id":"e1eb60f8-bdd1-4402-b10f-0efb8bb6f56a","name":"X500 email","protocol":"saml","protocolMapper":"saml-user-property-mapper","consentRequired":false,"config":{"attribute.nameformat":"urn:oasis:names:tc:SAML:2.0:attrname-format:uri","user.attribute":"email","friendly.name":"email","attribute.name":"urn:oid:1.2.840.113549.1.9.1"}},{"id":"50df2901-e540-4ba5-a13c-bf01f41989e7","name":"ci0-client-2-saml-mapper-js","protocol":"saml","protocolMapper":"saml-javascript-mapper","consentRequired":false,"config":{"single":"true","Script":"/**/\n//insert your code here...","attribute.nameformat":"Basic","friendly.name":"ci0-client-2-saml-mapper-js-friedly","attribute.name":"ci0-client-2-saml-mapper-attr-name"}}],"defaultClientScopes":["web-origins","role_list","profile","ci0-client-scope-2-saml","roles","email"],"optionalClientScopes":["address","phone","offline_access","microprofile-jwt"],"access":{"view":true,"configure":true,"manage":true}}\
+    client2 = client_api.findFirst({'key': 'clientId', 'value': client2_client_id})
+    client_api.update_rmw(client2['id'], {"fullScopeAllowed": False})
+    #
+    # GUI: add realm role ci0-role-1a
+    # POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients/17033bb3-0430-46d9-8053-88e56ea62d1d/scope-mappings/realm
+    # [{"id":"02e28239-cff7-4e7b-90cf-71fa9c82f151","name":"ci0-role-1a","description":"ci0-role-1a-desc","composite":false,"clientRole":false,"containerId":"ci0-realm-OLD"}]
+    client2_scope_mappings_realm_api = client_api.get_child(client_api, client2['id'], "scope-mappings/realm")
+    client2_scope_mappings_realm_api.create([ci0_role1a])
+    #
+    # GUI: add client=account role=manage-account-links
+    # POST: https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients/17033bb3-0430-46d9-8053-88e56ea62d1d/scope-mappings/clients/e5932927-79d4-407f-8891-9a5613ef4ca0
+    # [{"id":"3eba80ed-c969-4b71-9d38-95b147430971","name":"manage-account-links","description":"${role_manage-account-links}","composite":false,"clientRole":true,"containerId":"e5932927-79d4-407f-8891-9a5613ef4ca0"}]
+    #client2_scope_mappings_clients_api
+    client2_scope_mappings_client_api = client_api.get_child(client_api, client2['id'], f"scope-mappings/clients/{client0['id']}")
+    client2_scope_mappings_client_api.create([client0_role1])
 
     groups_api = kc.build('groups', realm_name)
     # {'key': 'username', 'value': 'batman'}
@@ -887,6 +1006,31 @@ def main():
         ).isOk()
     client_scope_1 = client_scopes_api.findFirst({'key': 'name', 'value': client_scope_1_name})
     assert_realm_authentication(master_realm_api, realm_name)
+
+    # client-scope-2, type SAML, it will be assigned to SAML client
+    if not client_scopes_api.findFirst({'key': 'name', 'value': client_scope_2_name}):
+        cs_creation_state = client_scopes_api.create({
+            "name": client_scope_2_name,
+            "description": f"{client_scope_2_name}-desc",
+            "protocol": "saml",
+            "attributes": {
+                "consent.screen.text": "consent-text-ci0-scope-2-saml",
+                "display.on.consent.screen": "true",
+                "include.in.token.scope": "true"
+            }
+        }).isOk()
+        client_scope_2 = client_scopes_api.findFirst({'key': 'name', 'value': client_scope_2_name})
+
+        # make client_scope_id a default client scope - of client2-saml
+        state = client_api.update(
+            f"{client2['id']}/default-client-scopes/{client_scope_2['id']}",
+            {
+                "realm": realm_name,
+                "client": client2['id'],
+                "clientScopeId": client_scope_2['id'],
+            },
+        ).isOk()
+    client_scope_2 = client_scopes_api.findFirst({'key': 'name', 'value': client_scope_2_name})
 
     # TODO add identity-provider
     idp_alias = "ci0-ipd-saml"

@@ -1,3 +1,5 @@
+import glob
+
 from pytest import mark
 from pytest_unordered import unordered
 import json
@@ -27,18 +29,32 @@ class TestClientFetch_vcr:
         obj.fetch(store_api)
 
         # check generated content
-        assert os.listdir(datadir) == unordered(["client-0", "client-1"])
-        assert os.listdir(os.path.join(datadir, "client-0")) == unordered(['ci0-client-0.json', 'scope-mappings.json', 'roles'])
-        assert os.listdir(os.path.join(datadir, "client-0/roles")) == unordered([
-            'ci0-client0-role0.json',
-            'ci0-client0-role1.json',
-            'ci0-client0-role1b.json',
-            'ci0-client0-role1a.json',
-        ])
-        assert os.listdir(os.path.join(datadir, "client-1")) == unordered(['ci0-client-1.json', 'scope-mappings.json', 'roles'])
-        assert os.listdir(os.path.join(datadir, "client-1/roles")) == unordered([
-            'ci0-client1-role0.json',
-        ])
+        assert unordered(glob.glob('**', root_dir=datadir, recursive=True)) == [
+            'client-0',
+            'client-0/roles',
+            'client-0/roles/ci0-client0-role1.json',
+            'client-0/roles/ci0-client0-role0.json',
+            'client-0/roles/ci0-client0-role1b.json',
+            'client-0/roles/ci0-client0-role1a.json',
+            'client-0/ci0-client-0.json',
+            'client-0/scope-mappings.json',
+
+            'client-1',
+            'client-1/roles',
+            'client-1/roles/ci0-client1-role0.json',
+            'client-1/ci0-client-1.json',
+            'client-1/scope-mappings.json',
+
+            'client-2',
+            'client-2/roles',
+            'client-2/roles/ci0-client2-role0.json',
+            'client-2/ci0-client-2-saml.json',
+            'client-2/scope-mappings.json',
+
+            'client-3',
+            'client-3/ci0-client-3-saml.json',
+            'client-3/scope-mappings.json',
+        ]
 
         # =======================================================================================
         data = json.load(open(os.path.join(datadir, "client-0/ci0-client-0.json")))
@@ -269,3 +285,215 @@ class TestClientFetch_vcr:
             'offline_access',
             'microprofile-jwt',
         ]
+
+        data = json.load(open(os.path.join(datadir, "client-1/roles/ci0-client1-role0.json")))
+        assert data == {
+            "attributes": {
+                "ci0-client1-role0-key0": [
+                    "ci0-client1-role0-value0"
+                ]
+            },
+            "clientRole": True,
+            "composite": False,
+            "description": "ci0-client1-role0-desc",
+            "name": "ci0-client1-role0"
+        }
+
+        # =======================================================================================
+        data = json.load(open(os.path.join(datadir, "client-2/ci0-client-2-saml.json")))
+        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
+            assert data["defaultClientScopes"] == [
+                'ci0-client-scope-2-saml',
+                'email',
+                'profile',
+                'role_list',
+                'roles',
+                'web-origins',
+            ]
+            assert data["optionalClientScopes"] == [
+                'address',
+                'phone',
+                'offline_access',
+                'microprofile-jwt',
+            ]
+        else:
+            # RH SSO 7.5
+            assert data["defaultClientScopes"] == [
+                'ci0-client-scope-2-saml',
+                'role_list',
+            ]
+            assert data["optionalClientScopes"] == []
+            assert 'saml.artifact.binding.identifier' in data["attributes"]
+            assert isinstance( data["attributes"]["saml.artifact.binding.identifier"], str)
+            data["attributes"].pop("saml.artifact.binding.identifier")
+        data.pop("defaultClientScopes")
+        data.pop("optionalClientScopes")
+
+        assert data == {
+            'access': {'configure': True, 'manage': True, 'view': True},
+            'adminUrl': 'http://ci0-client-2-saml-admin-url.example.com',
+            'alwaysDisplayInConsole': False,
+            'attributes': {
+                # 'saml.artifact.binding.identifier': ""  # RHSSO 7.5 only
+                'saml.assertion.lifespan': '120',
+                'saml.authnstatement': 'true',
+                'saml.client.signature': 'true',
+                'saml.force.post.binding': 'true',
+                'saml.server.signature': 'true',
+                'saml.signature.algorithm': 'RSA_SHA256',
+                # 'saml.signing.certificate': 'MIICsTCC...',
+                # 'saml.signing.private.key': 'MIIEowIB...',
+                'saml_assertion_consumer_url_post': 'http://saml-admin-url-post.example.com',
+                'saml_force_name_id_format': 'false',
+                'saml_name_id_format': 'username',
+                'saml_signature_canonicalization_method': 'http://www.w3.org/2001/10/xml-exc-c14n#',
+            },
+            'authenticationFlowBindingOverrides': {'browser': 'browser'},
+            'bearerOnly': False,
+            'clientAuthenticatorType': 'client-secret',
+            'clientId': 'ci0-client-2-saml',
+            'consentRequired': False,
+            # 'defaultClientScopes': [...]
+            'description': 'ci0-client-2-saml-desc',
+            'directAccessGrantsEnabled': False,
+            'enabled': True,
+            'frontchannelLogout': True,
+            'fullScopeAllowed': False,
+            'implicitFlowEnabled': False,
+            'name': 'ci0-client-2-saml-name',
+            'nodeReRegistrationTimeout': -1,
+            'notBefore': 0,
+            # 'optionalClientScopes': [...]
+            'protocol': 'saml',
+            'protocolMappers': [
+                {
+                    "name": "X500 email",
+                    "protocol": "saml",
+                    "protocolMapper": "saml-user-property-mapper",
+                    "consentRequired": False,
+                    "config": {
+                        "attribute.nameformat": "urn:oasis:names:tc:SAML:2.0:attrname-format:uri",
+                        "user.attribute": "email",
+                        "friendly.name": "email",
+                        "attribute.name": "urn:oid:1.2.840.113549.1.9.1",
+                    },
+                },
+                {
+                    "protocol": "saml",
+                    "config": {
+                        "Script": "/**/\n//insert your code here...",
+                        "single": "true",
+                        "friendly.name": "ci0-client-2-saml-mapper-js-friedly",
+                        "attribute.name": "ci0-client-2-saml-mapper-attr-name",
+                        "attribute.nameformat": "Basic",
+                    },
+                    "consentRequired": False,
+                    "name": "ci0-client-2-saml-mapper-js",
+                    "protocolMapper": "saml-javascript-mapper",
+                },
+            ],
+            'publicClient': False,
+            'redirectUris': [
+                'https://ci0-client-2-saml.example.com/redirect-url',
+            ],
+            'serviceAccountsEnabled': False,
+            'standardFlowEnabled': True,
+            'surrogateAuthRequired': False,
+            'webOrigins': [
+                'https://ci0-client-2-saml.example.com',
+            ],
+        }
+
+        data = json.load(open(os.path.join(datadir, "client-2/scope-mappings.json")))
+        assert data == [
+            {
+                "clientRole": True,
+                "containerName": "ci0-client-0",
+                "name": "ci0-client0-role1",
+            },
+            {
+                "clientRole": False,
+                "containerName": "ci0-realm",
+                "name": "ci0-role-1a",
+            },
+        ]
+
+        data = json.load(open(os.path.join(datadir, "client-2/roles/ci0-client2-role0.json")))
+        assert data == {
+            "attributes": {
+                "ci0-client2-role0-key0": [
+                    "ci0-client2-role0-value0"
+                ]
+            },
+            "clientRole": True,
+            "composite": False,
+            "description": "ci0-client2-role0-desc",
+            "name": "ci0-client2-role0"
+        }
+
+        # =======================================================================================
+        # A default, unconfigured SAML client
+        data = json.load(open(os.path.join(datadir, "client-3/ci0-client-3-saml.json")))
+        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
+            assert data["defaultClientScopes"] == [
+                'email',
+                'profile',
+                'role_list',
+                'roles',
+                'web-origins',
+            ]
+            assert data["optionalClientScopes"] == [
+                'address',
+                'phone',
+                'offline_access',
+                'microprofile-jwt',
+            ]
+        else:
+            # RH SSO 7.5
+            assert data["defaultClientScopes"] == [
+                'role_list',
+            ]
+            assert data["optionalClientScopes"] == []
+            assert 'saml.artifact.binding.identifier' in data["attributes"]
+            assert isinstance( data["attributes"]["saml.artifact.binding.identifier"], str)
+            data["attributes"].pop("saml.artifact.binding.identifier")
+        data.pop("defaultClientScopes")
+        data.pop("optionalClientScopes")
+
+        assert data == {
+             'access': {'configure': True, 'manage': True, 'view': True},
+             'adminUrl': 'http://ci0-client-3-saml-admin-url.example.com',
+             'alwaysDisplayInConsole': False,
+             'attributes': {'saml.authnstatement': 'true',
+                            'saml.client.signature': 'true',
+                            'saml.force.post.binding': 'true',
+                            'saml.server.signature': 'true',
+                            'saml.signature.algorithm': 'RSA_SHA256',
+                            'saml_force_name_id_format': 'false',
+                            'saml_name_id_format': 'username',
+                            'saml_signature_canonicalization_method': 'http://www.w3.org/2001/10/xml-exc-c14n#'},
+             'authenticationFlowBindingOverrides': {},
+             'bearerOnly': False,
+             'clientAuthenticatorType': 'client-secret',
+             'clientId': 'ci0-client-3-saml',
+             'consentRequired': False,
+             # 'defaultClientScopes': [...],
+             'directAccessGrantsEnabled': False,
+             'enabled': True,
+             'frontchannelLogout': True,
+             'fullScopeAllowed': True,
+             'implicitFlowEnabled': False,
+             'nodeReRegistrationTimeout': -1,
+             'notBefore': 0,
+             # 'optionalClientScopes': [...],
+             'protocol': 'saml',
+             'publicClient': False,
+             'redirectUris': [],
+             'serviceAccountsEnabled': False,
+             'standardFlowEnabled': True,
+             'surrogateAuthRequired': False,
+             'webOrigins': []
+             }
+
+        data = json.load(open(os.path.join(datadir, "client-3/scope-mappings.json")))
+        assert data == []
