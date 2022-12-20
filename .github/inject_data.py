@@ -552,6 +552,40 @@ def main():
             "browser": auth_flow_browser["id"],
         })
         client_api.update(client2_id, client2_new)
+
+        # add builtin protocol mapper
+        # POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients/2eb30cd6-628d-47cd-9943-373d73f81785/protocol-mappers/add-models
+        # [{"name":"X500 email","protocol":"saml","protocolMapper":"saml-user-property-mapper","consentRequired":false,"config":{"attribute.nameformat":"urn:oasis:names:tc:SAML:2.0:attrname-format:uri","user.attribute":"email","friendly.name":"email","attribute.name":"urn:oid:1.2.840.113549.1.9.1"}}]
+        client2_protocol_mappers_add_models_api = client_api.get_child(client_api, client2_id, "protocol-mappers/add-models")
+        client2_protocol_mappers_add_models_api.create([{
+            "name": "X500 email",
+            "protocol": "saml",
+            "protocolMapper": "saml-user-property-mapper",
+            "consentRequired": False,
+            "config": {
+                "attribute.nameformat": "urn:oasis:names:tc:SAML:2.0:attrname-format:uri",
+                "user.attribute": "email",
+                "friendly.name": "email",
+                "attribute.name": "urn:oid:1.2.840.113549.1.9.1",
+            },
+        }]).isOk()
+
+        # add custom protocol mapper
+        # POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients/2eb30cd6-628d-47cd-9943-373d73f81785/protocol-mappers/models
+        # {"protocol":"saml","config":{"Script":"/**/\n//insert your code here...","single":"true","friendly.name":"ci0-client-2-saml-mapper-js-friedly","attribute.name":"ci0-client-2-saml-mapper-attr-name","attribute.nameformat":"Basic"},"name":"ci0-client-2-saml-mapper-js","protocolMapper":"saml-javascript-mapper"}
+        client2_protocol_mappers_models_api = client_api.get_child(client_api, client2_id, "protocol-mappers/models")
+        client2_protocol_mappers_models_api.create({
+            "protocol": "saml",
+            "config": {
+                "Script": "/**/\n//insert your code here...",
+                "single": "true",
+                "friendly.name": "ci0-client-2-saml-mapper-js-friedly",
+                "attribute.name": "ci0-client-2-saml-mapper-attr-name",
+                "attribute.nameformat": "Basic",
+            },
+            "name": "ci0-client-2-saml-mapper-js",
+            "protocolMapper": "saml-javascript-mapper",
+        }).isOk()
     client2 = client_api.findFirst({'key': 'clientId', 'value': client2_client_id})
 
     # create default SAML client - no roles etc

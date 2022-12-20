@@ -350,6 +350,33 @@ class TestClientFetch_vcr:
             'notBefore': 0,
             # 'optionalClientScopes': [...]
             'protocol': 'saml',
+            'protocolMappers': [
+                {
+                    "name": "X500 email",
+                    "protocol": "saml",
+                    "protocolMapper": "saml-user-property-mapper",
+                    "consentRequired": False,
+                    "config": {
+                        "attribute.nameformat": "urn:oasis:names:tc:SAML:2.0:attrname-format:uri",
+                        "user.attribute": "email",
+                        "friendly.name": "email",
+                        "attribute.name": "urn:oid:1.2.840.113549.1.9.1",
+                    },
+                },
+                {
+                    "protocol": "saml",
+                    "config": {
+                        "Script": "/**/\n//insert your code here...",
+                        "single": "true",
+                        "friendly.name": "ci0-client-2-saml-mapper-js-friedly",
+                        "attribute.name": "ci0-client-2-saml-mapper-attr-name",
+                        "attribute.nameformat": "Basic",
+                    },
+                    "consentRequired": False,
+                    "name": "ci0-client-2-saml-mapper-js",
+                    "protocolMapper": "saml-javascript-mapper",
+                },
+            ],
             'publicClient': False,
             'redirectUris': [
                 'https://ci0-client-2-saml.example.com/redirect-url',
