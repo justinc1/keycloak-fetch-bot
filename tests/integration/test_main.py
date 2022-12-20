@@ -89,7 +89,7 @@ class TestMain(BaseTestClass):
             'ci0-realm/clients/client-1/',
             'ci0-realm/clients/client-1/roles/',
             'ci0-realm/clients/client-2/',
-            # 'ci0-realm/clients/client-2/roles/',
+            'ci0-realm/clients/client-2/roles/',
             'ci0-realm/clients/client-3/',
             'ci0-realm/client-scopes/',
             'ci0-realm/client-scopes/default/',
