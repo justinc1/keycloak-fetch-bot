@@ -70,9 +70,9 @@ class TestUserFederationFetch(TestUserFederationFetchBase):
                 "batchSizeForSync": [
                     "1000"
                 ],
-                "bindCredential": [
-                    "**********"
-                ],
+                # "bindCredential": [
+                #     "**********"
+                # ],
                 "bindDn": [
                     "admin"
                 ],

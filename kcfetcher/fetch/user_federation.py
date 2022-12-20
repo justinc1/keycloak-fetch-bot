@@ -40,14 +40,16 @@ class UserFederationFetch(GenericFetch):
         kc = self.kc.build("components", self.realm)
         kc_objects = self.all(kc)
 
-        # replace realm id with realm name
         master_realm_api = self.kc.admin()
-        realms =  master_realm_api.all()
+        realms = master_realm_api.all()
         for obj in kc_objects:
+            # replace realm id with realm name
             realm_id = obj.pop("parentId")
             realm = find_in_list(realms, id=realm_id)
             realm_name = realm["realm"]
             obj["parentName"] = realm_name
+            # remove bindCredential from config - it is all '********' anyway
+            obj["config"].pop("bindCredential")
 
         return kc_objects
 
