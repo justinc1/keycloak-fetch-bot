@@ -1,3 +1,4 @@
+import glob
 from operator import itemgetter
 
 from pytest import mark
@@ -30,39 +31,39 @@ class TestIdentityProviderFetch:
         obj.fetch(store_api)
 
         # check generated content
-        assert os.listdir(datadir) == unordered(["ci0-idp-saml-0.json"])
-        #
+        assert unordered(glob.glob('**', root_dir=datadir, recursive=True)) == [
+            'ci0-idp-saml-0.json',
+        ]
+
         data = json.load(open(os.path.join(datadir, "ci0-idp-saml-0.json")))
-        assert list(data.keys()) == [
-            'addReadTokenRoleOnCreate',
-            'alias',
-            'authenticateByDefault',
-            'config',
-            'displayName',
-            'enabled',
-            'firstBrokerLoginFlowAlias',
-            # 'internalId',
-            'linkOnly',
-            'providerId',
-            'storeToken',
-            'trustEmail',
-            'updateProfileFirstLoginMode',
-        ]
-        assert list(data["config"].keys()) == [
-            'allowCreate',
-            'authnContextClassRefs',
-            'authnContextComparisonType',
-            'authnContextDeclRefs',
-            'entityId',
-            'nameIDPolicyFormat',
-            'principalType',
-            'signatureAlgorithm',
-            'singleLogoutServiceUrl',
-            'singleSignOnServiceUrl',
-            'syncMode',
-            'useJwksUrl',
-            'wantAssertionsEncrypted',
-            'xmlSigKeyInfoKeyNameTransformer',
-        ]
-        assert data["alias"] == "ci0-idp-saml-0"
-        assert data["config"]["entityId"] == "https://172.17.0.2:8443/auth/realms/ci0-realm"
+        assert data == {
+            "addReadTokenRoleOnCreate": False,
+            "alias": "ci0-idp-saml-0",
+            "authenticateByDefault": False,
+            "config": {
+                "allowCreate": "true",
+                "authnContextClassRefs": "[\"aa\",\"bb\"]",
+                "authnContextComparisonType": "exact",
+                "authnContextDeclRefs": "[\"cc\",\"dd\"]",
+                "entityId": "https://172.17.0.2:8443/auth/realms/ci0-realm",
+                "nameIDPolicyFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+                "principalType": "SUBJECT",
+                "signatureAlgorithm": "RSA_SHA256",
+                "singleLogoutServiceUrl": "https://172.17.0.6:8443/logout",
+                "singleSignOnServiceUrl": "https://172.17.0.6:8443/signon",
+                "syncMode": "IMPORT",
+                "useJwksUrl": "true",
+                "wantAssertionsEncrypted": "true",
+                "xmlSigKeyInfoKeyNameTransformer": "KEY_ID"
+            },
+            "displayName": "ci0-idp-saml-0-displayName",
+            "enabled": True,
+            "firstBrokerLoginFlowAlias": "first broker login",
+            "linkOnly": False,
+            "providerId": "saml",
+            "storeToken": False,
+            "trustEmail": False,
+            "updateProfileFirstLoginMode": "on"
+        }
+
+        # IdP mappers - they are stored in the realm.json
