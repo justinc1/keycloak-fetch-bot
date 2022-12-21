@@ -1222,10 +1222,26 @@ def main():
         "providerType": "org.keycloak.storage.UserStorageProvider"
     }
     components_api = kc.build(f"components", realm_name)
-    if not components_api.findFirst({'key': 'name', 'value': uf0_name}):
+    if not components_api.findFirstByKV("name", uf0_name):
         components_api.create(uf0_payload)
         # TODO add additional mapper to user-federation
-    if not components_api.findFirst({'key': 'name', 'value': uf1_name}):
+        # POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/components
+        # {"config":{"user.model.attribute":["ci-user-model-attr"],"ldap.attribute":["ci-ldap-attr"],"read.only":["true"],"always.read.value.from.ldap":["true"],"is.mandatory.in.ldap":["false"],"is.binary.attribute":["true"]},"name":"ci0-uf0-mapper-0-user-attr","providerId":"user-attribute-ldap-mapper","providerType":"org.keycloak.storage.ldap.mappers.LDAPStorageMapper","parentId":"3a909e4d-d805-463b-90ee-c95cd07c7f45"}
+        uf0 = components_api.findFirstByKV("name", uf0_name)
+        components_api.create({
+            "config": {
+                "user.model.attribute": ["ci-user-model-attr"],
+                "ldap.attribute": ["ci-ldap-attr"],
+                "read.only": ["true"],
+                "always.read.value.from.ldap": ["true"],
+                "is.mandatory.in.ldap": ["false"],
+                "is.binary.attribute": ["true"],
+            },
+            "name": "ci0-uf0-mapper-0-user-attr", "providerId": "user-attribute-ldap-mapper",
+            "providerType": "org.keycloak.storage.ldap.mappers.LDAPStorageMapper",
+            "parentId": uf0["id"],
+        })
+    if not components_api.findFirstByKV("name", uf1_name):
         components_api.create(uf1_payload)
     assert_realm_authentication(master_realm_api, realm_name)
 
