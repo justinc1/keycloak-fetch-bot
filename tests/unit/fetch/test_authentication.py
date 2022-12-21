@@ -343,7 +343,7 @@ class TestCustomAuthenticationFetch:
                     "authenticator": "auth-spnego",
                     "autheticatorFlow": False,
                     "priority": 20,
-                    "requirement": "DISABLED",
+                    "requirement": "ALTERNATIVE",
                     "userSetupAllowed": False
                 },
                 {
@@ -388,7 +388,7 @@ class TestCustomAuthenticationFetch:
                 "index": 1,
                 "level": 0,
                 "providerId": "auth-spnego",
-                "requirement": "DISABLED",
+                "requirement": "ALTERNATIVE",
                 "requirementChoices": [
                     "REQUIRED",
                     "ALTERNATIVE",

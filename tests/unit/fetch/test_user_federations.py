@@ -56,8 +56,16 @@ class TestUserFederationFetch(TestUserFederationFetchBase):
             'ci0-uf1-ldap/mappers/last_name.json',
             'ci0-uf1-ldap/mappers/modify_date.json',
             'ci0-uf1-ldap/mappers/username.json',
+
+            'ci0-uf2-kerberos',
+            'ci0-uf2-kerberos/ci0-uf2-kerberos.json',
+
+            'ci0-uf3-kerberos',
+            'ci0-uf3-kerberos/ci0-uf3-kerberos.json',
         ]
 
+        # ===============================================================================================
+        # ci0-uf0-ldap
         data = json.load(open(os.path.join(datadir, "ci0-uf0-ldap/ci0-uf0-ldap.json")))
         assert data == {
             "config": {
@@ -200,6 +208,112 @@ class TestUserFederationFetch(TestUserFederationFetchBase):
             "name": "ci0-uf0-mapper-0-user-attr",
             "providerId": "user-attribute-ldap-mapper",
             "providerType": "org.keycloak.storage.ldap.mappers.LDAPStorageMapper"
+        }
+
+        # ===============================================================================================
+        # ci0-uf1-ldap
+        data = json.load(open(os.path.join(datadir, "ci0-uf1-ldap/ci0-uf1-ldap.json")))
+        assert data == {
+            'config': {
+                'allowKerberosAuthentication': ['false'],
+                'authType': ['simple'],
+                'batchSizeForSync': ['1001'],
+                'bindDn': ['admin1'],
+                'cachePolicy': ['DEFAULT'],
+                'changedSyncPeriod': ['-1'],
+                'connectionPooling': ['true'],
+                'connectionUrl': ['ldaps://172.17.0.5:636'],
+                'debug': ['false'],
+                'enabled': ['true'],
+                'fullSyncPeriod': ['-1'],
+                'importEnabled': ['true'],
+                'pagination': ['true'],
+                'priority': ['0'],
+                'rdnLDAPAttribute': ['uid'],
+                'searchScope': ['1'],
+                'syncRegistrations': ['false'],
+                'trustEmail': ['false'],
+                'useKerberosForPasswordAuthentication': ['false'],
+                'useTruststoreSpi': ['ldapsOnly'],
+                'userObjectClasses': ['inetOrgPerson, organizationalPerson'],
+                'usernameLDAPAttribute': ['uid'],
+                'usersDn': ['uid'],
+                'uuidLDAPAttribute': ['nsuniqueid'],
+                'validatePasswordPolicy': ['false'],
+                'vendor': ['rhds']
+            },
+            'name': 'ci0-uf1-ldap',
+            'parentName': 'ci0-realm',
+            'providerId': 'ldap',
+            'providerType': 'org.keycloak.storage.UserStorageProvider'
+        }
+
+        # ===============================================================================================
+        # ci0-uf2-kerberos
+        data = json.load(open(os.path.join(datadir, "ci0-uf2-kerberos/ci0-uf2-kerberos.json")))
+        assert data == {
+            "config": {
+                "allowPasswordAuthentication": [
+                    "true"
+                ],
+                "cachePolicy": [
+                    "EVICT_DAILY"
+                ],
+                "debug": [
+                    "true"
+                ],
+                "editMode": [
+                    "READ_ONLY"
+                ],
+                "enabled": [
+                    "true"
+                ],
+                "evictionHour": [
+                    "1"
+                ],
+                "evictionMinute": [
+                    "2"
+                ],
+                "kerberosRealm": [
+                    "ci0-kerberos-realm"
+                ],
+                "keyTab": [
+                    "/etc/ci0-keytab"
+                ],
+                "priority": [
+                    "2"
+                ],
+                "serverPrincipal": [
+                    "ci0-server-pricinpal"
+                ],
+                "updateProfileFirstLogin": [
+                    "true"
+                ]
+            },
+            "name": "ci0-uf2-kerberos",
+            "parentName": "ci0-realm",
+            "providerId": "kerberos",
+            "providerType": "org.keycloak.storage.UserStorageProvider"
+        }
+        # ===============================================================================================
+        # ci0-uf3-ldap
+        data = json.load(open(os.path.join(datadir, "ci0-uf3-kerberos/ci0-uf3-kerberos.json")))
+        assert data == {
+            'config': {
+                'allowPasswordAuthentication': ['false'],
+                'cachePolicy': ['DEFAULT'],
+                'debug': ['false'],
+                'enabled': ['true'],
+                'kerberosRealm': ['aa'],
+                'keyTab': ['cc'],
+                'priority': ['0'],
+                'serverPrincipal': ['bb'],
+                'updateProfileFirstLogin': ['false']
+            },
+            'name': 'ci0-uf3-kerberos',
+            'parentName': 'ci0-realm',
+            'providerId': 'kerberos',
+            'providerType': 'org.keycloak.storage.UserStorageProvider'
         }
 
     @mark.vcr()

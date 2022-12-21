@@ -132,6 +132,7 @@ def main():
             "realm": realm_name,
             "displayName": realm_name + "-display"
         }).isOk()
+    ci0_realm = master_realm_api.findFirstByKV("realm", realm_name)
 
     ## NO: auth_api = kc.build('authentication', realm_name)
     auth_api = master_realm_api.get_child(master_realm_api, realm_name, "authentication")
@@ -1039,9 +1040,13 @@ def main():
     # Service Provider Entity ID - https://172.17.0.2:8443/auth/realms/ci0-realm
     # Single Sign-On Service URL - https://172.17.0.3:443/ - should be some other container
 
-    # TODO add user-federation
     uf0_name = "ci0-uf0-ldap"
     uf1_name = "ci0-uf1-ldap"
+    # Adding kerberos user federation has side effect on authentication.
+    # Browser flow, 'authenticator': 'auth-spnego' requirement changed
+    # from DISABLED to ALTERNATIVE.
+    uf2_name = "ci0-uf2-kerberos"
+    uf3_name = "ci0-uf3-kerberos"
     # connection url - ldaps://172.17.0.4:636
     # users dn - ou=users,dc=example,dc=com
     uf0_payload = {
@@ -1129,7 +1134,7 @@ def main():
             ]
         },
         "name": uf0_name,
-        # "parentId": "deleteme-6",
+        "parentId": ci0_realm["id"],  # "ci0-realm-OLD",
         "providerId": "ldap",
         "providerType": "org.keycloak.storage.UserStorageProvider"
     }
@@ -1219,9 +1224,57 @@ def main():
         },
         "name": uf1_name,
         "providerId": "ldap",
-        "providerType": "org.keycloak.storage.UserStorageProvider"
+        "providerType": "org.keycloak.storage.UserStorageProvider",
+        "parentId": ci0_realm["id"],  # "ci0-realm-OLD",
+    }
+    # ci0-uf3-kerberos has non-default configuration
+    uf2_payload = {
+        "name": uf2_name,
+        "providerId": "kerberos",
+        "providerType": "org.keycloak.storage.UserStorageProvider",
+        "parentId": ci0_realm["id"],  # "ci0-realm-OLD",
+        "config": {
+            "priority": ["2"],
+            "enabled": ["true"],
+            "cachePolicy": ["EVICT_DAILY"],
+            "evictionDay": [],
+            "evictionHour": ["1"],
+            "evictionMinute": ["2"],
+            "maxLifespan": [],
+            "kerberosRealm": ["ci0-kerberos-realm"],
+            "serverPrincipal": ["ci0-server-pricinpal"],
+            "keyTab": ["/etc/ci0-keytab"],
+            "debug": ["true"],
+            "allowPasswordAuthentication": ["true"],
+            "editMode": ["READ_ONLY"],
+            "updateProfileFirstLogin": ["true"],
+        },
+    }
+    # ci0-uf3-kerberos has default configuration
+    uf3_payload = {
+        "name": uf3_name,
+        "providerId": "kerberos",
+        "providerType": "org.keycloak.storage.UserStorageProvider",
+        "parentId": ci0_realm["id"],  # "ci0-realm-OLD",
+        "config": {
+            "priority": ["0"],
+            "enabled": ["true"],
+            "cachePolicy": ["DEFAULT"],
+            "evictionDay": [],
+            "evictionHour": [],
+            "evictionMinute": [],
+            "maxLifespan": [],
+            "kerberosRealm": ["aa"],
+            "serverPrincipal": ["bb"],
+            "keyTab": ["cc"],
+            "debug": ["false"],
+            "allowPasswordAuthentication": ["false"],
+            "editMode": [],
+            "updateProfileFirstLogin": ["false"],
+        },
     }
     components_api = kc.build(f"components", realm_name)
+    # ---------------------------------------------------------------------------------------------------------
     if not components_api.findFirstByKV("name", uf0_name):
         components_api.create(uf0_payload)
         # TODO add additional mapper to user-federation
@@ -1241,8 +1294,16 @@ def main():
             "providerType": "org.keycloak.storage.ldap.mappers.LDAPStorageMapper",
             "parentId": uf0["id"],
         })
+    # ---------------------------------------------------------------------------------------------------------
     if not components_api.findFirstByKV("name", uf1_name):
         components_api.create(uf1_payload)
+    # ---------------------------------------------------------------------------------------------------------
+    # POST https://172.17.0.2:8443/auth/admin/realms/ci0-realm/components
+    # {"name":"kerberos","providerId":"kerberos","providerType":"org.keycloak.storage.UserStorageProvider","parentId":"ci0-realm-OLD","config":{"priority":["2"],"enabled":["true"],"cachePolicy":["EVICT_DAILY"],"evictionDay":[],"evictionHour":["1"],"evictionMinute":["2"],"maxLifespan":[],"kerberosRealm":["ci0-kerberos-realm"],"serverPrincipal":["ci0-server-pricinpal"],"keyTab":["/etc/ci0-keytab"],"debug":["true"],"allowPasswordAuthentication":["true"],"editMode":["READ_ONLY"],"updateProfileFirstLogin":["true"]}}
+    if not components_api.findFirstByKV("name", uf2_name):
+        components_api.create(uf2_payload)
+    if not components_api.findFirstByKV("name", uf3_name):
+        components_api.create(uf3_payload)
     assert_realm_authentication(master_realm_api, realm_name)
 
     # configure events

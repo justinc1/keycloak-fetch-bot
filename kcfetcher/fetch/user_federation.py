@@ -48,8 +48,9 @@ class UserFederationFetch(GenericFetch):
             realm = find_in_list(realms, id=realm_id)
             realm_name = realm["realm"]
             obj["parentName"] = realm_name
-            # remove bindCredential from config - it is all '********' anyway
-            obj["config"].pop("bindCredential")
+            if obj["providerId"] == "ldap":
+                # remove LDAP bindCredential from config - it is all '********' anyway
+                obj["config"].pop("bindCredential")
 
         return kc_objects
 
