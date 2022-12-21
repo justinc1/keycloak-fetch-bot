@@ -59,47 +59,95 @@ class TestUserFederationFetch(TestUserFederationFetchBase):
         ]
 
         data = json.load(open(os.path.join(datadir, "ci0-uf0-ldap/ci0-uf0-ldap.json")))
-        assert list(data.keys()) == unordered([
-            'config',
-            'name',
-            'parentName',
-            'providerId',
-            'providerType',
-        ])
-        assert list(data["config"].keys()) == [
-            'allowKerberosAuthentication',
-            'authType',
-            'batchSizeForSync',
-            'bindCredential',
-            'bindDn',
-            'cachePolicy',
-            'changedSyncPeriod',
-            'connectionPooling',
-            'connectionUrl',
-            'debug',
-            'enabled',
-            'fullSyncPeriod',
-            'importEnabled',
-            'pagination',
-            'priority',
-            'rdnLDAPAttribute',
-            'searchScope',
-            'syncRegistrations',
-            'trustEmail',
-            'useKerberosForPasswordAuthentication',
-            'useTruststoreSpi',
-            'userObjectClasses',
-            'usernameLDAPAttribute',
-            'usersDn',
-            'uuidLDAPAttribute',
-            'validatePasswordPolicy',
-            'vendor',
-        ]
-        assert data["name"] == "ci0-uf0-ldap"
-        assert data["parentName"] == "ci0-realm"
-        assert data["providerId"] == "ldap"
-        assert data["providerType"] == "org.keycloak.storage.UserStorageProvider"
-        assert data["config"]["connectionUrl"] == ["ldaps://172.17.0.4:636"]
+        assert data == {
+            "config": {
+                "allowKerberosAuthentication": [
+                    "false"
+                ],
+                "authType": [
+                    "simple"
+                ],
+                "batchSizeForSync": [
+                    "1000"
+                ],
+                "bindCredential": [
+                    "**********"
+                ],
+                "bindDn": [
+                    "admin"
+                ],
+                "cachePolicy": [
+                    "DEFAULT"
+                ],
+                "changedSyncPeriod": [
+                    "-1"
+                ],
+                "connectionPooling": [
+                    "true"
+                ],
+                "connectionUrl": [
+                    "ldaps://172.17.0.4:636"
+                ],
+                "debug": [
+                    "false"
+                ],
+                "enabled": [
+                    "true"
+                ],
+                "fullSyncPeriod": [
+                    "-1"
+                ],
+                "importEnabled": [
+                    "true"
+                ],
+                "pagination": [
+                    "true"
+                ],
+                "priority": [
+                    "0"
+                ],
+                "rdnLDAPAttribute": [
+                    "uid"
+                ],
+                "searchScope": [
+                    "1"
+                ],
+                "syncRegistrations": [
+                    "false"
+                ],
+                "trustEmail": [
+                    "false"
+                ],
+                "useKerberosForPasswordAuthentication": [
+                    "false"
+                ],
+                "useTruststoreSpi": [
+                    "ldapsOnly"
+                ],
+                "userObjectClasses": [
+                    "inetOrgPerson, organizationalPerson"
+                ],
+                "usernameLDAPAttribute": [
+                    "uid"
+                ],
+                "usersDn": [
+                    "uid"
+                ],
+                "uuidLDAPAttribute": [
+                    "nsuniqueid"
+                ],
+                "validatePasswordPolicy": [
+                    "false"
+                ],
+                "vendor": [
+                    "rhds"
+                ]
+            },
+            "name": "ci0-uf0-ldap",
+            "parentName": "ci0-realm",
+            "providerId": "ldap",
+            "providerType": "org.keycloak.storage.UserStorageProvider"
+        }
 
         # check attribute mappers
         mapper = json.load(open(os.path.join(datadir, "ci0-uf0-ldap/mappers/email.json")))
@@ -160,8 +208,8 @@ class TestUserFederationFetch(TestUserFederationFetchBase):
 
         components_api = fetcher.kc.build("components", fetcher.realm)
         all_components = components_api.all()
-        # we want to get mappers of a single specific user federation.
-        # it is identified by id, so get that id.
+        # We want to get mappers of a single specific user federation.
+        # The user federation is identified by id, so get that id.
         uf_name = "ci0-uf0-ldap"
         uf_id = find_in_list(all_components, name=uf_name)["id"]
 
