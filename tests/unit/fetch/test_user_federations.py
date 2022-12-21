@@ -56,8 +56,16 @@ class TestUserFederationFetch(TestUserFederationFetchBase):
             'ci0-uf1-ldap/mappers/last_name.json',
             'ci0-uf1-ldap/mappers/modify_date.json',
             'ci0-uf1-ldap/mappers/username.json',
+
+            'ci0-uf2-kerberos',
+            'ci0-uf2-kerberos/ci0-uf2-kerberos.json',
+
+            'ci0-uf3-kerberos',
+            'ci0-uf3-kerberos/ci0-uf3-kerberos.json',
         ]
 
+        # ===============================================================================================
+        # ci0-uf0-ldap
         data = json.load(open(os.path.join(datadir, "ci0-uf0-ldap/ci0-uf0-ldap.json")))
         assert data == {
             "config": {
