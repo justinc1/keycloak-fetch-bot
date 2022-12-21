@@ -45,6 +45,7 @@ class TestUserFederationFetch(TestUserFederationFetchBase):
             'ci0-uf0-ldap/mappers/last_name.json',
             'ci0-uf0-ldap/mappers/modify_date.json',
             'ci0-uf0-ldap/mappers/username.json',
+            'ci0-uf0-ldap/mappers/ci0-uf0-mapper-0-user-attr.json',
 
             'ci0-uf1-ldap',
             'ci0-uf1-ldap/ci0-uf1-ldap.json',
@@ -102,18 +103,56 @@ class TestUserFederationFetch(TestUserFederationFetchBase):
 
         # check attribute mappers
         mapper = json.load(open(os.path.join(datadir, "ci0-uf0-ldap/mappers/email.json")))
-        assert list(mapper.keys()) == [
-            'config',
-            'name',
-            'providerId',
-            'providerType',
-        ]
-        assert mapper["name"] == "email"
-        assert mapper["providerId"] == "user-attribute-ldap-mapper"
-        assert mapper["providerType"] == "org.keycloak.storage.ldap.mappers.LDAPStorageMapper"
-        assert len(mapper["config"]) == 5
-        assert mapper["config"]["ldap.attribute"] == ["mail"]
-        assert mapper["config"]["user.model.attribute"] == ["email"]
+        assert mapper == {
+            "config": {
+                "always.read.value.from.ldap": [
+                    "false"
+                ],
+                "is.mandatory.in.ldap": [
+                    "false"
+                ],
+                "ldap.attribute": [
+                    "mail"
+                ],
+                "read.only": [
+                    "true"
+                ],
+                "user.model.attribute": [
+                    "email"
+                ]
+            },
+            "name": "email",
+            "providerId": "user-attribute-ldap-mapper",
+            "providerType": "org.keycloak.storage.ldap.mappers.LDAPStorageMapper"
+        }
+
+        # check custom attribute mapper
+        mapper = json.load(open(os.path.join(datadir, "ci0-uf0-ldap/mappers/ci0-uf0-mapper-0-user-attr.json")))
+        assert mapper == {
+            "config": {
+                "always.read.value.from.ldap": [
+                    "true"
+                ],
+                "is.binary.attribute": [
+                    "true"
+                ],
+                "is.mandatory.in.ldap": [
+                    "false"
+                ],
+                "ldap.attribute": [
+                    "ci-ldap-attr"
+                ],
+                "read.only": [
+                    "true"
+                ],
+                "user.model.attribute": [
+                    "ci-user-model-attr"
+                ]
+            },
+            "name": "ci0-uf0-mapper-0-user-attr",
+            "providerId": "user-attribute-ldap-mapper",
+            "providerType": "org.keycloak.storage.ldap.mappers.LDAPStorageMapper"
+        }
 
     @mark.vcr()
     def test_get_all_mappers(self):
@@ -128,7 +167,7 @@ class TestUserFederationFetch(TestUserFederationFetchBase):
 
         mappers = fetcher.get_all_mappers(all_components, [uf_id])
 
-        assert len(mappers) == 6
+        assert len(mappers) == 7
         mapper = find_in_list(mappers, name="email")
         assert mapper["name"] == "email"
         assert mapper["providerId"] == "user-attribute-ldap-mapper"
