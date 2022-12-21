@@ -81,6 +81,8 @@ class TestMain(BaseTestClass):
             'ci0-realm/user-federations/ci0-uf0-ldap/mappers/',
             'ci0-realm/user-federations/ci0-uf1-ldap/',
             'ci0-realm/user-federations/ci0-uf1-ldap/mappers/',
+            'ci0-realm/user-federations/ci0-uf3-kerberos/',
+            'ci0-realm/user-federations/ci0-uf2-kerberos/',
             'ci0-realm/identity-provider/',
             'ci0-realm/roles/',
             'ci0-realm/clients/',
