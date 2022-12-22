@@ -26,7 +26,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Nov 2022 20:08:38 GMT
+      - Thu, 22 Dec 2022 20:44:16 GMT
     status:
       code: 200
       message: OK
@@ -49,7 +49,7 @@ interactions:
     uri: https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token
   response:
     body:
-      string: '{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIyRzRyNXFySU1CLV9zTzdlWE9KdDJZZW94WUJyeVhhaVB1SjJKMHk0UmZ3In0.eyJleHAiOjE2Njg2MjkzNzgsImlhdCI6MTY2ODYyOTMxOCwianRpIjoiYjVkZGU1MTQtNGZkMy00MDk1LTg2NzAtZDNjOGU4MmQ2MmE3IiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiYzg3ZTYzNDktODRlOC00ZWM3LTg1MWEtYzJjMzhjNTgzOTRhIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImU0MDk5Zjg4LTg2MTctNGExOS1hNTk5LTY2YzM1NTc0NzBlYiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.eZMmjAhC9aZgk7rQtcnq__X60nGStyOJoEpXFAQJqI62uvYiYn31b4s7FwUT5ms1VSvkmz4Mjk6iCk_p0fa0EfFOtM4p3i8RbQWh6X-ZJf72G7dvGcA6L5VonjGnhW6seHf5m15INUp4UxXMlBQnzUPuCs4yFyECktFHIF0qtiDDsNrXdnjUYv-SaEFy_4qaGBFsOyzcIjKJvCgA_v_HWzo0A4KAQfZ8x4_rF3oFqXwbGr36gV1x0ohNtNEETeXmx7xcq4E7jpBkz3yS90PcYVpFo2-6__TLOwp82Jb-x7d6XBHiKRwOOSeR0YQPU7PanQ_qlPe_ro2dJ103uTgvVg","expires_in":60,"refresh_expires_in":1800,"refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI3ZDZhZjJlMC0wYzRjLTQyMjgtYThiNC00MzY4MWE4MWRiZjAifQ.eyJleHAiOjE2Njg2MzExMTgsImlhdCI6MTY2ODYyOTMxOCwianRpIjoiZjZkM2FlYjQtMWU4OC00NmNkLWFmYWQtZjBlNTJkMmQyNWNiIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiYzg3ZTYzNDktODRlOC00ZWM3LTg1MWEtYzJjMzhjNTgzOTRhIiwidHlwIjoiUmVmcmVzaCIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiJlNDA5OWY4OC04NjE3LTRhMTktYTU5OS02NmMzNTU3NDcwZWIiLCJzY29wZSI6InByb2ZpbGUgZW1haWwifQ.mDmqsKk1wyJ3zJmnAvYnjITmZBcqh2yA7ARD5nA7x_8","token_type":"bearer","not-before-policy":0,"session_state":"e4099f88-8617-4a19-a599-66c3557470eb","scope":"profile
+      string: '{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZbHN0bWo4RWRnT1hqSm5VTkpvNGdMUDRZR1A2ZFdSRzdGMWhld29oS000In0.eyJleHAiOjE2NzE3NDE5MTcsImlhdCI6MTY3MTc0MTg1NywianRpIjoiNzc1ZWFjZTktNGRlNi00MTM4LThiMGItMDg1ZmE4MjJhYzQ1IiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDQ0Y2QyYTYtYjM2OC00N2ExLTlmZDUtOTliODM1YzU2ZGFkIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImJiYTZkM2M5LWE5NTUtNGZhOS1hZjJmLWZlZTZjMDQ1YzJhMiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.R7WUkojPtSTy8EA2GT2i_UhPCk8yHhCcxTzNvi-0lPhJe0vRnFMH_GC-DQ-ygvyL1R7WmBWUsESLy43__EUDnsxyRKw6mrUrs8LddZG7503LvqTHH1YuaX25Q5T0Wz_f3ELYDtAacM2ZsNYtYfVRc-7qZRopq8NLM19wwvcnB5waOvPx10Hs9MOo-zMQxbFiOaoSznoXxz-yfu7pf2_ogXbnPvfpbq-aCWhhCor6vaICMGmnFG_s9oCJUE0hqWxf5W5p4KDopsNCFr7hMZkmeu0RNjTRPPqMcnqsiqks5YxAegs5iigyNiEi-mULcKxmQn27wScMdqCdu_miFQ3TWA","expires_in":60,"refresh_expires_in":1800,"refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJiOGExMGI3Ny0zYzZlLTRhNjctYjhlMS0yZGYwMjE3NWNjOGEifQ.eyJleHAiOjE2NzE3NDM2NTcsImlhdCI6MTY3MTc0MTg1NywianRpIjoiNTBkNGY1MTAtOTNiNS00MmViLWIzZTctOWIyYTUwMjFhOGFmIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDQ0Y2QyYTYtYjM2OC00N2ExLTlmZDUtOTliODM1YzU2ZGFkIiwidHlwIjoiUmVmcmVzaCIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiJiYmE2ZDNjOS1hOTU1LTRmYTktYWYyZi1mZWU2YzA0NWMyYTIiLCJzY29wZSI6InByb2ZpbGUgZW1haWwifQ.G45yo9GZ68O0a-QVcPIArfSxH0roMmIhLKrLdv_GZeY","token_type":"bearer","not-before-policy":0,"session_state":"bba6d3c9-a955-4fa9-af2f-fee6c045c2a2","scope":"profile
         email"}'
     headers:
       Cache-Control:
@@ -61,7 +61,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Nov 2022 20:08:38 GMT
+      - Thu, 22 Dec 2022 20:44:17 GMT
       Pragma:
       - no-cache
       Set-Cookie:
@@ -80,7 +80,7 @@ interactions:
       Accept-Encoding:
       - gzip, deflate
       Authorization:
-      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIyRzRyNXFySU1CLV9zTzdlWE9KdDJZZW94WUJyeVhhaVB1SjJKMHk0UmZ3In0.eyJleHAiOjE2Njg2MjkzNzgsImlhdCI6MTY2ODYyOTMxOCwianRpIjoiYjVkZGU1MTQtNGZkMy00MDk1LTg2NzAtZDNjOGU4MmQ2MmE3IiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiYzg3ZTYzNDktODRlOC00ZWM3LTg1MWEtYzJjMzhjNTgzOTRhIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImU0MDk5Zjg4LTg2MTctNGExOS1hNTk5LTY2YzM1NTc0NzBlYiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.eZMmjAhC9aZgk7rQtcnq__X60nGStyOJoEpXFAQJqI62uvYiYn31b4s7FwUT5ms1VSvkmz4Mjk6iCk_p0fa0EfFOtM4p3i8RbQWh6X-ZJf72G7dvGcA6L5VonjGnhW6seHf5m15INUp4UxXMlBQnzUPuCs4yFyECktFHIF0qtiDDsNrXdnjUYv-SaEFy_4qaGBFsOyzcIjKJvCgA_v_HWzo0A4KAQfZ8x4_rF3oFqXwbGr36gV1x0ohNtNEETeXmx7xcq4E7jpBkz3yS90PcYVpFo2-6__TLOwp82Jb-x7d6XBHiKRwOOSeR0YQPU7PanQ_qlPe_ro2dJ103uTgvVg
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZbHN0bWo4RWRnT1hqSm5VTkpvNGdMUDRZR1A2ZFdSRzdGMWhld29oS000In0.eyJleHAiOjE2NzE3NDE5MTcsImlhdCI6MTY3MTc0MTg1NywianRpIjoiNzc1ZWFjZTktNGRlNi00MTM4LThiMGItMDg1ZmE4MjJhYzQ1IiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDQ0Y2QyYTYtYjM2OC00N2ExLTlmZDUtOTliODM1YzU2ZGFkIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImJiYTZkM2M5LWE5NTUtNGZhOS1hZjJmLWZlZTZjMDQ1YzJhMiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.R7WUkojPtSTy8EA2GT2i_UhPCk8yHhCcxTzNvi-0lPhJe0vRnFMH_GC-DQ-ygvyL1R7WmBWUsESLy43__EUDnsxyRKw6mrUrs8LddZG7503LvqTHH1YuaX25Q5T0Wz_f3ELYDtAacM2ZsNYtYfVRc-7qZRopq8NLM19wwvcnB5waOvPx10Hs9MOo-zMQxbFiOaoSznoXxz-yfu7pf2_ogXbnPvfpbq-aCWhhCor6vaICMGmnFG_s9oCJUE0hqWxf5W5p4KDopsNCFr7hMZkmeu0RNjTRPPqMcnqsiqks5YxAegs5iigyNiEi-mULcKxmQn27wScMdqCdu_miFQ3TWA
       Connection:
       - keep-alive
       Content-type:
@@ -91,19 +91,88 @@ interactions:
     uri: https://172.17.0.2:8443/auth/admin/realms/ci0-realm/identity-provider/instances
   response:
     body:
-      string: '[{"alias":"ci0-idp-saml-0","displayName":"ci0-idp-saml-0-displayName","internalId":"d2716059-8e84-403b-90d1-15e586001f4e","providerId":"saml","enabled":true,"updateProfileFirstLoginMode":"on","trustEmail":false,"storeToken":false,"addReadTokenRoleOnCreate":false,"authenticateByDefault":false,"linkOnly":false,"firstBrokerLoginFlowAlias":"first
-        broker login","config":{"authnContextClassRefs":"[\"aa\",\"bb\"]","nameIDPolicyFormat":"urn:oasis:names:tc:SAML:2.0:nameid-format:persistent","singleLogoutServiceUrl":"https://172.17.0.6:8443/logout","authnContextDeclRefs":"[\"cc\",\"dd\"]","entityId":"https://172.17.0.2:8443/auth/realms/ci0-realm","signatureAlgorithm":"RSA_SHA256","wantAssertionsEncrypted":"true","xmlSigKeyInfoKeyNameTransformer":"KEY_ID","useJwksUrl":"true","allowCreate":"true","authnContextComparisonType":"exact","syncMode":"IMPORT","singleSignOnServiceUrl":"https://172.17.0.6:8443/signon","principalType":"SUBJECT"}}]'
+      string: '[{"alias":"ci0-idp-saml-0","displayName":"ci0-idp-saml-0-displayName","internalId":"d27fa91f-a3c9-4433-ab86-92878730b859","providerId":"saml","enabled":true,"updateProfileFirstLoginMode":"on","trustEmail":false,"storeToken":false,"addReadTokenRoleOnCreate":false,"authenticateByDefault":false,"linkOnly":false,"firstBrokerLoginFlowAlias":"first
+        broker login","config":{"authnContextClassRefs":"[\"aa\",\"bb\"]","nameIDPolicyFormat":"urn:oasis:names:tc:SAML:2.0:nameid-format:persistent","singleLogoutServiceUrl":"https://172.17.0.6:8443/logout","authnContextDeclRefs":"[\"cc\",\"dd\"]","entityId":"https://172.17.0.2:8443/auth/realms/ci0-realm","signatureAlgorithm":"RSA_SHA256","wantAssertionsEncrypted":"true","xmlSigKeyInfoKeyNameTransformer":"KEY_ID","useJwksUrl":"true","allowCreate":"true","authnContextComparisonType":"exact","syncMode":"IMPORT","singleSignOnServiceUrl":"https://172.17.0.6:8443/signon","principalType":"SUBJECT"}},{"alias":"ci0-idp-saml-1","displayName":"ci0-idp-saml-1-displayName","internalId":"b04130d4-93e1-46ec-b96a-de1857cfe860","providerId":"saml","enabled":true,"updateProfileFirstLoginMode":"on","trustEmail":false,"storeToken":false,"addReadTokenRoleOnCreate":false,"authenticateByDefault":false,"linkOnly":false,"firstBrokerLoginFlowAlias":"first
+        broker login","config":{"singleSignOnServiceUrl":"https://172.17.0.6:8443/signon"}}]'
     headers:
       Cache-Control:
       - no-cache
       Connection:
       - keep-alive
       Content-Length:
-      - '939'
+      - '1367'
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Nov 2022 20:08:38 GMT
+      - Thu, 22 Dec 2022 20:44:17 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZbHN0bWo4RWRnT1hqSm5VTkpvNGdMUDRZR1A2ZFdSRzdGMWhld29oS000In0.eyJleHAiOjE2NzE3NDE5MTcsImlhdCI6MTY3MTc0MTg1NywianRpIjoiNzc1ZWFjZTktNGRlNi00MTM4LThiMGItMDg1ZmE4MjJhYzQ1IiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDQ0Y2QyYTYtYjM2OC00N2ExLTlmZDUtOTliODM1YzU2ZGFkIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImJiYTZkM2M5LWE5NTUtNGZhOS1hZjJmLWZlZTZjMDQ1YzJhMiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.R7WUkojPtSTy8EA2GT2i_UhPCk8yHhCcxTzNvi-0lPhJe0vRnFMH_GC-DQ-ygvyL1R7WmBWUsESLy43__EUDnsxyRKw6mrUrs8LddZG7503LvqTHH1YuaX25Q5T0Wz_f3ELYDtAacM2ZsNYtYfVRc-7qZRopq8NLM19wwvcnB5waOvPx10Hs9MOo-zMQxbFiOaoSznoXxz-yfu7pf2_ogXbnPvfpbq-aCWhhCor6vaICMGmnFG_s9oCJUE0hqWxf5W5p4KDopsNCFr7hMZkmeu0RNjTRPPqMcnqsiqks5YxAegs5iigyNiEi-mULcKxmQn27wScMdqCdu_miFQ3TWA
+      Connection:
+      - keep-alive
+      Content-type:
+      - application/json
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://172.17.0.2:8443/auth/admin/realms/ci0-realm/identity-provider/instances/ci0-idp-saml-0/mappers
+  response:
+    body:
+      string: '[{"id":"2ba1690a-8d7c-421f-ba88-1b349033037d","name":"idp-mapper-1","identityProviderAlias":"ci0-idp-saml-0","identityProviderMapper":"saml-role-idp-mapper","config":{"attribute.value":"attr-value","role":"ci0-client-0.ci0-client0-role0","attribute.friendly.name":"attr-friendly-name","attribute.name":"attr-name"}},{"id":"24c1f19b-2b95-418b-b85b-4b6576529bf8","name":"ci0-saml-template-mapper","identityProviderAlias":"ci0-idp-saml-0","identityProviderMapper":"saml-username-idp-mapper","config":{"template":"ci-template-0"}}]'
+    headers:
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '527'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 22 Dec 2022 20:44:17 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZbHN0bWo4RWRnT1hqSm5VTkpvNGdMUDRZR1A2ZFdSRzdGMWhld29oS000In0.eyJleHAiOjE2NzE3NDE5MTcsImlhdCI6MTY3MTc0MTg1NywianRpIjoiNzc1ZWFjZTktNGRlNi00MTM4LThiMGItMDg1ZmE4MjJhYzQ1IiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMDQ0Y2QyYTYtYjM2OC00N2ExLTlmZDUtOTliODM1YzU2ZGFkIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImJiYTZkM2M5LWE5NTUtNGZhOS1hZjJmLWZlZTZjMDQ1YzJhMiIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.R7WUkojPtSTy8EA2GT2i_UhPCk8yHhCcxTzNvi-0lPhJe0vRnFMH_GC-DQ-ygvyL1R7WmBWUsESLy43__EUDnsxyRKw6mrUrs8LddZG7503LvqTHH1YuaX25Q5T0Wz_f3ELYDtAacM2ZsNYtYfVRc-7qZRopq8NLM19wwvcnB5waOvPx10Hs9MOo-zMQxbFiOaoSznoXxz-yfu7pf2_ogXbnPvfpbq-aCWhhCor6vaICMGmnFG_s9oCJUE0hqWxf5W5p4KDopsNCFr7hMZkmeu0RNjTRPPqMcnqsiqks5YxAegs5iigyNiEi-mULcKxmQn27wScMdqCdu_miFQ3TWA
+      Connection:
+      - keep-alive
+      Content-type:
+      - application/json
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://172.17.0.2:8443/auth/admin/realms/ci0-realm/identity-provider/instances/ci0-idp-saml-1/mappers
+  response:
+    body:
+      string: '[{"id":"099086c4-e5b8-4795-975b-5c7d521e826a","name":"idp1-mapper-1","identityProviderAlias":"ci0-idp-saml-1","identityProviderMapper":"saml-role-idp-mapper","config":{"attribute.value":"attr-value","role":"ci0-client-0.ci0-client0-role1","attribute.friendly.name":"attr-friendly-name","attribute.name":"attr-name"}},{"id":"b1084ea5-d9c4-4aac-8234-89d8520c0336","name":"ci0-saml-template-mapper","identityProviderAlias":"ci0-idp-saml-1","identityProviderMapper":"saml-username-idp-mapper","config":{"template":"ci-template-1"}}]'
+    headers:
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '528'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 22 Dec 2022 20:44:17 GMT
     status:
       code: 200
       message: OK

@@ -85,7 +85,7 @@ class TestRealmFetch_vcr:
             'eventsExpiration',
             'eventsListeners',
             'failureFactor',
-            'identityProviderMappers',
+            # 'identityProviderMappers',  # is intentionally removed
             # 'identityProviders',  # is intentionally removed
             'internationalizationEnabled',
             'loginWithEmailAllowed',
@@ -175,32 +175,11 @@ class TestRealmFetch_vcr:
         # and a few attributes that are not setup by inject_data.py
         assert data["internationalizationEnabled"] == False
         assert data["clientAuthenticationFlow"] == "clients"
+
         # identity provider - mappers are part of /realms/ API endpoint
         # Check we have correct content
-        assert data["identityProviderMappers"] == unordered([
-            {
-                "config": {
-                    "are.attribute.values.regex": "false",
-                    "attributes": "[{\"key\":\"key0\",\"value\":\"value0\"}]",
-                    "role": "ci0-role-0",
-                    "syncMode": "INHERIT"
-                },
-                "identityProviderAlias": "ci0-idp-saml-0",
-                "identityProviderMapper": "saml-advanced-role-idp-mapper",
-                "name": "idp-mapper-0b"
-            },
-            {
-                "identityProviderAlias": "ci0-idp-saml-0",
-                "config": {
-                    "attribute.name": "attr-name",
-                    "attribute.friendly.name": "attr-friendly-name",
-                    "attribute.value": "attr-value",
-                    "role": "ci0-client-0.ci0-client0-role0"
-                },
-                "name": "idp-mapper-1",
-                "identityProviderMapper": "saml-role-idp-mapper",
-            }
-        ])
+        assert "identityProviderMappers" not in data
+
         if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
             assert data["defaultRoles"] == [
                 "ci0-role-0",
@@ -395,11 +374,8 @@ class TestRealmFetch_vcr:
 
         if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
             assert list(data.keys()) == unordered(expected_realm_attrs_master)
-            assert data["identityProviderMappers"] == []
         else:
             # RH SSO 7.4
-            # TODO - make this [] in .json file
-            expected_realm_attrs_master.remove("identityProviderMappers")
             assert list(data.keys()) == unordered(expected_realm_attrs_master)
             assert data["defaultRoles"] == [
                 "offline_access",

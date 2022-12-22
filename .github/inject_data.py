@@ -81,7 +81,8 @@ def main():
     ]
     client1_role0_name = "ci0-client1-role0"
     client2_role0_name = "ci0-client2-role0"
-    idp_alias = "ci0-idp-saml-0"
+    idp0_alias = "ci0-idp-saml-0"
+    idp1_alias = "ci0-idp-saml-1"
     ci0_role0_name = "ci0-role-0"
     ci0_role1_name = "ci0-role-1"
     ci0_role1a_name = "ci0-role-1a"
@@ -614,11 +615,11 @@ def main():
 
     # add SAML identity provider, with 2 mappers
     idp_api = kc.build("identity-provider/instances", realm_name)
-    idp_mapper_api = kc.build(f"identity-provider/instances/{idp_alias}/mappers", realm_name)
-    if not idp_api.findFirst({'key': 'alias', 'value': idp_alias}):
+    idp0_mapper_api = kc.build(f"identity-provider/instances/{idp0_alias}/mappers", realm_name)
+    if not idp_api.findFirst({'key': 'alias', 'value': idp0_alias}):
         idp_api.create({
-            "alias": idp_alias,
-            "displayName": idp_alias + "-displayName",
+            "alias": idp0_alias,
+            "displayName": idp0_alias + "-displayName",
             "providerId": "saml",
             "config": {
                 "allowCreate": "true",
@@ -639,20 +640,20 @@ def main():
         }).isOk()
         # This IdP mapper is suitable for RH SSO 7.5.
         # 7.4 does load it, but type "saml-advanced-role-idp-mapper" is not recognized.
-        idp_mapper_api.create({
-            "config": {
-                "are.attribute.values.regex": "false",
-                "attributes": "[{\"key\":\"key0\",\"value\":\"value0\"}]",
-                "role": "ci0-role-0",
-                "syncMode": "INHERIT"
-            },
-            "identityProviderAlias": idp_alias,
-            "identityProviderMapper": "saml-advanced-role-idp-mapper",
-            "name": "idp-mapper-0b"
-        })
+        # idp0_mapper_api.create({
+        #     "config": {
+        #         "are.attribute.values.regex": "false",
+        #         "attributes": "[{\"key\":\"key0\",\"value\":\"value0\"}]",
+        #         "role": "ci0-role-0",
+        #         "syncMode": "INHERIT"
+        #     },
+        #     "identityProviderAlias": idp0_alias,
+        #     "identityProviderMapper": "saml-advanced-role-idp-mapper",
+        #     "name": "idp-mapper-0b"
+        # })
         # This IdP mapper is suitable for RH SSO 7.4
-        idp_mapper_api.create({
-            "identityProviderAlias": idp_alias,
+        idp0_mapper_api.create({
+            "identityProviderAlias": idp0_alias,
             "config": {
                 "attribute.name": "attr-name",
                 "attribute.friendly.name": "attr-friendly-name",
@@ -662,7 +663,47 @@ def main():
             "name": "idp-mapper-1",
             "identityProviderMapper": "saml-role-idp-mapper",
         })
+        idp0_mapper_api.create({
+            "identityProviderAlias": idp0_alias,
+            "config": {
+                "template": "ci-template-0"
+            },
+            # same mapper name is intentionally used in idp1_alias
+            "name": "ci0-saml-template-mapper",
+            "identityProviderMapper": "saml-username-idp-mapper"
+        })
     assert_realm_authentication(master_realm_api, realm_name)
+
+    idp1_mapper_api = kc.build(f"identity-provider/instances/{idp1_alias}/mappers", realm_name)
+    if not idp_api.findFirst({'key': 'alias', 'value': idp1_alias}):
+        idp_api.create({
+            "alias": idp1_alias,
+            "displayName": idp1_alias + "-displayName",
+            "providerId": "saml",
+            "config": {
+                "singleSignOnServiceUrl": "https://172.17.0.6:8443/signon",
+            },
+        }).isOk()
+        idp1_mapper_api.create({
+            "identityProviderAlias": idp1_alias,
+            "config": {
+                "attribute.name": "attr-name",
+                "attribute.friendly.name": "attr-friendly-name",
+                "attribute.value": "attr-value",
+                "role": "ci0-client-0.ci0-client0-role1"
+            },
+            "name": "idp1-mapper-1",
+            "identityProviderMapper": "saml-role-idp-mapper",
+        })
+        idp1_mapper_api.create({
+            "identityProviderAlias": idp1_alias,
+            "config": {
+                "template": "ci-template-1"
+            },
+            # same mapper name is intentionally used in idp0_alias
+            "name": "ci0-saml-template-mapper",
+            "identityProviderMapper": "saml-username-idp-mapper"
+        })
 
     # TODO add IdP with providerId=openid, maybe also some pre-defined social one
 
@@ -1040,12 +1081,6 @@ def main():
         ).isOk()
     client_scope_2 = client_scopes_api.findFirst({'key': 'name', 'value': client_scope_2_name})
 
-    # TODO add identity-provider
-    idp_alias = "ci0-ipd-saml"
-    idp_display_name = "CI0 User Fedaration - LDAP"
-    # Redirect URI - https://172.17.0.2:8443/auth/realms/ci0-realm/broker/saml/endpoint
-    # Service Provider Entity ID - https://172.17.0.2:8443/auth/realms/ci0-realm
-    # Single Sign-On Service URL - https://172.17.0.3:443/ - should be some other container
 
     uf0_name = "ci0-uf0-ldap"
     uf1_name = "ci0-uf1-ldap"
