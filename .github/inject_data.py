@@ -82,6 +82,7 @@ def main():
     client1_role0_name = "ci0-client1-role0"
     client2_role0_name = "ci0-client2-role0"
     idp0_alias = "ci0-idp-saml-0"
+    idp1_alias = "ci0-idp-saml-1"
     ci0_role0_name = "ci0-role-0"
     ci0_role1_name = "ci0-role-1"
     ci0_role1a_name = "ci0-role-1a"
@@ -672,6 +673,37 @@ def main():
             "identityProviderMapper": "saml-username-idp-mapper"
         })
     assert_realm_authentication(master_realm_api, realm_name)
+
+    idp1_mapper_api = kc.build(f"identity-provider/instances/{idp1_alias}/mappers", realm_name)
+    if not idp_api.findFirst({'key': 'alias', 'value': idp1_alias}):
+        idp_api.create({
+            "alias": idp1_alias,
+            "displayName": idp1_alias + "-displayName",
+            "providerId": "saml",
+            "config": {
+                "singleSignOnServiceUrl": "https://172.17.0.6:8443/signon",
+            },
+        }).isOk()
+        idp1_mapper_api.create({
+            "identityProviderAlias": idp1_alias,
+            "config": {
+                "attribute.name": "attr-name",
+                "attribute.friendly.name": "attr-friendly-name",
+                "attribute.value": "attr-value",
+                "role": "ci0-client-0.ci0-client0-role1"
+            },
+            "name": "idp1-mapper-1",
+            "identityProviderMapper": "saml-role-idp-mapper",
+        })
+        idp1_mapper_api.create({
+            "identityProviderAlias": idp1_alias,
+            "config": {
+                "template": "ci-template-1"
+            },
+            # same mapper name is intentionally used in idp0_alias
+            "name": "ci0-saml-template-mapper",
+            "identityProviderMapper": "saml-username-idp-mapper"
+        })
 
     # TODO add IdP with providerId=openid, maybe also some pre-defined social one
 
