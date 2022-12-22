@@ -26,7 +26,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 21 Dec 2022 07:42:14 GMT
+      - Thu, 22 Dec 2022 07:03:45 GMT
     status:
       code: 200
       message: OK
@@ -49,7 +49,7 @@ interactions:
     uri: https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token
   response:
     body:
-      string: '{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIwUFJCYUNyUW4yZGN3M19KSWQ0eE02dklsUTFBUGNBeGVRUW8yQVZCejJnIn0.eyJleHAiOjE2NzE2MDg1OTQsImlhdCI6MTY3MTYwODUzNCwianRpIjoiOGNiMmViNTAtZTdiNC00OGQ5LWE2ZjktNTg3ZDhjZDEyMGRjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiNmNmOGFkNmUtYWZlMy00NWM0LWFmNjYtZjNiYjhjM2E3YzAzIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImIwY2UwYmExLWE1ZTYtNDc2Mi05ZjY4LTAzMWZiZWJiYWI1YSIsImFjciI6IjEiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.bIqFhVeKK_Ok1me5FEd-xGcvrFHQ3GrSXTqQqhGOqBnTjJlfYD2gIfVO2ERd70GY6XmQOFvj8SNjdE5amOp0T0bje2I7SznHG1XtU9IOuVLFdGx94T68Eqdyg6PcZRrlPpPeznyiKB7dTv4uMs2w-qBK6nGkh3tebvOh7-bu_Z83rA_cF9f98oXde7N14JGj80RX-sHNdC8zgUdQnKHJEjBxNFynJF6c3PTGtaNPpWsJvK3_Y5GCq4VHcLxu1sd0dCNqrGEu_rN1KNB73KM9K4CbPw7x3G26gfX8M2oT6EYd-pYiIxqi_CbV3pDRi6709chI3mdEpZjEe4TGLhyKBg","expires_in":60,"refresh_expires_in":1800,"refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI1ZDY4NDI4OS1iMjBmLTQyNjktOTMxMi1iODFiYzhiMzljNjIifQ.eyJleHAiOjE2NzE2MTAzMzQsImlhdCI6MTY3MTYwODUzNCwianRpIjoiNGJiNDFkOGUtYWE3ZC00NDU4LWJkNDMtY2IzZDliZjYzZjFhIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiNmNmOGFkNmUtYWZlMy00NWM0LWFmNjYtZjNiYjhjM2E3YzAzIiwidHlwIjoiUmVmcmVzaCIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiJiMGNlMGJhMS1hNWU2LTQ3NjItOWY2OC0wMzFmYmViYmFiNWEiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUifQ.RmIE8cE22yhkwQY-yUeHLWmYquu0vaz9gNWkjHvnL80","token_type":"bearer","not-before-policy":0,"session_state":"b0ce0ba1-a5e6-4762-9f68-031fbebbab5a","scope":"email
+      string: '{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJIclliN0VOcjdxT012NnFDOUdJZzZRX3N0eEdMbG4yY0I4VG1Yb1VHRnZrIn0.eyJleHAiOjE2NzE2OTI2ODUsImlhdCI6MTY3MTY5MjYyNSwianRpIjoiOTk0YzBmMzItY2MxYy00ZTIwLThmMGUtNGEzNzQ5MmVmYWZmIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiNDM3MjM0MTktYjFlZS00YTI1LTk3OTktMDQ5NDRhZTZiNTk3IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjkxOGQyNzhlLWEzMTQtNGZmYi05Zjg4LTFjYjFkYTU4NjhkOSIsImFjciI6IjEiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.hxHC-Nx78f-MmqGNfO7zu8cuQjoNiDnuncWAOA9Updp05nrkgvQ4W_ooiYFEfpDAlaOzXTy86CIplClu8GRJtNiJ7BnCbondM8ryc-d7WrlOYc0S2agOHOwlkG7vKB6MvaJdUle9DKKEUwKOHhrdWSM75sqSECU1BBlz5TQZ7-MssXCbN5YonDUKAMV8z-fi0m3zJPQb2QR4hiK6n3wG_MN2rP1wE5q4tJ2wkXJ-rqA_6FxCoDZW4wt9_2C86etQlfXvE_ceAiCaNO6BNDtY2XqmUEB6Z_QuxqHqegerrKfU17HljCxpPwTPFJtNR4iQqk8dQR7Z5u6cbxzqzvy9cA","expires_in":60,"refresh_expires_in":1800,"refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJiOTczMWZkZS05ODRhLTQ4YTYtYWE3MC1mYzc0MWYwMGY5ZjYifQ.eyJleHAiOjE2NzE2OTQ0MjUsImlhdCI6MTY3MTY5MjYyNSwianRpIjoiOTBhOTIzMmEtM2U4Mi00ZmU5LTg2OTMtM2Y1NmM5NDc5ZWU3IiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiNDM3MjM0MTktYjFlZS00YTI1LTk3OTktMDQ5NDRhZTZiNTk3IiwidHlwIjoiUmVmcmVzaCIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiI5MThkMjc4ZS1hMzE0LTRmZmItOWY4OC0xY2IxZGE1ODY4ZDkiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUifQ.rGG0JVHU0I2QeDszi14F8gTZjv3clNvYHnU4WmkrqDE","token_type":"bearer","not-before-policy":0,"session_state":"918d278e-a314-4ffb-9f88-1cb1da5868d9","scope":"email
         profile"}'
     headers:
       Cache-Control:
@@ -61,7 +61,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 21 Dec 2022 07:42:14 GMT
+      - Thu, 22 Dec 2022 07:03:45 GMT
       Pragma:
       - no-cache
       Set-Cookie:
@@ -80,7 +80,7 @@ interactions:
       Accept-Encoding:
       - gzip, deflate
       Authorization:
-      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIwUFJCYUNyUW4yZGN3M19KSWQ0eE02dklsUTFBUGNBeGVRUW8yQVZCejJnIn0.eyJleHAiOjE2NzE2MDg1OTQsImlhdCI6MTY3MTYwODUzNCwianRpIjoiOGNiMmViNTAtZTdiNC00OGQ5LWE2ZjktNTg3ZDhjZDEyMGRjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiNmNmOGFkNmUtYWZlMy00NWM0LWFmNjYtZjNiYjhjM2E3YzAzIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImIwY2UwYmExLWE1ZTYtNDc2Mi05ZjY4LTAzMWZiZWJiYWI1YSIsImFjciI6IjEiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.bIqFhVeKK_Ok1me5FEd-xGcvrFHQ3GrSXTqQqhGOqBnTjJlfYD2gIfVO2ERd70GY6XmQOFvj8SNjdE5amOp0T0bje2I7SznHG1XtU9IOuVLFdGx94T68Eqdyg6PcZRrlPpPeznyiKB7dTv4uMs2w-qBK6nGkh3tebvOh7-bu_Z83rA_cF9f98oXde7N14JGj80RX-sHNdC8zgUdQnKHJEjBxNFynJF6c3PTGtaNPpWsJvK3_Y5GCq4VHcLxu1sd0dCNqrGEu_rN1KNB73KM9K4CbPw7x3G26gfX8M2oT6EYd-pYiIxqi_CbV3pDRi6709chI3mdEpZjEe4TGLhyKBg
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJIclliN0VOcjdxT012NnFDOUdJZzZRX3N0eEdMbG4yY0I4VG1Yb1VHRnZrIn0.eyJleHAiOjE2NzE2OTI2ODUsImlhdCI6MTY3MTY5MjYyNSwianRpIjoiOTk0YzBmMzItY2MxYy00ZTIwLThmMGUtNGEzNzQ5MmVmYWZmIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiNDM3MjM0MTktYjFlZS00YTI1LTk3OTktMDQ5NDRhZTZiNTk3IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjkxOGQyNzhlLWEzMTQtNGZmYi05Zjg4LTFjYjFkYTU4NjhkOSIsImFjciI6IjEiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.hxHC-Nx78f-MmqGNfO7zu8cuQjoNiDnuncWAOA9Updp05nrkgvQ4W_ooiYFEfpDAlaOzXTy86CIplClu8GRJtNiJ7BnCbondM8ryc-d7WrlOYc0S2agOHOwlkG7vKB6MvaJdUle9DKKEUwKOHhrdWSM75sqSECU1BBlz5TQZ7-MssXCbN5YonDUKAMV8z-fi0m3zJPQb2QR4hiK6n3wG_MN2rP1wE5q4tJ2wkXJ-rqA_6FxCoDZW4wt9_2C86etQlfXvE_ceAiCaNO6BNDtY2XqmUEB6Z_QuxqHqegerrKfU17HljCxpPwTPFJtNR4iQqk8dQR7Z5u6cbxzqzvy9cA
       Connection:
       - keep-alive
       Content-type:
@@ -95,20 +95,19 @@ interactions:
         and Conditions","providerId":"terms_and_conditions","enabled":true,"defaultAction":false,"priority":20,"config":{}},{"alias":"UPDATE_PASSWORD","name":"Update
         Password","providerId":"UPDATE_PASSWORD","enabled":true,"defaultAction":false,"priority":30,"config":{}},{"alias":"UPDATE_PROFILE","name":"Update
         Profile","providerId":"UPDATE_PROFILE","enabled":true,"defaultAction":false,"priority":40,"config":{}},{"alias":"VERIFY_EMAIL","name":"Verify
-        Email","providerId":"VERIFY_EMAIL","enabled":true,"defaultAction":false,"priority":50,"config":{}},{"alias":"webauthn-register","name":"Webauthn
-        Register","providerId":"webauthn-register","enabled":true,"defaultAction":false,"priority":1000,"config":{}},{"alias":"update_user_locale","name":"Update
-        User Locale","providerId":"update_user_locale","enabled":true,"defaultAction":false,"priority":1001,"config":{}}]'
+        Email","providerId":"VERIFY_EMAIL","enabled":true,"defaultAction":false,"priority":50,"config":{}},{"alias":"update_user_locale","name":"Update
+        User Locale","providerId":"update_user_locale","enabled":true,"defaultAction":false,"priority":1000,"config":{}}]'
     headers:
       Cache-Control:
       - no-cache
       Connection:
       - keep-alive
       Content-Length:
-      - '1047'
+      - '892'
       Content-Type:
       - application/json
       Date:
-      - Wed, 21 Dec 2022 07:42:14 GMT
+      - Thu, 22 Dec 2022 07:03:45 GMT
     status:
       code: 200
       message: OK
@@ -120,7 +119,7 @@ interactions:
       Accept-Encoding:
       - gzip, deflate
       Authorization:
-      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIwUFJCYUNyUW4yZGN3M19KSWQ0eE02dklsUTFBUGNBeGVRUW8yQVZCejJnIn0.eyJleHAiOjE2NzE2MDg1OTQsImlhdCI6MTY3MTYwODUzNCwianRpIjoiOGNiMmViNTAtZTdiNC00OGQ5LWE2ZjktNTg3ZDhjZDEyMGRjIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiNmNmOGFkNmUtYWZlMy00NWM0LWFmNjYtZjNiYjhjM2E3YzAzIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImIwY2UwYmExLWE1ZTYtNDc2Mi05ZjY4LTAzMWZiZWJiYWI1YSIsImFjciI6IjEiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.bIqFhVeKK_Ok1me5FEd-xGcvrFHQ3GrSXTqQqhGOqBnTjJlfYD2gIfVO2ERd70GY6XmQOFvj8SNjdE5amOp0T0bje2I7SznHG1XtU9IOuVLFdGx94T68Eqdyg6PcZRrlPpPeznyiKB7dTv4uMs2w-qBK6nGkh3tebvOh7-bu_Z83rA_cF9f98oXde7N14JGj80RX-sHNdC8zgUdQnKHJEjBxNFynJF6c3PTGtaNPpWsJvK3_Y5GCq4VHcLxu1sd0dCNqrGEu_rN1KNB73KM9K4CbPw7x3G26gfX8M2oT6EYd-pYiIxqi_CbV3pDRi6709chI3mdEpZjEe4TGLhyKBg
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJIclliN0VOcjdxT012NnFDOUdJZzZRX3N0eEdMbG4yY0I4VG1Yb1VHRnZrIn0.eyJleHAiOjE2NzE2OTI2ODUsImlhdCI6MTY3MTY5MjYyNSwianRpIjoiOTk0YzBmMzItY2MxYy00ZTIwLThmMGUtNGEzNzQ5MmVmYWZmIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiNDM3MjM0MTktYjFlZS00YTI1LTk3OTktMDQ5NDRhZTZiNTk3IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6IjkxOGQyNzhlLWEzMTQtNGZmYi05Zjg4LTFjYjFkYTU4NjhkOSIsImFjciI6IjEiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.hxHC-Nx78f-MmqGNfO7zu8cuQjoNiDnuncWAOA9Updp05nrkgvQ4W_ooiYFEfpDAlaOzXTy86CIplClu8GRJtNiJ7BnCbondM8ryc-d7WrlOYc0S2agOHOwlkG7vKB6MvaJdUle9DKKEUwKOHhrdWSM75sqSECU1BBlz5TQZ7-MssXCbN5YonDUKAMV8z-fi0m3zJPQb2QR4hiK6n3wG_MN2rP1wE5q4tJ2wkXJ-rqA_6FxCoDZW4wt9_2C86etQlfXvE_ceAiCaNO6BNDtY2XqmUEB6Z_QuxqHqegerrKfU17HljCxpPwTPFJtNR4iQqk8dQR7Z5u6cbxzqzvy9cA
       Connection:
       - keep-alive
       Content-type:
@@ -131,12 +130,12 @@ interactions:
     uri: https://172.17.0.2:8443/auth/admin/serverinfo
   response:
     body:
-      string: '{"systemInfo":{"version":"9.0.3","serverTime":"Wed Dec 21 07:42:14
-        GMT 2022","uptime":"0 days, 0 hours, 10 minutes, 29 seconds","uptimeMillis":629078,"javaVersion":"11.0.6","javaVendor":"Oracle
+      string: '{"systemInfo":{"version":"9.0.3","serverTime":"Thu Dec 22 07:03:45
+        GMT 2022","uptime":"0 days, 0 hours, 12 minutes, 52 seconds","uptimeMillis":772427,"javaVersion":"11.0.6","javaVendor":"Oracle
         Corporation","javaVm":"OpenJDK 64-Bit Server VM","javaVmVersion":"11.0.6+10-LTS","javaRuntime":"OpenJDK
         Runtime Environment","javaHome":"/usr/lib/jvm/java-11-openjdk-11.0.6.10-0.el8_1.x86_64","osName":"Linux","osArchitecture":"amd64","osVersion":"5.19.11-200.fc36.x86_64","fileEncoding":"UTF-8","userName":"jboss","userDir":"/","userTimezone":"GMT","userLocale":"us_EN"},"memoryInfo":{"total":536870912,"totalFormated":"512
-        MB","used":104859616,"usedFormated":"100 MB","free":432011296,"freePercentage":80,"freeFormated":"411
-        MB"},"profileInfo":{"name":"community","disabledFeatures":["UPLOAD_SCRIPTS","ADMIN_FINE_GRAINED_AUTHZ","ACCOUNT2","OPENSHIFT_INTEGRATION","ACCOUNT_API","DOCKER","SCRIPTS","TOKEN_EXCHANGE"],"previewFeatures":["ADMIN_FINE_GRAINED_AUTHZ","ACCOUNT2","OPENSHIFT_INTEGRATION","ACCOUNT_API","SCRIPTS","TOKEN_EXCHANGE"],"experimentalFeatures":[]},"themes":{"common":[{"name":"keycloak"}],"admin":[{"name":"base"},{"name":"keycloak"}],"login":[{"name":"base","locales":["ca","de","en","es","fr","it","ja","lt","nl","no","pl","pt-BR","ru","sk","sv","tr","zh-CN"]},{"name":"keycloak","locales":["ca","de","en","es","fr","it","ja","lt","nl","no","pl","pt-BR","ru","sk","sv","tr","zh-CN"]}],"welcome":[{"name":"keycloak"}],"account":[{"name":"base","locales":["ca","de","en","es","fr","it","ja","lt","nl","no","pl","pt-BR","ru","sk","sv","tr","zh-CN"]},{"name":"keycloak","locales":["ca","de","en","es","fr","it","ja","lt","nl","no","pl","pt-BR","ru","sk","sv","tr","zh-CN"]}],"email":[{"name":"base","locales":["ca","de","en","es","fr","it","ja","lt","nl","no","pl","pt-BR","ru","sk","sv","tr","zh-CN"]},{"name":"keycloak","locales":["ca","de","en","es","fr","it","ja","lt","nl","no","pl","pt-BR","ru","sk","sv","tr","zh-CN"]}]},"socialProviders":[{"groupName":"Social","name":"GitHub","id":"github"},{"groupName":"Social","name":"Facebook","id":"facebook"},{"groupName":"Social","name":"Google","id":"google"},{"groupName":"Social","name":"LinkedIn","id":"linkedin"},{"groupName":"Social","name":"Instagram","id":"instagram"},{"groupName":"Social","name":"Microsoft","id":"microsoft"},{"groupName":"Social","name":"BitBucket","id":"bitbucket"},{"groupName":"Social","name":"Twitter","id":"twitter"},{"groupName":"Social","name":"Openshift
+        MB","used":123065440,"usedFormated":"117 MB","free":413805472,"freePercentage":77,"freeFormated":"394
+        MB"},"profileInfo":{"name":"community","disabledFeatures":["TOKEN_EXCHANGE","SCRIPTS","DOCKER","ACCOUNT_API","ADMIN_FINE_GRAINED_AUTHZ","ACCOUNT2","OPENSHIFT_INTEGRATION","UPLOAD_SCRIPTS"],"previewFeatures":["TOKEN_EXCHANGE","SCRIPTS","ACCOUNT_API","ADMIN_FINE_GRAINED_AUTHZ","ACCOUNT2","OPENSHIFT_INTEGRATION"],"experimentalFeatures":[]},"themes":{"common":[{"name":"keycloak"}],"admin":[{"name":"base"},{"name":"keycloak"}],"login":[{"name":"base","locales":["ca","de","en","es","fr","it","ja","lt","nl","no","pl","pt-BR","ru","sk","sv","tr","zh-CN"]},{"name":"keycloak","locales":["ca","de","en","es","fr","it","ja","lt","nl","no","pl","pt-BR","ru","sk","sv","tr","zh-CN"]}],"welcome":[{"name":"keycloak"}],"account":[{"name":"base","locales":["ca","de","en","es","fr","it","ja","lt","nl","no","pl","pt-BR","ru","sk","sv","tr","zh-CN"]},{"name":"keycloak","locales":["ca","de","en","es","fr","it","ja","lt","nl","no","pl","pt-BR","ru","sk","sv","tr","zh-CN"]}],"email":[{"name":"base","locales":["ca","de","en","es","fr","it","ja","lt","nl","no","pl","pt-BR","ru","sk","sv","tr","zh-CN"]},{"name":"keycloak","locales":["ca","de","en","es","fr","it","ja","lt","nl","no","pl","pt-BR","ru","sk","sv","tr","zh-CN"]}]},"socialProviders":[{"groupName":"Social","name":"GitHub","id":"github"},{"groupName":"Social","name":"Facebook","id":"facebook"},{"groupName":"Social","name":"Google","id":"google"},{"groupName":"Social","name":"LinkedIn","id":"linkedin"},{"groupName":"Social","name":"Instagram","id":"instagram"},{"groupName":"Social","name":"Microsoft","id":"microsoft"},{"groupName":"Social","name":"BitBucket","id":"bitbucket"},{"groupName":"Social","name":"Twitter","id":"twitter"},{"groupName":"Social","name":"Openshift
         v4","id":"openshift-v4"},{"groupName":"Social","name":"Openshift v3","id":"openshift-v3"},{"groupName":"Social","name":"GitLab","id":"gitlab"},{"groupName":"Social","name":"PayPal","id":"paypal"},{"groupName":"Social","name":"StackOverflow","id":"stackoverflow"}],"identityProviders":[{"groupName":"User-defined","name":"SAML
         v2.0","id":"saml"},{"groupName":"User-defined","name":"OpenID Connect v1.0","id":"oidc"},{"groupName":"User-defined","name":"Keycloak
         OpenID Connect","id":"keycloak-oidc"},{"groupName":"Social","name":"GitHub","id":"github"},{"groupName":"Social","name":"Facebook","id":"facebook"},{"groupName":"Social","name":"Google","id":"google"},{"groupName":"Social","name":"LinkedIn","id":"linkedin"},{"groupName":"Social","name":"Instagram","id":"instagram"},{"groupName":"Social","name":"Microsoft","id":"microsoft"},{"groupName":"Social","name":"BitBucket","id":"bitbucket"},{"groupName":"Social","name":"Twitter","id":"twitter"},{"groupName":"Social","name":"Openshift
@@ -1086,7 +1085,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 21 Dec 2022 07:42:14 GMT
+      - Thu, 22 Dec 2022 07:03:45 GMT
       Transfer-Encoding:
       - chunked
     status:

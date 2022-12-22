@@ -102,7 +102,9 @@ class TestAuthenticationRequiredActionsFetch:
 
         # check generated content
         expected_required_actions = get_default_required_actions(kc)
-        expected_required_actions += ['webauthn-register.json']
+        if 0:
+            # This is possible in KC 9.0, but not in RH SSO 7.4. Skip the test.
+            expected_required_actions += ['webauthn-register.json']
         assert unordered(glob.glob('**', root_dir=datadir, recursive=True)) == expected_required_actions
 
         data = json.load(open(os.path.join(datadir, "configure_totp.json")))
@@ -134,17 +136,19 @@ class TestAuthenticationRequiredActionsFetch:
             "defaultAction": False,
             "enabled": True,
             "name": "Update User Locale",
-            "priority": 1001,  # changed from default as side effect of raising webauthn-register priority
+            "priority": 1000,  # changed from default as side effect of raising webauthn-register priority
             "providerId": "update_user_locale",
         }
 
-        data = json.load(open(os.path.join(datadir, "webauthn-register.json")))
-        assert data == {
-            "alias": "webauthn-register",
-            "config": {},
-            "defaultAction": False,
-            "enabled": True,
-            "name": "Webauthn Register",
-            "priority": 1000,
-            "providerId": "webauthn-register",
-        }
+        if 0:
+            # This is possible in KC 9.0, but not in RH SSO 7.4. Skip the test.
+            data = json.load(open(os.path.join(datadir, "webauthn-register.json")))
+            assert data == {
+                "alias": "webauthn-register",
+                "config": {},
+                "defaultAction": False,
+                "enabled": True,
+                "name": "Webauthn Register",
+                "priority": 1000,
+                "providerId": "webauthn-register",
+            }
