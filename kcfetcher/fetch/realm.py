@@ -23,6 +23,8 @@ class RealmFetch():
             # compound_profile_version += ".".join(self.kc.server_info.version.split(".")[:2])
             # assert compound_profile_version in ["community 15.0", "community 18.0", "product 7.5", "product 7.6"]
             realm_min.pop("identityProviders")
+        realm_min.pop("identityProviderMappers", None)
+
         # defaultRoles list is unordered. We want it sorted in json file.
         if self.kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
             assert "defaultRoles" in realm_min
