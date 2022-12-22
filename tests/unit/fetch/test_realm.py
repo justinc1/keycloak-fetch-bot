@@ -179,15 +179,12 @@ class TestRealmFetch_vcr:
         # Check we have correct content
         assert data["identityProviderMappers"] == unordered([
             {
-                "config": {
-                    "are.attribute.values.regex": "false",
-                    "attributes": "[{\"key\":\"key0\",\"value\":\"value0\"}]",
-                    "role": "ci0-role-0",
-                    "syncMode": "INHERIT"
-                },
                 "identityProviderAlias": "ci0-idp-saml-0",
-                "identityProviderMapper": "saml-advanced-role-idp-mapper",
-                "name": "idp-mapper-0b"
+                "config": {
+                    "template": "ci-template-0"
+                },
+                "name": "ci0-saml-template-mapper",
+                "identityProviderMapper": "saml-username-idp-mapper"
             },
             {
                 "identityProviderAlias": "ci0-idp-saml-0",

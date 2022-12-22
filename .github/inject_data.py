@@ -639,17 +639,17 @@ def main():
         }).isOk()
         # This IdP mapper is suitable for RH SSO 7.5.
         # 7.4 does load it, but type "saml-advanced-role-idp-mapper" is not recognized.
-        idp0_mapper_api.create({
-            "config": {
-                "are.attribute.values.regex": "false",
-                "attributes": "[{\"key\":\"key0\",\"value\":\"value0\"}]",
-                "role": "ci0-role-0",
-                "syncMode": "INHERIT"
-            },
-            "identityProviderAlias": idp0_alias,
-            "identityProviderMapper": "saml-advanced-role-idp-mapper",
-            "name": "idp-mapper-0b"
-        })
+        # idp0_mapper_api.create({
+        #     "config": {
+        #         "are.attribute.values.regex": "false",
+        #         "attributes": "[{\"key\":\"key0\",\"value\":\"value0\"}]",
+        #         "role": "ci0-role-0",
+        #         "syncMode": "INHERIT"
+        #     },
+        #     "identityProviderAlias": idp0_alias,
+        #     "identityProviderMapper": "saml-advanced-role-idp-mapper",
+        #     "name": "idp-mapper-0b"
+        # })
         # This IdP mapper is suitable for RH SSO 7.4
         idp0_mapper_api.create({
             "identityProviderAlias": idp0_alias,
@@ -661,6 +661,15 @@ def main():
             },
             "name": "idp-mapper-1",
             "identityProviderMapper": "saml-role-idp-mapper",
+        })
+        idp0_mapper_api.create({
+            "identityProviderAlias": idp0_alias,
+            "config": {
+                "template": "ci-template-0"
+            },
+            # same mapper name is intentionally used in idp1_alias
+            "name": "ci0-saml-template-mapper",
+            "identityProviderMapper": "saml-username-idp-mapper"
         })
     assert_realm_authentication(master_realm_api, realm_name)
 
