@@ -38,22 +38,34 @@ class TestClientFetch_vcr:
             'client-0/roles/ci0-client0-role1a.json',
             'client-0/ci0-client-0.json',
             'client-0/scope-mappings.json',
+            'client-0/client-scopes',
+            'client-0/client-scopes/default-client-scopes.json',
+            'client-0/client-scopes/optional-client-scopes.json',
 
             'client-1',
             'client-1/roles',
             'client-1/roles/ci0-client1-role0.json',
             'client-1/ci0-client-1.json',
             'client-1/scope-mappings.json',
+            'client-1/client-scopes',
+            'client-1/client-scopes/default-client-scopes.json',
+            'client-1/client-scopes/optional-client-scopes.json',
 
             'client-2',
             'client-2/roles',
             'client-2/roles/ci0-client2-role0.json',
             'client-2/ci0-client-2-saml.json',
             'client-2/scope-mappings.json',
+            'client-2/client-scopes',
+            'client-2/client-scopes/default-client-scopes.json',
+            'client-2/client-scopes/optional-client-scopes.json',
 
             'client-3',
             'client-3/ci0-client-3-saml.json',
             'client-3/scope-mappings.json',
+            'client-3/client-scopes',
+            'client-3/client-scopes/default-client-scopes.json',
+            'client-3/client-scopes/optional-client-scopes.json',
         ]
 
         # =======================================================================================
@@ -67,7 +79,7 @@ class TestClientFetch_vcr:
             'clientAuthenticatorType',
             'clientId',
             'consentRequired',
-            'defaultClientScopes',
+            # 'defaultClientScopes',  # in dedicated file
             # 'defaultRoles',  # RH SSO 7.4
             'description',
             'directAccessGrantsEnabled',
@@ -78,7 +90,7 @@ class TestClientFetch_vcr:
             'name',  # ci0-client-0 has name
             'nodeReRegistrationTimeout',
             'notBefore',
-            'optionalClientScopes',
+            # 'optionalClientScopes',  # in dedicated file
             'protocol',
             'protocolMappers',
             'publicClient',
@@ -94,24 +106,6 @@ class TestClientFetch_vcr:
         assert data["clientId"] == "ci0-client-0"
         assert data["name"] == "ci0-client-0-name"
         assert data["clientAuthenticatorType"] == "client-secret"
-        expected_defaultClientScopes = [
-            'ci0-client-scope',
-            'email',
-            'profile',
-            'role_list',
-            'roles',
-            'web-origins',
-        ]
-        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
-            # remove "role_list"
-            assert "role_list" == expected_defaultClientScopes.pop(3)
-        assert data["defaultClientScopes"] == expected_defaultClientScopes
-        assert data["optionalClientScopes"] == [
-            'address',
-            'phone',
-            'offline_access',
-            'microprofile-jwt',
-        ]
 
         if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
             assert data["defaultRoles"] == ["ci0-client0-role0"]
@@ -235,6 +229,24 @@ class TestClientFetch_vcr:
         assert composites_sorted[2]["containerName"] == "ci0-realm"
         assert composites_sorted[2]["name"] == "ci0-role-1a"
 
+        # default client scopes
+        data = json.load(open(os.path.join(datadir, "client-0/client-scopes/default-client-scopes.json")))
+        assert data == [
+            "ci0-client-scope",
+            "email",
+            "profile",
+            "roles",
+            "web-origins",
+        ]
+        # optional client scopes
+        data = json.load(open(os.path.join(datadir, "client-0/client-scopes/optional-client-scopes.json")))
+        assert data == [
+            "address",
+            "microprofile-jwt",
+            "offline_access",
+            "phone",
+        ]
+
         # =======================================================================================
         data = json.load(open(os.path.join(datadir, "client-1/ci0-client-1.json")))
         assert list(data.keys()) == [
@@ -246,7 +258,7 @@ class TestClientFetch_vcr:
             'clientAuthenticatorType',
             'clientId',
             'consentRequired',
-            'defaultClientScopes',
+            # 'defaultClientScopes',
             'description',
             'directAccessGrantsEnabled',
             'enabled',
@@ -256,7 +268,7 @@ class TestClientFetch_vcr:
             # 'name',  # ci0-client-1 does not have a name set, so it is not in json file
             'nodeReRegistrationTimeout',
             'notBefore',
-            'optionalClientScopes',
+            # 'optionalClientScopes',
             'protocol',
             # 'protocolMappers',  # was not configured for ci0-client-1
             'publicClient',
@@ -268,23 +280,6 @@ class TestClientFetch_vcr:
         ]
         assert data["clientId"] == "ci0-client-1"
         assert data["clientAuthenticatorType"] == "client-secret"
-        expected_defaultClientScopes = [
-            'email',
-            'profile',
-            'role_list',
-            'roles',
-            'web-origins',
-        ]
-        if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
-            # remove "role_list"
-            assert "role_list" == expected_defaultClientScopes.pop(2)
-        assert data["defaultClientScopes"] == expected_defaultClientScopes
-        assert data["optionalClientScopes"] == [
-            'address',
-            'phone',
-            'offline_access',
-            'microprofile-jwt',
-        ]
 
         data = json.load(open(os.path.join(datadir, "client-1/roles/ci0-client1-role0.json")))
         assert data == {
@@ -299,35 +294,32 @@ class TestClientFetch_vcr:
             "name": "ci0-client1-role0"
         }
 
+        # default client scopes
+        data = json.load(open(os.path.join(datadir, "client-1/client-scopes/default-client-scopes.json")))
+        assert data == [
+            "email",
+            "profile",
+            "roles",
+            "web-origins",
+        ]
+        # optional client scopes
+        data = json.load(open(os.path.join(datadir, "client-1/client-scopes/optional-client-scopes.json")))
+        assert data == [
+            "address",
+            "microprofile-jwt",
+            "offline_access",
+            "phone",
+        ]
+
         # =======================================================================================
         data = json.load(open(os.path.join(datadir, "client-2/ci0-client-2-saml.json")))
         if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
-            assert data["defaultClientScopes"] == [
-                'ci0-client-scope-2-saml',
-                'email',
-                'profile',
-                'role_list',
-                'roles',
-                'web-origins',
-            ]
-            assert data["optionalClientScopes"] == [
-                'address',
-                'phone',
-                'offline_access',
-                'microprofile-jwt',
-            ]
+            pass
         else:
             # RH SSO 7.5
-            assert data["defaultClientScopes"] == [
-                'ci0-client-scope-2-saml',
-                'role_list',
-            ]
-            assert data["optionalClientScopes"] == []
             assert 'saml.artifact.binding.identifier' in data["attributes"]
-            assert isinstance( data["attributes"]["saml.artifact.binding.identifier"], str)
+            assert isinstance(data["attributes"]["saml.artifact.binding.identifier"], str)
             data["attributes"].pop("saml.artifact.binding.identifier")
-        data.pop("defaultClientScopes")
-        data.pop("optionalClientScopes")
 
         assert data == {
             'access': {'configure': True, 'manage': True, 'view': True},
@@ -431,34 +423,28 @@ class TestClientFetch_vcr:
             "name": "ci0-client2-role0"
         }
 
+        # default client scopes
+        data = json.load(open(os.path.join(datadir, "client-2/client-scopes/default-client-scopes.json")))
+        assert data == [
+            "ci0-client-scope-2-saml",
+            "role_list",
+        ]
+        # optional client scopes
+        # NOTE - this one is not even available in GUI for a SAML client
+        data = json.load(open(os.path.join(datadir, "client-2/client-scopes/optional-client-scopes.json")))
+        assert data == [
+        ]
+
         # =======================================================================================
         # A default, unconfigured SAML client
         data = json.load(open(os.path.join(datadir, "client-3/ci0-client-3-saml.json")))
         if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
-            assert data["defaultClientScopes"] == [
-                'email',
-                'profile',
-                'role_list',
-                'roles',
-                'web-origins',
-            ]
-            assert data["optionalClientScopes"] == [
-                'address',
-                'phone',
-                'offline_access',
-                'microprofile-jwt',
-            ]
+            pass
         else:
             # RH SSO 7.5
-            assert data["defaultClientScopes"] == [
-                'role_list',
-            ]
-            assert data["optionalClientScopes"] == []
             assert 'saml.artifact.binding.identifier' in data["attributes"]
-            assert isinstance( data["attributes"]["saml.artifact.binding.identifier"], str)
+            assert isinstance(data["attributes"]["saml.artifact.binding.identifier"], str)
             data["attributes"].pop("saml.artifact.binding.identifier")
-        data.pop("defaultClientScopes")
-        data.pop("optionalClientScopes")
 
         assert data == {
              'access': {'configure': True, 'manage': True, 'view': True},
@@ -497,3 +483,14 @@ class TestClientFetch_vcr:
 
         data = json.load(open(os.path.join(datadir, "client-3/scope-mappings.json")))
         assert data == []
+
+        # default client scopes
+        data = json.load(open(os.path.join(datadir, "client-3/client-scopes/default-client-scopes.json")))
+        assert data == [
+            "role_list",
+        ]
+        # optional client scopes
+        # NOTE - this one is not even available in GUI for a SAML client
+        data = json.load(open(os.path.join(datadir, "client-3/client-scopes/optional-client-scopes.json")))
+        assert data == [
+        ]
