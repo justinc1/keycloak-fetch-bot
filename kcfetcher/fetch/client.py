@@ -36,6 +36,15 @@ class ClientFetch(GenericFetch):
             # SAML client - do not store 'saml.signing.certificate' and 'saml.signing.private.key'
             kc_object["attributes"].pop('saml.signing.certificate', None)
             kc_object["attributes"].pop('saml.signing.private.key', None)
+
+            # SAML or OIDC client - defaultClientScopes and optionalClientScopes are now in dedicated file
+            # What KC 9.0 API returns wrong data for /clients/{client_id} endpoint,
+            # attributes defaultClientScopes and optionalClientScope.
+            # Correct data is returned by /clients/{client_id}/default-client-scopes.
+            # Also those defaultClientScopes and optionalClientScope are ingored on PUT to /clients/{id}.
+            kc_object.pop('defaultClientScopes')
+            kc_object.pop('optionalClientScopes')
+
             store_api.store_one(kc_object, identifier)
 
             role_fetcher = RoleFetch(self.kc, f"clients/{client_id}/roles", "name", self.realm)
