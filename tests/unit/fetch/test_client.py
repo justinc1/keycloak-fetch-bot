@@ -349,6 +349,10 @@ class TestClientFetch_vcr:
         # =======================================================================================
         data = json.load(open(os.path.join(datadir, "client-2/ci0-client-2-saml.json")))
         if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_4:
+            # This is what KC 9.0 API returns for /clients/{client_id} endpoint
+            # This data is wrong.
+            # Correct data is returned by /clients/{client_id}/default-client-scopes.
+            # TODO drop this from json file, on /clients/{id} PUT is this ignored anyway.
             assert data["defaultClientScopes"] == [
                 'ci0-client-scope-2-saml',
                 'email',
