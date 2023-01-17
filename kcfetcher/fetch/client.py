@@ -54,5 +54,45 @@ class ClientFetch(GenericFetch):
             client_scope_mappings_all_minimal = [minimize_role_representation(sc, realms, kc_objects) for sc in client_scope_mappings_all]
             store_api.store_one_with_alias('scope-mappings', client_scope_mappings_all_minimal)
 
+            store_api.add_child('client-scopes')  # clients/<client_ind>/client-scopes
+            cdcf = ClientDefaultClientScopeFetch(self.kc, self.realm, client_id=client_id)
+            cdcf.fetch(store_api)
+            cocf = ClientOptionalClientScopeFetch(self.kc, self.realm, client_id=client_id)
+            cocf.fetch(store_api)
+            store_api.remove_last_child()  # clients/<client_ind>/client-scopes
+
             store_api.remove_last_child()  # clients/<client_ind>
             counter += 1
+
+
+class ClientClientScopeFetchBase(GenericFetch):
+    # GET https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients/{client_id}/default-client-scopes
+    # GET https://172.17.0.2:8443/auth/admin/realms/ci0-realm/clients/{client_id}/optional-client-scopes
+    # _resource_name_template = 'clients/{client_id}/default-client-scopes'
+    # _filename = "default-client-scopes"
+
+    def __init__(self, kc, realm, *, client_id: str):
+        resource_name = self._resource_name_template.format(client_id=client_id)
+        resource_id = "name"
+        super().__init__(kc, resource_name, resource_id, realm)
+        self._client_id = client_id
+        # Here we do not want to forget default client-scopes that are assigned.
+        self.black_list = []
+
+    def fetch(self, store_api):
+        print('** Client client-scope fetching: ', self.resource_name)
+        assigned_client_scopes = self._get_data()
+        # we store only client-scope names
+        assigned_client_scopes_minimal = [cs["name"] for cs in assigned_client_scopes]
+        assigned_client_scopes_minimal = sorted(assigned_client_scopes_minimal)
+        store_api.store_one_with_alias(self._filename, assigned_client_scopes_minimal)
+
+
+class ClientDefaultClientScopeFetch(ClientClientScopeFetchBase):
+    _resource_name_template = 'clients/{client_id}/default-client-scopes'
+    _filename = "default-client-scopes"
+
+
+class ClientOptionalClientScopeFetch(ClientClientScopeFetchBase):
+    _resource_name_template = 'clients/{client_id}/optional-client-scopes'
+    _filename = "optional-client-scopes"

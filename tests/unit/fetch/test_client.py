@@ -38,22 +38,34 @@ class TestClientFetch_vcr:
             'client-0/roles/ci0-client0-role1a.json',
             'client-0/ci0-client-0.json',
             'client-0/scope-mappings.json',
+            'client-0/client-scopes',
+            'client-0/client-scopes/default-client-scopes.json',
+            'client-0/client-scopes/optional-client-scopes.json',
 
             'client-1',
             'client-1/roles',
             'client-1/roles/ci0-client1-role0.json',
             'client-1/ci0-client-1.json',
             'client-1/scope-mappings.json',
+            'client-1/client-scopes',
+            'client-1/client-scopes/default-client-scopes.json',
+            'client-1/client-scopes/optional-client-scopes.json',
 
             'client-2',
             'client-2/roles',
             'client-2/roles/ci0-client2-role0.json',
             'client-2/ci0-client-2-saml.json',
             'client-2/scope-mappings.json',
+            'client-2/client-scopes',
+            'client-2/client-scopes/default-client-scopes.json',
+            'client-2/client-scopes/optional-client-scopes.json',
 
             'client-3',
             'client-3/ci0-client-3-saml.json',
             'client-3/scope-mappings.json',
+            'client-3/client-scopes',
+            'client-3/client-scopes/default-client-scopes.json',
+            'client-3/client-scopes/optional-client-scopes.json',
         ]
 
         # =======================================================================================
@@ -235,6 +247,24 @@ class TestClientFetch_vcr:
         assert composites_sorted[2]["containerName"] == "ci0-realm"
         assert composites_sorted[2]["name"] == "ci0-role-1a"
 
+        # default client scopes
+        data = json.load(open(os.path.join(datadir, "client-0/client-scopes/default-client-scopes.json")))
+        assert data == [
+            "ci0-client-scope",
+            "email",
+            "profile",
+            "roles",
+            "web-origins",
+        ]
+        # optional client scopes
+        data = json.load(open(os.path.join(datadir, "client-0/client-scopes/optional-client-scopes.json")))
+        assert data == [
+            "address",
+            "microprofile-jwt",
+            "offline_access",
+            "phone",
+        ]
+
         # =======================================================================================
         data = json.load(open(os.path.join(datadir, "client-1/ci0-client-1.json")))
         assert list(data.keys()) == [
@@ -298,6 +328,23 @@ class TestClientFetch_vcr:
             "description": "ci0-client1-role0-desc",
             "name": "ci0-client1-role0"
         }
+
+        # default client scopes
+        data = json.load(open(os.path.join(datadir, "client-1/client-scopes/default-client-scopes.json")))
+        assert data == [
+            "email",
+            "profile",
+            "roles",
+            "web-origins",
+        ]
+        # optional client scopes
+        data = json.load(open(os.path.join(datadir, "client-1/client-scopes/optional-client-scopes.json")))
+        assert data == [
+            "address",
+            "microprofile-jwt",
+            "offline_access",
+            "phone",
+        ]
 
         # =======================================================================================
         data = json.load(open(os.path.join(datadir, "client-2/ci0-client-2-saml.json")))
@@ -431,6 +478,18 @@ class TestClientFetch_vcr:
             "name": "ci0-client2-role0"
         }
 
+        # default client scopes
+        data = json.load(open(os.path.join(datadir, "client-2/client-scopes/default-client-scopes.json")))
+        assert data == [
+            "ci0-client-scope-2-saml",
+            "role_list",
+        ]
+        # optional client scopes
+        # NOTE - this one is not even available in GUI for a SAML client
+        data = json.load(open(os.path.join(datadir, "client-2/client-scopes/optional-client-scopes.json")))
+        assert data == [
+        ]
+
         # =======================================================================================
         # A default, unconfigured SAML client
         data = json.load(open(os.path.join(datadir, "client-3/ci0-client-3-saml.json")))
@@ -497,3 +556,14 @@ class TestClientFetch_vcr:
 
         data = json.load(open(os.path.join(datadir, "client-3/scope-mappings.json")))
         assert data == []
+
+        # default client scopes
+        data = json.load(open(os.path.join(datadir, "client-3/client-scopes/default-client-scopes.json")))
+        assert data == [
+            "role_list",
+        ]
+        # optional client scopes
+        # NOTE - this one is not even available in GUI for a SAML client
+        data = json.load(open(os.path.join(datadir, "client-3/client-scopes/optional-client-scopes.json")))
+        assert data == [
+        ]
