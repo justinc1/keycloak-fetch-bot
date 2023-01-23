@@ -50,7 +50,8 @@ class UserFederationFetch(GenericFetch):
             obj["parentName"] = realm_name
             if obj["providerId"] == "ldap":
                 # remove LDAP bindCredential from config - it is all '********' anyway
-                obj["config"].pop("bindCredential")
+                # TODO - what if bindCredentiald would be PUT-ed to RHSSO 7.4?
+                obj["config"].pop("bindCredential", None)
 
         return kc_objects
 
