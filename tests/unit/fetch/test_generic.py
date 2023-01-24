@@ -4,6 +4,8 @@ import os
 import shutil
 from kcfetcher.fetch import GenericFetch
 from kcfetcher.store import Store
+from kcfetcher.utils import remove_folder
+
 
 class TestGenericFetch:
     # @mark.parametrize(
@@ -18,6 +20,7 @@ class TestGenericFetch:
     # def test_create(self, resource_name, expected_fetch_class):
     def test_fetch(self, mocker):
         outd = "output/ci/TestGenericFetch"
+        remove_folder(outd)
         store = Store(outd)
         kc = "mykc"
         realm = "myrealm"

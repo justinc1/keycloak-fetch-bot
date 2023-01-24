@@ -55,6 +55,9 @@ class TestMain(BaseTestClass):
             'master/client-scopes/',
             'master/client-scopes/default/',
             'master/components/',
+            'master/client-registration-policies/',
+            'master/client-registration-policies/anonymous/',
+            'master/client-registration-policies/authenticated/',
             'ci0-realm/',
             'ci0-realm/authentication/',
             'ci0-realm/authentication/required-actions/',
@@ -106,6 +109,9 @@ class TestMain(BaseTestClass):
             'ci0-realm/client-scopes/',
             'ci0-realm/client-scopes/default/',
             'ci0-realm/components/',
+            'ci0-realm/client-registration-policies/',
+            'ci0-realm/client-registration-policies/anonymous/',
+            'ci0-realm/client-registration-policies/authenticated/',
         ]
 
         assert os.path.isfile(os.path.join(datadir, "master/master.json"))

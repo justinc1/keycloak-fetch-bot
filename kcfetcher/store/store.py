@@ -4,6 +4,10 @@ import os
 from kcfetcher.utils import make_folder, remove_ids, normalize, sort_json
 
 
+class StoreException(Exception):
+    pass
+
+
 class Store:
     def __init__(self, path=''):
         self.path = os.path.normpath(path).split(os.sep)
@@ -22,7 +26,10 @@ class Store:
         path = self.__get_relative_path()
         make_folder(path)
 
-        file = open(path + '/' + normalize(alias) + '.json', 'w')
+        filepath = path + '/' + normalize(alias) + '.json'
+        if os.path.exists(filepath):
+            raise StoreException(f"File {filepath} already exists.")
+        file = open(filepath, 'w')
         data = remove_ids(data)
         data = sort_json(data)
         json.dump(data, file, indent=4, sort_keys=True)

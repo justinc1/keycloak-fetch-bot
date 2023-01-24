@@ -38,6 +38,7 @@ def run(output_dir):
         ['roles', 'name'],
         ['identity-provider', 'alias'],
         ['user-federations', 'name'],
+        ['client-registration-policies', 'name'],
         ['components', 'name'],
         ['authentication', 'alias'],
         ['authentication/required-actions', 'alias'],
