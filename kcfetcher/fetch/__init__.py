@@ -9,6 +9,7 @@ from .identity_provider import IdentityProviderFetch
 from .role import RoleFetch
 from .realm import RealmFetch
 from .group import GroupFetch
+from .client_registration_policies import ClientRegistrationPolicyFetch
 from .factory import FetchFactory
 
 __all__ = [
@@ -18,5 +19,6 @@ __all__ = [
     CustomAuthenticationFetch,
     UserFetch,
     RoleFetch,
+    ClientRegistrationPolicyFetch,
     FetchFactory,
 ]

@@ -1,3 +1,4 @@
+from kcfetcher.fetch.client_registration_policies import ClientRegistrationPolicyFetch
 from kcfetcher.fetch import UserFederationFetch
 from kcfetcher.fetch import GenericFetch
 
@@ -56,6 +57,10 @@ class ComponentFetch(GenericFetch):
                 # TODO: check if all other mappers are shared by all user federations.
                 assert obj["providerType"] == "org.keycloak.storage.ldap.mappers.LDAPStorageMapper"
                 assert obj["parentId"] in all_user_federation_ids
+                continue
+
+            if obj["providerType"] == ClientRegistrationPolicyFetch.api_object_type:
+                assert obj["parentId"] == realm_id
                 continue
 
             if obj[self.id] in self.black_list:
