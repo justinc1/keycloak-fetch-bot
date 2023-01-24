@@ -1,0 +1,159 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://172.17.0.2:8443/auth/realms/master/.well-known/openid-configuration
+  response:
+    body:
+      string: '{"issuer":"https://172.17.0.2:8443/auth/realms/master","authorization_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/auth","token_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token","token_introspection_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token/introspect","userinfo_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/userinfo","end_session_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/logout","jwks_uri":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/certs","check_session_iframe":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/login-status-iframe.html","grant_types_supported":["authorization_code","implicit","refresh_token","password","client_credentials"],"response_types_supported":["code","none","id_token","token","id_token
+        token","code id_token","code token","code id_token token"],"subject_types_supported":["public","pairwise"],"id_token_signing_alg_values_supported":["PS384","ES384","RS384","HS256","HS512","ES256","RS256","HS384","ES512","PS256","PS512","RS512"],"id_token_encryption_alg_values_supported":["RSA-OAEP","RSA1_5"],"id_token_encryption_enc_values_supported":["A128GCM","A128CBC-HS256"],"userinfo_signing_alg_values_supported":["PS384","ES384","RS384","HS256","HS512","ES256","RS256","HS384","ES512","PS256","PS512","RS512","none"],"request_object_signing_alg_values_supported":["PS384","ES384","RS384","HS256","HS512","ES256","RS256","HS384","ES512","PS256","PS512","RS512","none"],"response_modes_supported":["query","fragment","form_post"],"registration_endpoint":"https://172.17.0.2:8443/auth/realms/master/clients-registrations/openid-connect","token_endpoint_auth_methods_supported":["private_key_jwt","client_secret_basic","client_secret_post","tls_client_auth","client_secret_jwt"],"token_endpoint_auth_signing_alg_values_supported":["PS384","ES384","RS384","HS256","HS512","ES256","RS256","HS384","ES512","PS256","PS512","RS512"],"claims_supported":["aud","sub","iss","auth_time","name","given_name","family_name","preferred_username","email","acr"],"claim_types_supported":["normal"],"claims_parameter_supported":false,"scopes_supported":["openid","address","email","microprofile-jwt","offline_access","phone","profile","roles","web-origins"],"request_parameter_supported":true,"request_uri_parameter_supported":true,"code_challenge_methods_supported":["plain","S256"],"tls_client_certificate_bound_access_tokens":true,"introspection_endpoint":"https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token/introspect"}'
+    headers:
+      Cache-Control:
+      - no-cache, must-revalidate, no-transform, no-store
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2674'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 24 Jan 2023 23:18:26 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: client_id=admin-cli&grant_type=password&realm=master&username=admin&password=admin
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '82'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      User-Agent:
+      - python-requests/2.28.1
+    method: POST
+    uri: https://172.17.0.2:8443/auth/realms/master/protocol/openid-connect/token
+  response:
+    body:
+      string: '{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI0UmhGQzBKellRWmx0V0RCMV9xUTN1a2N2QWp4QXBiRGk5bks4clZHbWRzIn0.eyJleHAiOjE2NzQ2MDIzNjYsImlhdCI6MTY3NDYwMjMwNiwianRpIjoiYWY0MWE4MzctYzI2ZS00YmJjLWEyN2EtODY3M2JlZTM0NjdiIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMzJiODg1YTQtMjdmZC00OTgwLTk4N2MtZDJiNGVhMWM5MTBiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImY2NThlNzAyLWNiNTYtNDE4MC1hN2RjLWY2ZjMwYzYwMzA1MSIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.fqRRLCMMBAyCQ_a78zf2tCpjQQzjlH37XgvzEX6qOBT8cNuW9jxwbST-DYG_vASOAMzm5TRYxco4t4Lq4lgQ5viZXZSbCRLd7_K-5UcNTuLfslJXQJLo0QRTTlf0YYwy-KoTVPktKM7v37mRfFzgbvZ7N38LdFSxTBw5ynZpax5F7whhWaZxvHPtSekCAQMwRySGV0If1uQGExpQzysfWlGn5H-v61AIrVO9NZJC3Qxw8egApB56F2J1-_IATg51KWyV719q6rA9QkkIpAi5YQUJuW8jPN8CYXH1ggi8R47mvRus1eUtrBMrrUT5ovXUgbi8Z3Hm2mLR8Y0-wBEl9w","expires_in":60,"refresh_expires_in":1800,"refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJlMzBlNjliZC1mYzY4LTRkN2YtODBiMi0yYjFjOGNjNmI4OWUifQ.eyJleHAiOjE2NzQ2MDQxMDYsImlhdCI6MTY3NDYwMjMwNiwianRpIjoiNGM0YzRkNTUtMDI0OS00MGU5LWJiNDgtNmJiYjYwMjU5NmExIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMzJiODg1YTQtMjdmZC00OTgwLTk4N2MtZDJiNGVhMWM5MTBiIiwidHlwIjoiUmVmcmVzaCIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiJmNjU4ZTcwMi1jYjU2LTQxODAtYTdkYy1mNmYzMGM2MDMwNTEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwifQ.9QKrxulAScKkIQL4tmYLq9j_icf6s9pPi7yclQJxY_w","token_type":"bearer","not-before-policy":0,"session_state":"f658e702-cb56-4180-a7dc-f6f30c603051","scope":"profile
+        email"}'
+    headers:
+      Cache-Control:
+      - no-store
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1726'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 24 Jan 2023 23:18:26 GMT
+      Pragma:
+      - no-cache
+      Set-Cookie:
+      - KEYCLOAK_LOCALE=; Version=1; Comment=Expiring cookie; Expires=Thu, 01-Jan-1970
+        00:00:10 GMT; Max-Age=0; Path=/auth/realms/master/; HttpOnly
+      - KC_RESTART=; Version=1; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Max-Age=0;
+        Path=/auth/realms/master/; HttpOnly
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI0UmhGQzBKellRWmx0V0RCMV9xUTN1a2N2QWp4QXBiRGk5bks4clZHbWRzIn0.eyJleHAiOjE2NzQ2MDIzNjYsImlhdCI6MTY3NDYwMjMwNiwianRpIjoiYWY0MWE4MzctYzI2ZS00YmJjLWEyN2EtODY3M2JlZTM0NjdiIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMzJiODg1YTQtMjdmZC00OTgwLTk4N2MtZDJiNGVhMWM5MTBiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImY2NThlNzAyLWNiNTYtNDE4MC1hN2RjLWY2ZjMwYzYwMzA1MSIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.fqRRLCMMBAyCQ_a78zf2tCpjQQzjlH37XgvzEX6qOBT8cNuW9jxwbST-DYG_vASOAMzm5TRYxco4t4Lq4lgQ5viZXZSbCRLd7_K-5UcNTuLfslJXQJLo0QRTTlf0YYwy-KoTVPktKM7v37mRfFzgbvZ7N38LdFSxTBw5ynZpax5F7whhWaZxvHPtSekCAQMwRySGV0If1uQGExpQzysfWlGn5H-v61AIrVO9NZJC3Qxw8egApB56F2J1-_IATg51KWyV719q6rA9QkkIpAi5YQUJuW8jPN8CYXH1ggi8R47mvRus1eUtrBMrrUT5ovXUgbi8Z3Hm2mLR8Y0-wBEl9w
+      Connection:
+      - keep-alive
+      Content-type:
+      - application/json
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://172.17.0.2:8443/auth/admin/realms/ci0-realm/components?type=org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy
+  response:
+    body:
+      string: '[{"id":"beb07a24-3e50-4864-92dc-11bf004da589","name":"Allowed Client
+        Scopes","providerId":"allowed-client-templates","providerType":"org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy","parentId":"ci0-realm-OLD","subType":"authenticated","config":{"allow-default-scopes":["true"]}},{"id":"ed0e565d-9f5c-41cc-8432-a35baa9af664","name":"Max
+        Clients Limit","providerId":"max-clients","providerType":"org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy","parentId":"ci0-realm-OLD","subType":"anonymous","config":{"max-clients":["200"]}},{"id":"629afdfe-8bd1-4333-bc3d-275699dee4ae","name":"Trusted
+        Hosts","providerId":"trusted-hosts","providerType":"org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy","parentId":"ci0-realm-OLD","subType":"anonymous","config":{"host-sending-registration-request-must-match":["true"],"client-uris-must-match":["true"]}},{"id":"2ae32da6-ed1a-4aa1-b233-b491f8ff514f","name":"Full
+        Scope Disabled","providerId":"scope","providerType":"org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy","parentId":"ci0-realm-OLD","subType":"anonymous","config":{}},{"id":"c8e5ff84-b888-42ae-9862-ff6ee7adc767","name":"Allowed
+        Protocol Mapper Types","providerId":"allowed-protocol-mappers","providerType":"org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy","parentId":"ci0-realm-OLD","subType":"authenticated","config":{"allowed-protocol-mapper-types":["oidc-address-mapper","oidc-usermodel-property-mapper","saml-user-property-mapper","saml-user-attribute-mapper","oidc-sha256-pairwise-sub-mapper","oidc-usermodel-attribute-mapper","oidc-full-name-mapper","saml-role-list-mapper"]}},{"id":"1dff7fee-dc16-4d6f-b4e5-61142abbd612","name":"Allowed
+        Protocol Mapper Types","providerId":"allowed-protocol-mappers","providerType":"org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy","parentId":"ci0-realm-OLD","subType":"anonymous","config":{"allowed-protocol-mapper-types":["saml-role-list-mapper","oidc-usermodel-property-mapper","oidc-full-name-mapper","oidc-address-mapper","saml-user-property-mapper","oidc-sha256-pairwise-sub-mapper","saml-user-attribute-mapper","oidc-usermodel-attribute-mapper"]}},{"id":"79baf9fc-8089-4e94-b75d-f4f381f487f8","name":"Allowed
+        Client Scopes","providerId":"allowed-client-templates","providerType":"org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy","parentId":"ci0-realm-OLD","subType":"anonymous","config":{"allow-default-scopes":["true"]}},{"id":"1b4c7c21-d3cb-4a14-8a6c-2697a9c32823","name":"Consent
+        Required","providerId":"consent-required","providerType":"org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy","parentId":"ci0-realm-OLD","subType":"anonymous","config":{}}]'
+    headers:
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2793'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 24 Jan 2023 23:18:26 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI0UmhGQzBKellRWmx0V0RCMV9xUTN1a2N2QWp4QXBiRGk5bks4clZHbWRzIn0.eyJleHAiOjE2NzQ2MDIzNjYsImlhdCI6MTY3NDYwMjMwNiwianRpIjoiYWY0MWE4MzctYzI2ZS00YmJjLWEyN2EtODY3M2JlZTM0NjdiIiwiaXNzIjoiaHR0cHM6Ly8xNzIuMTcuMC4yOjg0NDMvYXV0aC9yZWFsbXMvbWFzdGVyIiwic3ViIjoiMzJiODg1YTQtMjdmZC00OTgwLTk4N2MtZDJiNGVhMWM5MTBiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImY2NThlNzAyLWNiNTYtNDE4MC1hN2RjLWY2ZjMwYzYwMzA1MSIsImFjciI6IjEiLCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.fqRRLCMMBAyCQ_a78zf2tCpjQQzjlH37XgvzEX6qOBT8cNuW9jxwbST-DYG_vASOAMzm5TRYxco4t4Lq4lgQ5viZXZSbCRLd7_K-5UcNTuLfslJXQJLo0QRTTlf0YYwy-KoTVPktKM7v37mRfFzgbvZ7N38LdFSxTBw5ynZpax5F7whhWaZxvHPtSekCAQMwRySGV0If1uQGExpQzysfWlGn5H-v61AIrVO9NZJC3Qxw8egApB56F2J1-_IATg51KWyV719q6rA9QkkIpAi5YQUJuW8jPN8CYXH1ggi8R47mvRus1eUtrBMrrUT5ovXUgbi8Z3Hm2mLR8Y0-wBEl9w
+      Connection:
+      - keep-alive
+      Content-type:
+      - application/json
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://172.17.0.2:8443/auth/admin/realms/ci0-realm
+  response:
+    body:
+      string: '{"id":"ci0-realm-OLD","realm":"ci0-realm","displayName":"ci0-realm-display","displayNameHtml":"<div
+        class=\"kc-logo-text\"><span>ci0-realm</span></div>","notBefore":0,"revokeRefreshToken":false,"refreshTokenMaxReuse":0,"accessTokenLifespan":300,"accessTokenLifespanForImplicitFlow":900,"ssoSessionIdleTimeout":1800,"ssoSessionMaxLifespan":36000,"ssoSessionIdleTimeoutRememberMe":0,"ssoSessionMaxLifespanRememberMe":0,"offlineSessionIdleTimeout":2592000,"offlineSessionMaxLifespanEnabled":false,"offlineSessionMaxLifespan":5184000,"accessCodeLifespan":60,"accessCodeLifespanUserAction":300,"accessCodeLifespanLogin":1800,"actionTokenGeneratedByAdminLifespan":43200,"actionTokenGeneratedByUserLifespan":300,"enabled":true,"sslRequired":"external","registrationAllowed":false,"registrationEmailAsUsername":false,"rememberMe":false,"verifyEmail":false,"loginWithEmailAllowed":true,"duplicateEmailsAllowed":false,"resetPasswordAllowed":false,"editUsernameAllowed":false,"bruteForceProtected":true,"permanentLockout":false,"maxFailureWaitSeconds":960,"minimumQuickLoginWaitSeconds":240,"waitIncrementSeconds":120,"quickLoginCheckMilliSeconds":1003,"maxDeltaTimeSeconds":61200,"failureFactor":31,"defaultRoles":["ci0-role-0","offline_access","uma_authorization"],"requiredCredentials":["password"],"passwordPolicy":"forceExpiredPasswordChange(365)
+        and upperCase(2)","otpPolicyType":"hotp","otpPolicyAlgorithm":"HmacSHA256","otpPolicyInitialCounter":3,"otpPolicyDigits":8,"otpPolicyLookAheadWindow":2,"otpPolicyPeriod":30,"otpSupportedApplications":["FreeOTP"],"webAuthnPolicyRpEntityName":"keycloak","webAuthnPolicySignatureAlgorithms":["ES384","ES512"],"webAuthnPolicyRpId":"ci0.example.com","webAuthnPolicyAttestationConveyancePreference":"indirect","webAuthnPolicyAuthenticatorAttachment":"platform","webAuthnPolicyRequireResidentKey":"Yes","webAuthnPolicyUserVerificationRequirement":"required","webAuthnPolicyCreateTimeout":2,"webAuthnPolicyAvoidSameAuthenticatorRegister":true,"webAuthnPolicyAcceptableAaguids":["ci0-aaguid-0"],"webAuthnPolicyPasswordlessRpEntityName":"keycloak","webAuthnPolicyPasswordlessSignatureAlgorithms":["ES512","RS256"],"webAuthnPolicyPasswordlessRpId":"ci0-RpId","webAuthnPolicyPasswordlessAttestationConveyancePreference":"none","webAuthnPolicyPasswordlessAuthenticatorAttachment":"platform","webAuthnPolicyPasswordlessRequireResidentKey":"No","webAuthnPolicyPasswordlessUserVerificationRequirement":"preferred","webAuthnPolicyPasswordlessCreateTimeout":4,"webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister":true,"webAuthnPolicyPasswordlessAcceptableAaguids":["cio-aaguid-1"],"browserSecurityHeaders":{"contentSecurityPolicyReportOnly":"c","xContentTypeOptions":"nosniff-d","xRobotsTag":"none-e","xFrameOptions":"SAMEORIGIN-a","contentSecurityPolicy":"frame-src
+        ''self''; frame-ancestors ''self''; object-src ''none-b'';","xXSSProtection":"1;
+        mode=block-f","strictTransportSecurity":"max-age=31536000; includeSubDomains-g"},"smtpServer":{},"eventsEnabled":true,"eventsExpiration":3600,"eventsListeners":["jboss-logging","email"],"enabledEventTypes":["SEND_RESET_PASSWORD","UPDATE_CONSENT_ERROR","GRANT_CONSENT","REMOVE_TOTP","REVOKE_GRANT","UPDATE_TOTP","LOGIN_ERROR","CLIENT_LOGIN","RESET_PASSWORD_ERROR","IMPERSONATE_ERROR","CODE_TO_TOKEN_ERROR","CUSTOM_REQUIRED_ACTION","RESTART_AUTHENTICATION","IMPERSONATE","UPDATE_PROFILE_ERROR","LOGIN","UPDATE_PASSWORD_ERROR","CLIENT_INITIATED_ACCOUNT_LINKING","TOKEN_EXCHANGE","LOGOUT","REGISTER","CLIENT_REGISTER","IDENTITY_PROVIDER_LINK_ACCOUNT","UPDATE_PASSWORD","CLIENT_DELETE","FEDERATED_IDENTITY_LINK_ERROR","IDENTITY_PROVIDER_FIRST_LOGIN","CLIENT_DELETE_ERROR","VERIFY_EMAIL","CLIENT_LOGIN_ERROR","RESTART_AUTHENTICATION_ERROR","EXECUTE_ACTIONS","REMOVE_FEDERATED_IDENTITY_ERROR","TOKEN_EXCHANGE_ERROR","PERMISSION_TOKEN","SEND_IDENTITY_PROVIDER_LINK_ERROR","EXECUTE_ACTION_TOKEN_ERROR","SEND_VERIFY_EMAIL","EXECUTE_ACTIONS_ERROR","REMOVE_FEDERATED_IDENTITY","IDENTITY_PROVIDER_POST_LOGIN","IDENTITY_PROVIDER_LINK_ACCOUNT_ERROR","UPDATE_EMAIL","REGISTER_ERROR","REVOKE_GRANT_ERROR","EXECUTE_ACTION_TOKEN","LOGOUT_ERROR","UPDATE_EMAIL_ERROR","CLIENT_UPDATE_ERROR","UPDATE_PROFILE","CLIENT_REGISTER_ERROR","FEDERATED_IDENTITY_LINK","SEND_IDENTITY_PROVIDER_LINK","SEND_VERIFY_EMAIL_ERROR","RESET_PASSWORD","UPDATE_CONSENT","REMOVE_TOTP_ERROR","VERIFY_EMAIL_ERROR","SEND_RESET_PASSWORD_ERROR","CLIENT_UPDATE","CUSTOM_REQUIRED_ACTION_ERROR","IDENTITY_PROVIDER_POST_LOGIN_ERROR","UPDATE_TOTP_ERROR","CODE_TO_TOKEN","GRANT_CONSENT_ERROR","IDENTITY_PROVIDER_FIRST_LOGIN_ERROR"],"adminEventsEnabled":true,"adminEventsDetailsEnabled":true,"identityProviders":[{"alias":"ci0-idp-saml-0","displayName":"ci0-idp-saml-0-displayName","internalId":"6bc91b15-6fcd-4066-965b-5090efac3b4e","providerId":"saml","enabled":true,"updateProfileFirstLoginMode":"on","trustEmail":false,"storeToken":false,"addReadTokenRoleOnCreate":false,"authenticateByDefault":false,"linkOnly":false,"firstBrokerLoginFlowAlias":"first
+        broker login","config":{"authnContextClassRefs":"[\"aa\",\"bb\"]","nameIDPolicyFormat":"urn:oasis:names:tc:SAML:2.0:nameid-format:persistent","singleLogoutServiceUrl":"https://172.17.0.6:8443/logout","authnContextDeclRefs":"[\"cc\",\"dd\"]","entityId":"https://172.17.0.2:8443/auth/realms/ci0-realm","signatureAlgorithm":"RSA_SHA256","wantAssertionsEncrypted":"true","xmlSigKeyInfoKeyNameTransformer":"KEY_ID","useJwksUrl":"true","allowCreate":"true","authnContextComparisonType":"exact","syncMode":"IMPORT","singleSignOnServiceUrl":"https://172.17.0.6:8443/signon","principalType":"SUBJECT"}},{"alias":"ci0-idp-saml-1","displayName":"ci0-idp-saml-1-displayName","internalId":"e4622c7d-174b-4cca-93d1-cc8dd0d9fd43","providerId":"saml","enabled":true,"updateProfileFirstLoginMode":"on","trustEmail":false,"storeToken":false,"addReadTokenRoleOnCreate":false,"authenticateByDefault":false,"linkOnly":false,"firstBrokerLoginFlowAlias":"first
+        broker login","config":{"singleSignOnServiceUrl":"https://172.17.0.6:8443/signon"}}],"identityProviderMappers":[{"id":"02a30a94-d412-4b00-a39f-6bb01ac70fef","name":"ci0-saml-template-mapper","identityProviderAlias":"ci0-idp-saml-0","identityProviderMapper":"saml-username-idp-mapper","config":{"template":"ci-template-0"}},{"id":"a1ae9538-c7f2-4db2-9e93-3a9a53378afd","name":"idp1-mapper-1","identityProviderAlias":"ci0-idp-saml-1","identityProviderMapper":"saml-role-idp-mapper","config":{"attribute.value":"attr-value","role":"ci0-client-0.ci0-client0-role1","attribute.friendly.name":"attr-friendly-name","attribute.name":"attr-name"}},{"id":"05db4c72-6537-4686-b8bd-f8f366e369ff","name":"idp-mapper-1","identityProviderAlias":"ci0-idp-saml-0","identityProviderMapper":"saml-role-idp-mapper","config":{"attribute.value":"attr-value","role":"ci0-client-0.ci0-client0-role0","attribute.friendly.name":"attr-friendly-name","attribute.name":"attr-name"}},{"id":"6f69f937-4230-4e13-a82a-7608cc0343f5","name":"ci0-saml-template-mapper","identityProviderAlias":"ci0-idp-saml-1","identityProviderMapper":"saml-username-idp-mapper","config":{"template":"ci-template-1"}}],"internationalizationEnabled":false,"supportedLocales":[],"browserFlow":"browser","registrationFlow":"registration","directGrantFlow":"direct
+        grant","resetCredentialsFlow":"ci0-auth-flow-generic","clientAuthenticationFlow":"clients","dockerAuthenticationFlow":"docker
+        auth","attributes":{},"userManagedAccessAllowed":false}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '7398'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 24 Jan 2023 23:18:26 GMT
+    status:
+      code: 200
+      message: OK
+version: 1
