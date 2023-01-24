@@ -914,8 +914,14 @@ def main():
             "attributes": {group_name + "-key0": [group_name + "-value0"]},
         }).isOk()
         # Assign realm role to group
-        group_roles_mapping = groups_api.realmRoles({'key': 'name', 'value': group_name})
-        group_roles_mapping.add([role_names_plain[0]])
+        this_group_realm_roles_api = groups_api.realmRoles({'key': 'name', 'value': group_name})
+        this_group_realm_roles_api.add([role_names_plain[0]])
+        # Assign client role to group
+        groups_api.roleMappings().all()
+        groups_api.roleMappings().realm().all()
+        groups_api.roleMappings().client({}).all()
+        this_group_client0_client_roles_api = groups_api.clientRoles({'key': 'name', 'value': group_name}, {"key": "clientId"})
+
     assert_realm_authentication(master_realm_api, realm_name)
 
     # group with subgroup
