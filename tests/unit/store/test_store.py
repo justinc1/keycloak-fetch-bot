@@ -1,7 +1,10 @@
 import json
 import os
 import shutil
-from kcfetcher.store import Store
+
+import pytest
+
+from kcfetcher.store import Store, StoreException
 # from tests.integration.test_ping import BaseTestClass
 from pytest import mark
 
@@ -55,6 +58,38 @@ class TestStore:
         assert os.path.exists(expected_filename)
         content = json.load(open(expected_filename))
         assert data == content
+
+    def test_store_one_with_alias__reuse_name(self):
+        # It is error if two objects want to use same filename.
+        # filename is normalized alias - "a b" and "a*b" will
+        # both become "a_b".
+        outdir = "aa/bb"
+        alias1 = "ci alias"
+        data1 = dict(
+            myname="obj1",
+            mykey="myvalue1",
+        )
+        alias2 = "ci*alias"
+        data2 = dict(
+            myname="obj2",
+            mykey="myvalue2",
+        )
+        expected_filename = os.path.join(outdir, "ci_alias.json")
+
+        # danger...
+        if os.path.exists(outdir):
+            shutil.rmtree(outdir)
+        assert not os.path.exists(expected_filename)
+
+        st = Store(outdir)
+        st.store_one_with_alias(alias1, data1)
+        with pytest.raises(StoreException):
+            st.store_one_with_alias(alias2, data2)
+
+        # old file is not destroyed
+        assert os.path.exists(expected_filename)
+        content = json.load(open(expected_filename))
+        assert data1 == content
 
     def test_store_one(self):
         outdir = "aa/bb"
