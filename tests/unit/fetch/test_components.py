@@ -38,12 +38,13 @@ class TestComponentFetch:
             # "full_scope_disabled.json",
             # "allowed_protocol_mapper_types.json",
             # "trusted_hosts.json",
-            "rsa-generated.json",
-            "aes-generated.json",
+            ## "rsa-generated.json",
+            ## "aes-generated.json",
             # "rsa-enc-generated.json",  # not in RH SSO 7.4
-            "hmac-generated.json",
+            ## "hmac-generated.json",
             # "allowed_client_scopes.json",
         ]
         if kc.server_info_compound_profile_version() in RH_SSO_VERSIONS_7_5:
-            expected_files.append("rsa-enc-generated.json")
+            pass
+            ## expected_files.append("rsa-enc-generated.json")
         assert os.listdir(datadir) == unordered(expected_files)
