@@ -63,6 +63,12 @@ class ComponentFetch(GenericFetch):
                 assert obj["parentId"] == realm_id
                 continue
 
+            if obj["providerType"] == "org.keycloak.keys.KeyProvider":
+                # More than one key with same "name" can be present.
+                # Also priority can be same.
+                # TODO - store this metadata, if it is needed.
+                continue
+
             if obj[self.id] in self.black_list:
                 continue
             objects2.append(obj)

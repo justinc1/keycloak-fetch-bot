@@ -54,7 +54,7 @@ class TestMain(BaseTestClass):
             'master/clients/client-0/client-scopes/',
             'master/client-scopes/',
             'master/client-scopes/default/',
-            'master/components/',
+            # 'master/components/',  # emtpy dir is not created
             'master/client-registration-policies/',
             'master/client-registration-policies/anonymous/',
             'master/client-registration-policies/authenticated/',
@@ -108,7 +108,7 @@ class TestMain(BaseTestClass):
             'ci0-realm/clients/client-3/client-scopes/',
             'ci0-realm/client-scopes/',
             'ci0-realm/client-scopes/default/',
-            'ci0-realm/components/',
+            # 'ci0-realm/components/',  # emtpy dir is not created
             'ci0-realm/client-registration-policies/',
             'ci0-realm/client-registration-policies/anonymous/',
             'ci0-realm/client-registration-policies/authenticated/',

@@ -117,6 +117,15 @@ def login(endpoint, user, password, read_token_from_file=False):
 
 
 def normalize(identifier=""):
+    if identifier in [
+        "ADFS First Broker Login",
+        "adidas First Broker Login",
+    ]:
+        # TODO temporal hack here
+        # We have 2 auth flows with names like "ADFS First Broker Login" and "ADFS first broker login", realm adidas2pl
+        # "Adidas first broker login" and "adidas First Broker Login" - realm 4pl
+        identifier += "___the_second_one"
+
     identifier = identifier.lower()
     not_allowed_regex = r"[^a-z0-9.\-_]"
     return re.sub(not_allowed_regex, "_", identifier)
